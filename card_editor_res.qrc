@@ -1,0 +1,6 @@
+<!DOCTYPE RCC>
+<RCC>
+    <qresource prefix="/images">
+        <file alias="TS_Missions1">media/TS_ Missions_V_EN.jpg</file>
+    </qresource>
+</RCC>
