@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>T.I.M.E Stories Card Editor</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="card_editor_res.qrc">
+    <normaloff>:/images/icon</normaloff>:/images/icon</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -50,7 +54,9 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="card_editor_res.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionQuit</sender>
@@ -68,5 +74,24 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionAbout</sender>
+   <signal>triggered()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_about()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>303</x>
+     <y>289</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>do_about()</slot>
+ </slots>
 </ui>
