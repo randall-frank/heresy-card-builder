@@ -23,6 +23,47 @@ class Base(object):
     def get_xml_name(self):
         return self.xml_tag
 
+    def load_attrib_string(self, elem, name, default=None):
+        tmp = elem.firstChildElement(name)
+        v = default
+        if not tmp.isNull():
+            v = str(tmp.text().toLocal8Bit())
+        if v is not None:
+            self.__setattr__(name, v)
+
+    def save_attrib_string(self, doc, parent, name):
+        tmp = doc.createElement(name)
+        parent.appendChild(tmp)
+        s = self.__getattribute__(name)
+        text = doc.createTextNode(str(s))
+        tmp.appendChild(text)
+
+    def load_attrib_int(self, elem, name, default=None):
+        tmp = elem.firstChildElement(name)
+        v = default
+        if not tmp.isNull():
+            v = int(str(tmp.text().toLocal8Bit()))
+        if v is not None:
+            self.__setattr__(name, v)
+
+    def save_attrib_int(self, doc, parent, name):
+        self.save_attrib_string(doc, parent, name)
+
+    def load_attrib_obj(self, elem, name, default=None):
+        tmp = elem.firstChildElement(name)
+        obj = default
+        if not tmp.isNull():
+            obj = eval(str(tmp.text().toLocal8Bit()))
+        if obj is not None:
+            self.__setattr__(name, obj)
+
+    def save_attrib_obj(self, doc, parent, name):
+        tmp = doc.createElement(name)
+        parent.appendChild(tmp)
+        obj = self.__getattribute__(name)
+        text = doc.createTextNode(obj.__repr__())
+        tmp.appendChild(text)
+
     def to_xml(self, doc, parent):
         tmp = doc.createElement(self.xml_tag)
         tmp.setElement('name', self.name)
@@ -33,9 +74,42 @@ class Base(object):
         return True
 
 
+class Renderable(Base):
+    def __init__(self, name):
+        super(Face, self).__init__(name, 'renderable')
+
+    def render_object(self):
+        return
+
+
+class ImageRender(Base):
+    def __init__(self, name):
+        super(Face, self).__init__(name, 'render_image')
+
+    @classmethod
+    def from_element(cls, elem):
+        return None
+
+    def to_element(self, doc, elem):
+        return True
+
+
+class TextRender(Base):
+    def __init__(self, name):
+        super(Face, self).__init__(name, 'render_text')
+
+    @classmethod
+    def from_element(cls, elem):
+        return None
+
+    def to_element(self, doc, elem):
+        return True
+
+
 class Face(Base):
     def __init__(self, name):
         super(Face, self).__init__(name, 'face')
+        self.renderables = list()   # a face is an array of renderable subclasses
 
     @classmethod
     def from_element(cls, elem, is_top):
@@ -43,9 +117,15 @@ class Face(Base):
         if not is_top:
             name = "bottom"
         obj = Face(name)
+        obj.set_xml_name(name)
+        # walk element children...
+        obj.renderables = list()
+        # TODO walk elements
         return obj
 
     def to_element(self, doc, elem):
+        for r in self.renderables:
+            r.to_xml(doc, elem)
         return True
 
 
@@ -68,6 +148,8 @@ class Card(Base):
         return obj
 
     def to_element(self, doc, elem):
+        self.top_face.to_xml(doc, elem)
+        self.bot_face.to_xml(doc, elem)
         return True
 
 
@@ -89,62 +171,64 @@ class Location(Base):
         return None
 
     def to_element(self, doc, elem):
+        for c in self.cards:
+            c.to_xml(doc, elem)
         return True
 
 
 class Style(Base):
     def __init__(self, name):
         super(Style, self).__init__(name, 'style')
+        self.typeface = ""
+        self.typesize = 12
+        self.fillcolor = [255, 255, 255, 255]
+        self.borderthickness = 0
+        self.bordercolor = [0, 0, 0, 255]
+        self.textcolor = [0, 0, 0, 255]
+        self.linestyle = "solid"
 
     @classmethod
     def from_element(cls, elem):
-        return None
+        name = elem.attribute("name", "Unnamed Image")
+        obj = Style(str(name.toLocal8Bit()))
+        obj.load_attrib_string(elem, "linestyle")
+        obj.load_attrib_obj(elem, "fillcolor")
+        obj.load_attrib_obj(elem, "bordercolor")
+        obj.load_attrib_obj(elem, "textcolor")
+        obj.load_attrib_int(elem, "typesize")
+        obj.load_attrib_int(elem, "borderthickness")
+        return obj
 
     def to_element(self, doc, elem):
+        self.save_attrib_string(doc, elem, "linestyle")
+        self.save_attrib_obj(doc, elem, "fillcolor")
+        self.save_attrib_obj(doc, elem, "bordercolor")
+        self.save_attrib_obj(doc, elem, "textcolor")
+        self.save_attrib_int(doc, elem, "typesize")
+        self.save_attrib_int(doc, elem, "borderthickness")
         return True
 
 
 class Image(Base):
     def __init__(self, name):
         super(Image, self).__init__(name, 'image')
-        self.file = ""
-        self.rect = [0, 0, 0, 0]  # x,y,dx,dy
+        self.file = ''
+        self.rectangle = [0, 0, 0, 0]  # x,y,dx,dy
         self.usage = 'any'
 
     @classmethod
     def from_element(cls, elem):
         name = elem.attribute("name", "Unnamed Image")
         obj = Image(str(name.toLocal8Bit()))
-        tmp = elem.firstChildElement("file")
-        if not tmp.isNull():
-            obj.file = str(tmp.attribute("name", "").toLocal8Bit())
-        tmp = elem.firstChildElement("rectangle")
-        if not tmp.isNull():
-            r = list()
-            for a in ['x', 'y', 'dx', 'dy']:
-                try:
-                    r.append(int(tmp.attribute(a, "0").toLocal8Bit()))
-                except:
-                    r.append(0)
-            self.rect = r
-        tmp = elem.firstChildElement("usage")
-        if not tmp.isNull():
-            obj.usage = str(tmp.attribute("name", "any").toLocal8Bit())
+        obj.load_attrib_string(elem, "file")
+        obj.load_attrib_obj(elem, "rectangle")
+        obj.load_attrib_string(elem, "usage")
         return obj
 
     def to_element(self, doc, elem):
-        tmp = doc.createElement("file")
-        elem.appendChild(tmp)
-        tmp.setAttribute("name", self.file)
-        tmp = doc.createElement("rectangle")
-        elem.appendChild(tmp)
-        tmp.setAttribute("x", self.rect[0])
-        tmp.setAttribute("y", self.rect[1])
-        tmp.setAttribute("dx", self.rect[2])
-        tmp.setAttribute("dy", self.rect[3])
-        tmp = doc.createElement("usage")
-        elem.appendChild(tmp)
-        tmp.setAttribute("name", self.usage)
+        self.save_attrib_string(doc, elem, "file")
+        self.save_attrib_obj(doc, elem, "rectangle")
+        self.save_attrib_string(doc, elem, "usage")
         return True
 
 
