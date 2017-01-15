@@ -4,7 +4,10 @@
 # See LICENSE for details
 #
 
+import base64
 from PyQt5 import QtXml
+from PyQt5 import QtGui
+from PyQt5 import QtCore
 
 # these are the core objects that represent a deck of cards to the editor
 
@@ -104,24 +107,74 @@ class Style(Base):
 class Image(Base):
     def __init__(self, name):
         super(Image, self).__init__(name, 'image')
+        self.file = ""
+        self.rect = [0, 0, 0, 0]  # x,y,dx,dy
+        self.usage = 'any'
 
     @classmethod
     def from_element(cls, elem):
-        return None
+        name = elem.attribute("name", "Unnamed Image")
+        obj = Image(str(name.toLocal8Bit()))
+        tmp = elem.firstChildElement("file")
+        if not tmp.isNull():
+            obj.file = str(tmp.attribute("name", "").toLocal8Bit())
+        tmp = elem.firstChildElement("rectangle")
+        if not tmp.isNull():
+            r = list()
+            for a in ['x', 'y', 'dx', 'dy']:
+                try:
+                    r.append(int(tmp.attribute(a, "0").toLocal8Bit()))
+                except:
+                    r.append(0)
+            self.rect = r
+        tmp = elem.firstChildElement("usage")
+        if not tmp.isNull():
+            obj.usage = str(tmp.attribute("name", "any").toLocal8Bit())
+        return obj
 
     def to_element(self, doc, elem):
+        tmp = doc.createElement("file")
+        elem.appendChild(tmp)
+        tmp.setAttribute("name", self.file)
+        tmp = doc.createElement("rectangle")
+        elem.appendChild(tmp)
+        tmp.setAttribute("x", self.rect[0])
+        tmp.setAttribute("y", self.rect[1])
+        tmp.setAttribute("dx", self.rect[2])
+        tmp.setAttribute("dy", self.rect[3])
+        tmp = doc.createElement("usage")
+        elem.appendChild(tmp)
+        tmp.setAttribute("name", self.usage)
         return True
 
 
 class File(Base):
     def __init__(self, name):
         super(File, self).__init__(name, 'file')
+        self.image = QtGui.QImage()
+
+    def load_file(self, filename):
+        self.image.load(filename)
+        self.name = filename
 
     @classmethod
     def from_element(cls, elem):
-        return None
+        name = elem.attribute("name", "Unnamed File")
+        obj = File(str(name.toLocal8Bit()))
+        s = base64.b64decode(str(elem.text().toLocal8Bit()))
+        buffer = QtCore.QBuffer()
+        buffer.setData(s)
+        buffer.open(QtCore.QIODevice.ReadWrite)
+        obj.image.load(buffer, "png")
+        return obj
 
     def to_element(self, doc, elem):
+        buffer = QtCore.QBuffer()
+        buffer.open(QtCore.QIODevice.ReadWrite)
+        self.image.save(buffer, "png")
+        s = base64.b64encode(buffer.data())
+        text = doc.createTextNode(s)
+        elem.appendChild(text)
         return True
 
 
@@ -134,19 +187,18 @@ class Deck(Base):
         self.default_card = Card("defaultcard", xml_tag="defaultcard")
         self.default_item_card = Card("defaultitemcard", xml_tag="defaultitemcard")
         self.default_location_card = Card("defaultlocationcard", xml_tag="defaultlocationcard")
+        self.icon_reference = Card("Icon Reference", xml_tag='iconreference')
         self.base = list()  # of Cards
         self.plan = list()  # of Cards
         self.items = list()  # of Cards
-        self.reference = Card("Icon Reference", xml_tag='iconreference')
         self.characters = list()  # of Cards
         self.locations = list()  # of Locations
 
     def save(self, filename):
         doc = QtXml.QDomDocument()
-        root = doc.createElement('deck')
-        doc.appendChild(root)
-        # single objects
-        # lists
+        # build the DOM
+        self.to_xml(doc, doc)
+        # convert the DOM to a string
         s = doc.toString().toUtf8()
         try:
             fp = open(filename, "wb")
@@ -169,23 +221,23 @@ class Deck(Base):
             return False
         deck = doc.firstChildElement("deck")
         if not deck.isNull():
-            assets = deck.firstChildElement("assets")
+            assets = deck.firstChildElement("assets")  # the <assets> block
             if not assets.isNull():
                 if not self.parse_assets(assets):
                     return False
-            cards = deck.firstChildElement("cards")
+            cards = deck.firstChildElement("cards")  # the <cards> block
             if not cards.isNull():
                 if not self.parse_cards(cards):
                     return False
         return True
 
     def parse_cards(self, root):
-        # default cards (layering) and the reference card
         # single cards
+        # default cards (layering) and the reference card
         work = dict(defaultcard=[Card, 'default_card'],
                     defaultitemcard=[Card, 'default_item_card'],
                     defaultlocationcard=[Card, 'default_location_card'],
-                    iconreference=[Card, 'reference'])
+                    iconreference=[Card, 'icon_reference'])
         for tag, v in work.items():
             tmp = root.firstChildElement(tag)
             if not tmp.isNull():
@@ -195,21 +247,23 @@ class Deck(Base):
                     self.__setattr__(v[1], tmp_obj)
 
         # Plan, Items, Base, Characters, Locations - simple lists
-        work = dict(plan=[Card, 'plan'],
-                    items=[Card, 'items'],
-                    base=[Card, 'base'],
-                    characters=[Card, 'characters'],
-                    locations=[Location, 'locations'])
+        # [v0, v1, v2] use v0.from_element() to create an object starting at the tag v2
+        # make a list of objects at self.{v1}
+        work = dict(plan=[Card, 'plan', 'card'],
+                    items=[Card, 'items', 'card'],
+                    base=[Card, 'base', 'card'],
+                    characters=[Card, 'characters', 'card'],
+                    locations=[Location, 'locations', 'location'])
         for tag, v in work.items():
             tmp_root = root.firstChildElement(tag)
             if not tmp_root.isNull():
                 self.__setattr__(v[1], list())
-                tmp = tmp_root.firstChildElement('card')
+                tmp = tmp_root.firstChildElement(v[2])
                 while not tmp.isNull():
                     tmp_obj = v[0].from_element(tmp)
                     if tmp_obj is not None:
                         self.__getattribute__(v[1]).append(tmp_obj)
-                    tmp = tmp.nextSiblingElement('card')
+                    tmp = tmp.nextSiblingElement(v[2])
 
         return True
 
@@ -224,6 +278,35 @@ class Deck(Base):
                 if tmp_obj is not None:
                     v[1].append(tmp_obj)
                 tmp = tmp.nextSiblingElement(tag)
+        return True
+
+    def to_element(self, doc, elem):  # the deck element
+        # assets
+        tmp = doc.createElement("assets")
+        elem.appendChild(tmp)
+        # files, styles, images
+        for f in self.files:
+            f.to_xml(doc, tmp)
+        for s in self.styles:
+            s.to_xml(doc, tmp)
+        for i in self.images:
+            i.to_xml(doc, tmp)
+        # cards
+        tmp = doc.createElement("cards")
+        elem.appendChild(tmp)
+        # singletons
+        self.default_card.to_xml(doc, tmp)
+        self.default_item_card.to_xml(doc, tmp)
+        self.default_location_card.to_xml(doc, tmp)
+        self.icon_reference.to_xml(doc, tmp)
+        # lists: base, plan, items, characters, locations
+        blocks = dict(base=self.base, plan=self.plan, items=self.items,
+                      characters=self.characters, locations=self.locations)
+        for tag, v in blocks:
+            tag_elem = doc.createElement(tag)  # make an element inside of <cards>
+            elem.appendChild(tag_elem)
+            for i in v:
+                i.to_xml(doc, tag_elem)  # write all of the cards into the new element
         return True
 
 # <deck>
@@ -255,24 +338,24 @@ class Deck(Base):
 # 				<image name="bottom"></image>
 # 			</bottom>
 # 		</defaultcard>
-# 			<defaultitemcard>
-# 				<top>
-# 					<image name="top"></image>
-# 					<textblock name="locationname"></textblock>
-# 				</top>
-# 				<bottom>
-# 					<image name="bottom"></image>
-# 				</bottom>
-# 			</defaultitemcard>
-# 			<defaultlocationcard>
-# 				<top>
-# 					<image name="top"></image>
-# 					<textblock name="locationname"></textblock>
-# 				</top>
-# 				<bottom>
-# 					<image name="bottom"></image>
-# 				</bottom>
-# 			</defaultlocationcard>
+# 		<defaultitemcard>
+# 			<top>
+# 				<image name="top"></image>
+# 				<textblock name="locationname"></textblock>
+# 			</top>
+# 			<bottom>
+# 				<image name="bottom"></image>
+# 			</bottom>
+# 		</defaultitemcard>
+# 		<defaultlocationcard>
+# 			<top>
+# 				<image name="top"></image>
+# 				<textblock name="locationname"></textblock>
+# 			</top>
+# 			<bottom>
+# 				<image name="bottom"></image>
+# 			</bottom>
+# 		</defaultlocationcard>
 # 		<base>
 # 			<card></card>
 # 			<card></card>
