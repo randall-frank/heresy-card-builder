@@ -5,6 +5,7 @@
 #
 
 import base64
+import os, os.path
 from PyQt5 import QtXml
 from PyQt5 import QtGui
 from PyQt5 import QtCore
@@ -75,41 +76,63 @@ class Base(object):
 
 
 class Renderable(Base):
-    def __init__(self, name):
-        super(Face, self).__init__(name, 'renderable')
+    def __init__(self, name, xml_tag='renderable'):
+        super(Renderable, self).__init__(name, xml_tag)
 
     def render_object(self):
         return
 
 
-class ImageRender(Base):
-    def __init__(self, name):
-        super(Face, self).__init__(name, 'render_image')
+class ImageRender(Renderable):
+    def __init__(self, name="image"):
+        super(ImageRender, self).__init__(name, 'render_image')
+        self.image = ""
+        self.rectangle = [0, 0, 0, 0]
 
     @classmethod
     def from_element(cls, elem):
-        return None
+        obj = ImageRender()
+        obj.load_attrib_string(elem, "image")
+        obj.load_attrib_obj(elem, "rectangle")
+        return obj
 
     def to_element(self, doc, elem):
+        self.save_attrib_string(doc, elem, "image")
+        self.save_attrib_obj(doc, elem, "rectangle")
         return True
 
 
-class TextRender(Base):
-    def __init__(self, name):
-        super(Face, self).__init__(name, 'render_text')
+class TextRender(Renderable):
+    def __init__(self, name="text"):
+        super(TextRender, self).__init__(name, 'render_text')
+        self.rotation = 0
+        self.style = "default"
+        self.rectangle = [0, 0, 0, 0]
+        self.text = ""
 
     @classmethod
     def from_element(cls, elem):
-        return None
+        obj = TextRender()
+        obj.load_attrib_string(elem, "text")
+        obj.load_attrib_string(elem, "style")
+        obj.load_attrib_int(elem, "rotation")
+        obj.load_attrib_obj(elem, "rectangle")
+        return obj
 
     def to_element(self, doc, elem):
+        self.save_attrib_string(doc, elem, "text")
+        self.save_attrib_string(doc, elem, "style")
+        self.save_attrib_int(doc, elem, "rotation")
+        self.save_attrib_obj(doc, elem, "rectangle")
         return True
 
 
+# Essentially, a Face is a list of renderable items.  Right now, text or image items
+# that reference styles and images, along with content.
 class Face(Base):
     def __init__(self, name):
         super(Face, self).__init__(name, 'face')
-        self.renderables = list()   # a face is an array of renderable subclasses
+        self.renderables = list()   # a face is an array of Renderable instances
 
     @classmethod
     def from_element(cls, elem, is_top):
@@ -118,9 +141,20 @@ class Face(Base):
             name = "bottom"
         obj = Face(name)
         obj.set_xml_name(name)
-        # walk element children...
+        # walk element children... and map to 'renderables'
         obj.renderables = list()
-        # TODO walk elements
+        tmp = elem.firstChildElement()
+        while not tmp.isNull():
+            tag = str(tmp.tagName().toLocal8Bit())
+            if tag.endswith('image'):
+                tmp_obj = ImageRender.from_element(tmp)
+            elif tag.endswith('text'):
+                tmp_obj = TextRender.from_element(tmp)
+            else:
+                tmp_obj = None
+            if tmp_obj is not None:
+                obj.renderables.append(tmp_obj)
+            tmp = tmp.nextSiblingElement()
         return obj
 
     def to_element(self, doc, elem):
@@ -240,6 +274,9 @@ class File(Base):
     def load_file(self, filename):
         self.image.load(filename)
         self.name = filename
+
+    def size(self):
+        return [self.image.width(), self.image.height()]
 
     @classmethod
     def from_element(cls, elem):
@@ -393,6 +430,110 @@ class Deck(Base):
                 i.to_xml(doc, tag_elem)  # write all of the cards into the new element
         return True
 
+# Files from the "media" subdirectory  Move this to the .qrc file???
+image_list = [
+    ["", "TS_ Missions_V_EN.jpg"],
+    ["", "TS_ Missions_V_EN2.jpg"],
+    ["", "TS_ Missions_V_EN3.jpg"],
+    ["", "TS_ Missions_V_EN4.jpg"],
+    ["", "TS_ Missions_V_EN5.jpg"],
+    ["Success Icon", "TS_CreaPack_Icon-56.png"],
+    ["Failure Icon", "TS_CreaPack_Icon-57.png"],
+    ["Cancel Icon", "TS_CreaPack_Icon-59.png"],
+    ["", "TS_CreaPack_Icon-65.png"],
+    ["", "TS_CreaPack_Icon-66.png"],
+    ["Time Icon", "TS_CreaPack_Icon-67.png"],
+    ["Triple Time Icon", "TS_CreaPack_Icon-68.png"],
+    ["Dice Minus One", "TS_CreaPack_Icon_-1-.png"],
+    ["Blue One Token", "TS_CreaPack_Icon_-1BL--30.png"],
+    ["Gray One Token", "TS_CreaPack_Icon_-1BL--50.png"],
+    ["Black One Token", "TS_CreaPack_Icon_-1N-.png"],
+    ["Yellow One Token", "TS_CreaPack_Icon_-1OR-.png"],
+    ["Pink One Token", "TS_CreaPack_Icon_-1RO-.png"],
+    ["Green One Token", "TS_CreaPack_Icon_-1V-.png"],
+    ["Gray Two Token", "TS_CreaPack_Icon_-2B-.png"],
+    ["Blue Two Token", "TS_CreaPack_Icon_-2BL-.png"],
+    ["Black Two Token", "TS_CreaPack_Icon_-2N-.png"],
+    ["Yellow Two Token", "TS_CreaPack_Icon_-2OR-.png"],
+    ["Pink Two Token", "TS_CreaPack_Icon_-2RO-.png"],
+    ["Green Two Token", "TS_CreaPack_Icon_-2V-.png"],
+    ["Blue Three Token", "TS_CreaPack_Icon_-3BL--27.png"],
+    ["Gray Three Token", "TS_CreaPack_Icon_-3BL--54.png"],
+    ["Three Hits", "TS_CreaPack_Icon_-3HIT-.png"],
+    ["Black Three Token", "TS_CreaPack_Icon_-3N-.png"],
+    ["Yellow Three Token", "TS_CreaPack_Icon_-3OR-.png"],
+    ["Pink Three Token", "TS_CreaPack_Icon_-3RO-.png"],
+    ["Green Three Token", "TS_CreaPack_Icon_-3V-.png"],
+    ["Gray Four Token", "TS_CreaPack_Icon_-4B-.png"],
+    ["Blue Four Token", "TS_CreaPack_Icon_-4BL-.png"],
+    ["", "TS_CreaPack_Icon_-4C-.png"],
+    ["Black Four Token", "TS_CreaPack_Icon_-4N-.png"],
+    ["Yellow Four Token", "TS_CreaPack_Icon_-4OR-.png"],
+    ["Pink Four Token", "TS_CreaPack_Icon_-4RO-.png"],
+    ["Green Four Token", "TS_CreaPack_Icon_-4V-.png"],
+    ["Shield Shield", "TS_CreaPack_Icon_-B-.png"],
+    ["Shield", "TS_CreaPack_Icon_-BB-.png"],
+    ["Time Shield", "TS_CreaPack_Icon_-BCB- copie 2.png"],
+    ["", "TS_CreaPack_Icon_-BCB- copie.png"],
+    ["Blue Skull Shield", "TS_CreaPack_Icon_-BCB-.png"],
+    ["Red Skull Shield", "TS_CreaPack_Icon_-BCR-.png"],
+    ["Black Heart Shield", "TS_CreaPack_Icon_-BN-.png"],
+    ["Lock Icon", "TS_CreaPack_Icon_-CAD-.png"],
+    ["First Icon", "TS_CreaPack_Icon_-CC-.png"],
+    ["", "TS_CreaPack_Icon_-CD-.png"],
+    ["Red Skull Icon", "TS_CreaPack_Icon_-CR-.png"],
+    ["Flashlight Icon", "TS_CreaPack_Icon_-F-.png"],
+    ["Hit Icon", "TS_CreaPack_Icon_-FD1R-.png"],
+    ["Blank Disk Icon", "TS_CreaPack_Icon_-FDV-.png"],
+    ["All Players Icon", "TS_CreaPack_Icon_-GRP-.png"],
+    ["Blue Ammo", "TS_CreaPack_Icon_-JB-.png"],
+    ["Yellow Ammo", "TS_CreaPack_Icon_-JJ-.png"],
+    ["Brown Ammo", "TS_CreaPack_Icon_-JM-.png"],
+    ["Gray Ammo", "TS_CreaPack_Icon_-JN-.png"],
+    ["Green Ammo", "TS_CreaPack_Icon_-JV-.png"],
+    ["Red TS Logo", "TS_CreaPack_Icon_-LOGO- copie 2.png"],
+    ["Gray TS Logo", "TS_CreaPack_Icon_-LOGO- copie 3.png"],
+    ["Green TS Logo", "TS_CreaPack_Icon_-LOGO- copie.png"],
+    ["Blue TS Logo", "TS_CreaPack_Icon_-LOGO-.png"],
+    ["Agility Icon", "TS_CreaPack_Icon_-M- copie.png"],
+    ["Glibness Icon", "TS_CreaPack_Icon_-M-.png"],
+    ["Trash Icon", "TS_CreaPack_Icon_-P-.png"],
+    ["Exclamation Icon", "TS_CreaPack_Icon_-PE-.png"],
+    ["Blue Heart Icon", "TS_CreaPack_Icon_-PV-.png"],
+    ["Hit Icon", "TS_CreaPack_Icon_-R-.png"],
+    ["Stop Icon", "TS_CreaPack_Icon_-SI-.png"],
+    ["Blue Time Icon", "TS_CreaPack_Icon_-UT-.png"],
+    ["Black Time Icon", "TS_CreaPack_Icon_-UTN-.png"],
+    ["Yellow Time Icon", "TS_CreaPack_Icon_-UTR- copie.png"],
+    ["Red Time Icon", "TS_CreaPack_Icon_-UTR-.png"],
+    ["Location A Outline", "TS_CreaPack_Lieu-01.png"],
+    ["Location B Outline", "TS_CreaPack_Lieu-02.png"],
+    ["Location C Outline", "TS_CreaPack_Lieu-03.png"],
+    ["Location D Outline", "TS_CreaPack_Lieu-04.png"],
+    ["Item Outline", "TS_CreaPack_Lieu-05.png"],
+    ["Plan Outline", "TS_CreaPack_Lieu-06.png"],
+    ["Mission Success", "TS_CreaPack_Lieu-07.png"],
+    ["Mission Failed (TU)", "TS_CreaPack_Lieu-08.png"],
+    ["Mission Failed", "TS_CreaPack_Lieu-09.png"],
+]
+
+
+def build_empty_deck(root):
+    d = Deck()
+    # Load images
+    for v in image_list:
+        path = os.path.join(root, v[1])
+        f = File(v[0])
+        f.load_file(path)
+        d.files.append(f)
+    # Init the default style
+    # default card
+    # default item card
+    # default location card
+    # icon reference
+    # plan
+    return d
+
 # <deck>
 # 	<assets>
 # 	   <file name="name">pngcontent</file>
@@ -482,15 +623,15 @@ class Deck(Base):
 # </deck>
 # <card name="name">
 # 	<top>
-# 		<textblock name="">
+# 		<render_text name="">
 # 			<rotation>angle</rotation>
 # 			<style>style</style>
-# 			<location>x y dx dy</location>
-# 		</textblock>
-# 		<image name="">
+# 			<rectangle>x y dx dy</rectangle>
+# 		</render_text>
+# 		<render_image name="">
 # 			<image>name</image>
-# 			<location>x y dx dy</location>
-# 		</image>
+# 			<rectangle>x y dx dy</rectangle>
+# 		</render_image>
 # 	</top>
 # 	<bottom>
 # 	</bottom>
