@@ -16,7 +16,67 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         self.setupUi(self)
         self._version = version
         self._dirty = False
-        self._deck = card_objects.Deck()
+        self._deck = None
+        self._deck_filename = None
+        self.do_new()
+
+    def do_new(self):
+        if self._deck and self._dirty:
+            s = "There are unsaved changes, are you sure you want to start a new deck?"
+            btn = QtWidgets.QMessageBox.question(self, "Start a new deck", s)
+            if btn != QtWidgets.QMessageBox.Yes:
+                return
+        self._deck = card_objects.build_empty_deck()
+        self._deck_filename = None
+        self._dirty = False
+        self.lblInfo.setText("Deck: Untitled")
+
+    def do_saveas(self):
+        tmp = QtWidgets.QFileDialog.getSaveFileName(self, "Save deck as", "Untitled.deck",
+                                                    "Card deck (*.deck);;All files (*)")
+        if len(tmp[0]) == 0:
+            return
+        filename = tmp[0]
+        if not self._deck.save(filename):
+            QtWidgets.QMessageBox.critical(self, "Unable to save deck",
+                                           "An error occurred while saving the deck")
+            return
+        self._dirty = False
+        self._deck_filename = filename
+        self.lblInfo.setText("Deck: " + filename)
+
+    def do_save(self):
+        if self._deck is None:
+            return
+        if self._deck_filename is None:
+            self.do_saveas()
+            return
+        if not self._deck.save(self._deck_filename):
+            QtWidgets.QMessageBox.critical(self, "Unable to save deck",
+                                           "An error occurred while saving the deck")
+            return
+        self._dirty = False
+
+    def do_load(self):
+        if self._deck and self._dirty:
+            s = "There are unsaved changes, are you sure you want to load a new deck?"
+            btn = QtWidgets.QMessageBox.question(self, "Load a new deck", s)
+            if btn != QtWidgets.QMessageBox.Yes:
+                return
+        tmp = QtWidgets.QFileDialog.getOpenFileName(self, "Save deck as", "",
+                                                    "Card deck (*.deck);;All files (*)")
+        if len(tmp[0]) == 0:
+            return
+        filename = tmp[0]
+        tmp = card_objects.Deck()
+        if not tmp.load(filename):
+            QtWidgets.QMessageBox.critical(self, "Unable to load deck",
+                                           "An error occurred while loading the deck")
+            return
+        self._deck = tmp
+        self._deck_filename = filename
+        self.lblInfo.setText("Deck: " + filename)
+        self._dirty = False
 
     def set_dirty(self, d):
         self._dirty = d

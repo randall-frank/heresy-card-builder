@@ -5,10 +5,10 @@
 #
 
 import base64
-import os, os.path
 from PyQt5 import QtXml
 from PyQt5 import QtGui
 from PyQt5 import QtCore
+from PyQt5 import QtWidgets
 
 # these are the core objects that represent a deck of cards to the editor
 
@@ -67,7 +67,7 @@ class Base(object):
 
     def to_xml(self, doc, parent):
         tmp = doc.createElement(self.xml_tag)
-        tmp.setElement('name', self.name)
+        tmp.setAttribute('name', self.name)
         parent.appendChild(tmp)
         return self.to_element(doc, tmp)
 
@@ -131,7 +131,7 @@ class TextRender(Renderable):
 # that reference styles and images, along with content.
 class Face(Base):
     def __init__(self, name):
-        super(Face, self).__init__(name, 'face')
+        super(Face, self).__init__(name, name)
         self.renderables = list()   # a face is an array of Renderable instances
 
     @classmethod
@@ -271,9 +271,11 @@ class File(Base):
         super(File, self).__init__(name, 'file')
         self.image = QtGui.QImage()
 
-    def load_file(self, filename):
+    def load_file(self, filename, name=None):
         self.image.load(filename)
         self.name = filename
+        if name:
+            self.name = name
 
     def size(self):
         return [self.image.width(), self.image.height()]
@@ -294,7 +296,7 @@ class File(Base):
         buffer.open(QtCore.QIODevice.ReadWrite)
         self.image.save(buffer, "png")
         s = base64.b64encode(buffer.data())
-        text = doc.createTextNode(s)
+        text = doc.createTextNode(str(s))
         elem.appendChild(text)
         return True
 
@@ -316,40 +318,49 @@ class Deck(Base):
         self.locations = list()  # of Locations
 
     def save(self, filename):
+        QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
         doc = QtXml.QDomDocument()
         # build the DOM
         self.to_xml(doc, doc)
         # convert the DOM to a string
-        s = doc.toString().toUtf8()
+        s = doc.toString()
+        success = True
         try:
             fp = open(filename, "wb")
-            fp.write(s)
+            fp.write(bytes(s, "UTF-8"))
             fp.close()
-        except:
-            return False
-        return True
+        except Exception as e:
+            success = False
+        QtWidgets.QApplication.restoreOverrideCursor()
+        return success
 
     def load(self, filename):
+        QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
         try:
             fp = open(filename, "rb")
             xml = fp.read()
             fp.close()
         except:
+            QtWidgets.QApplication.restoreOverrideCursor()
             return False
         doc = QtXml.QDomDocument()
         ok, msg, line, col = doc.setContent(xml)
         if not ok:
+            QtWidgets.QApplication.restoreOverrideCursor()
             return False
         deck = doc.firstChildElement("deck")
         if not deck.isNull():
             assets = deck.firstChildElement("assets")  # the <assets> block
             if not assets.isNull():
                 if not self.parse_assets(assets):
+                    QtWidgets.QApplication.restoreOverrideCursor()
                     return False
             cards = deck.firstChildElement("cards")  # the <cards> block
             if not cards.isNull():
                 if not self.parse_cards(cards):
+                    QtWidgets.QApplication.restoreOverrideCursor()
                     return False
+        QtWidgets.QApplication.restoreOverrideCursor()
         return True
 
     def parse_cards(self, root):
@@ -423,116 +434,29 @@ class Deck(Base):
         # lists: base, plan, items, characters, locations
         blocks = dict(base=self.base, plan=self.plan, items=self.items,
                       characters=self.characters, locations=self.locations)
-        for tag, v in blocks:
+        for tag, v in blocks.items():
             tag_elem = doc.createElement(tag)  # make an element inside of <cards>
             elem.appendChild(tag_elem)
             for i in v:
                 i.to_xml(doc, tag_elem)  # write all of the cards into the new element
         return True
 
-# Files from the "media" subdirectory  Move this to the .qrc file???
-image_list = [
-    ["", "TS_ Missions_V_EN.jpg"],
-    ["", "TS_ Missions_V_EN2.jpg"],
-    ["", "TS_ Missions_V_EN3.jpg"],
-    ["", "TS_ Missions_V_EN4.jpg"],
-    ["", "TS_ Missions_V_EN5.jpg"],
-    ["Success Icon", "TS_CreaPack_Icon-56.png"],
-    ["Failure Icon", "TS_CreaPack_Icon-57.png"],
-    ["Cancel Icon", "TS_CreaPack_Icon-59.png"],
-    ["", "TS_CreaPack_Icon-65.png"],
-    ["", "TS_CreaPack_Icon-66.png"],
-    ["Time Icon", "TS_CreaPack_Icon-67.png"],
-    ["Triple Time Icon", "TS_CreaPack_Icon-68.png"],
-    ["Dice Minus One", "TS_CreaPack_Icon_-1-.png"],
-    ["Blue One Token", "TS_CreaPack_Icon_-1BL--30.png"],
-    ["Gray One Token", "TS_CreaPack_Icon_-1BL--50.png"],
-    ["Black One Token", "TS_CreaPack_Icon_-1N-.png"],
-    ["Yellow One Token", "TS_CreaPack_Icon_-1OR-.png"],
-    ["Pink One Token", "TS_CreaPack_Icon_-1RO-.png"],
-    ["Green One Token", "TS_CreaPack_Icon_-1V-.png"],
-    ["Gray Two Token", "TS_CreaPack_Icon_-2B-.png"],
-    ["Blue Two Token", "TS_CreaPack_Icon_-2BL-.png"],
-    ["Black Two Token", "TS_CreaPack_Icon_-2N-.png"],
-    ["Yellow Two Token", "TS_CreaPack_Icon_-2OR-.png"],
-    ["Pink Two Token", "TS_CreaPack_Icon_-2RO-.png"],
-    ["Green Two Token", "TS_CreaPack_Icon_-2V-.png"],
-    ["Blue Three Token", "TS_CreaPack_Icon_-3BL--27.png"],
-    ["Gray Three Token", "TS_CreaPack_Icon_-3BL--54.png"],
-    ["Three Hits", "TS_CreaPack_Icon_-3HIT-.png"],
-    ["Black Three Token", "TS_CreaPack_Icon_-3N-.png"],
-    ["Yellow Three Token", "TS_CreaPack_Icon_-3OR-.png"],
-    ["Pink Three Token", "TS_CreaPack_Icon_-3RO-.png"],
-    ["Green Three Token", "TS_CreaPack_Icon_-3V-.png"],
-    ["Gray Four Token", "TS_CreaPack_Icon_-4B-.png"],
-    ["Blue Four Token", "TS_CreaPack_Icon_-4BL-.png"],
-    ["", "TS_CreaPack_Icon_-4C-.png"],
-    ["Black Four Token", "TS_CreaPack_Icon_-4N-.png"],
-    ["Yellow Four Token", "TS_CreaPack_Icon_-4OR-.png"],
-    ["Pink Four Token", "TS_CreaPack_Icon_-4RO-.png"],
-    ["Green Four Token", "TS_CreaPack_Icon_-4V-.png"],
-    ["Shield Shield", "TS_CreaPack_Icon_-B-.png"],
-    ["Shield", "TS_CreaPack_Icon_-BB-.png"],
-    ["Time Shield", "TS_CreaPack_Icon_-BCB- copie 2.png"],
-    ["", "TS_CreaPack_Icon_-BCB- copie.png"],
-    ["Blue Skull Shield", "TS_CreaPack_Icon_-BCB-.png"],
-    ["Red Skull Shield", "TS_CreaPack_Icon_-BCR-.png"],
-    ["Black Heart Shield", "TS_CreaPack_Icon_-BN-.png"],
-    ["Lock Icon", "TS_CreaPack_Icon_-CAD-.png"],
-    ["First Icon", "TS_CreaPack_Icon_-CC-.png"],
-    ["", "TS_CreaPack_Icon_-CD-.png"],
-    ["Red Skull Icon", "TS_CreaPack_Icon_-CR-.png"],
-    ["Flashlight Icon", "TS_CreaPack_Icon_-F-.png"],
-    ["Hit Icon", "TS_CreaPack_Icon_-FD1R-.png"],
-    ["Blank Disk Icon", "TS_CreaPack_Icon_-FDV-.png"],
-    ["All Players Icon", "TS_CreaPack_Icon_-GRP-.png"],
-    ["Blue Ammo", "TS_CreaPack_Icon_-JB-.png"],
-    ["Yellow Ammo", "TS_CreaPack_Icon_-JJ-.png"],
-    ["Brown Ammo", "TS_CreaPack_Icon_-JM-.png"],
-    ["Gray Ammo", "TS_CreaPack_Icon_-JN-.png"],
-    ["Green Ammo", "TS_CreaPack_Icon_-JV-.png"],
-    ["Red TS Logo", "TS_CreaPack_Icon_-LOGO- copie 2.png"],
-    ["Gray TS Logo", "TS_CreaPack_Icon_-LOGO- copie 3.png"],
-    ["Green TS Logo", "TS_CreaPack_Icon_-LOGO- copie.png"],
-    ["Blue TS Logo", "TS_CreaPack_Icon_-LOGO-.png"],
-    ["Agility Icon", "TS_CreaPack_Icon_-M- copie.png"],
-    ["Glibness Icon", "TS_CreaPack_Icon_-M-.png"],
-    ["Trash Icon", "TS_CreaPack_Icon_-P-.png"],
-    ["Exclamation Icon", "TS_CreaPack_Icon_-PE-.png"],
-    ["Blue Heart Icon", "TS_CreaPack_Icon_-PV-.png"],
-    ["Hit Icon", "TS_CreaPack_Icon_-R-.png"],
-    ["Stop Icon", "TS_CreaPack_Icon_-SI-.png"],
-    ["Blue Time Icon", "TS_CreaPack_Icon_-UT-.png"],
-    ["Black Time Icon", "TS_CreaPack_Icon_-UTN-.png"],
-    ["Yellow Time Icon", "TS_CreaPack_Icon_-UTR- copie.png"],
-    ["Red Time Icon", "TS_CreaPack_Icon_-UTR-.png"],
-    ["Location A Outline", "TS_CreaPack_Lieu-01.png"],
-    ["Location B Outline", "TS_CreaPack_Lieu-02.png"],
-    ["Location C Outline", "TS_CreaPack_Lieu-03.png"],
-    ["Location D Outline", "TS_CreaPack_Lieu-04.png"],
-    ["Item Outline", "TS_CreaPack_Lieu-05.png"],
-    ["Plan Outline", "TS_CreaPack_Lieu-06.png"],
-    ["Mission Success", "TS_CreaPack_Lieu-07.png"],
-    ["Mission Failed (TU)", "TS_CreaPack_Lieu-08.png"],
-    ["Mission Failed", "TS_CreaPack_Lieu-09.png"],
-]
 
-
-def build_empty_deck(root):
-    d = Deck()
-    # Load images
-    for v in image_list:
-        path = os.path.join(root, v[1])
-        f = File(v[0])
-        f.load_file(path)
-        d.files.append(f)
+def build_empty_deck():
+    deck = Deck()
+    # Load images from resources
+    d = QtCore.QDir(":/default_files")
+    for name in d.entryList():
+        f = File(name)
+        f.load_file(":/default_files/"+name, name)
+        deck.files.append(f)
     # Init the default style
     # default card
     # default item card
     # default location card
     # icon reference
     # plan
-    return d
+    return deck
 
 # <deck>
 # 	<assets>
