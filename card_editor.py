@@ -6,8 +6,9 @@
 
 import argparse
 import sys
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 from card_editor_main import CardEditorMain
+import platform
 
 __version__ = "0.1.0.0"
 
@@ -19,6 +20,12 @@ if __name__ == '__main__':
     # bootstrap Qt
     app = QtWidgets.QApplication(sys.argv)
     app.lastWindowClosed.connect(app.quit)
+
+    # Windows specific for taskbar icons
+    if platform.system().startswith("Wind"):
+        import ctypes
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("card.editor")
+
     main_win = CardEditorMain(__version__)
     main_win.show()
     if args.cardfile:

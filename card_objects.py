@@ -28,7 +28,7 @@ class Base(object):
         tmp = elem.firstChildElement(name)
         v = default
         if not tmp.isNull():
-            v = str(tmp.text().toLocal8Bit())
+            v = str(tmp.text())
         if v is not None:
             self.__setattr__(name, v)
 
@@ -43,7 +43,7 @@ class Base(object):
         tmp = elem.firstChildElement(name)
         v = default
         if not tmp.isNull():
-            v = int(str(tmp.text().toLocal8Bit()))
+            v = int(str(tmp.text()))
         if v is not None:
             self.__setattr__(name, v)
 
@@ -54,7 +54,7 @@ class Base(object):
         tmp = elem.firstChildElement(name)
         obj = default
         if not tmp.isNull():
-            obj = eval(str(tmp.text().toLocal8Bit()))
+            obj = eval(str(tmp.text()))
         if obj is not None:
             self.__setattr__(name, obj)
 
@@ -145,7 +145,7 @@ class Face(Base):
         obj.renderables = list()
         tmp = elem.firstChildElement()
         while not tmp.isNull():
-            tag = str(tmp.tagName().toLocal8Bit())
+            tag = str(tmp.tagName())
             if tag.endswith('image'):
                 tmp_obj = ImageRender.from_element(tmp)
             elif tag.endswith('text'):
@@ -172,7 +172,7 @@ class Card(Base):
     @classmethod
     def from_element(cls, elem):
         name = elem.attribute("name", "Unnamed Card")
-        obj = Card(str(name.toLocal8Bit()))
+        obj = Card(str(name))
         tmp = elem.firstChildElement("top")
         if not tmp.isNull():
             obj.top_face = Face.from_element(tmp, True)
@@ -195,7 +195,7 @@ class Location(Base):
     @classmethod
     def from_element(cls, elem):
         name = elem.attribute("name", "Unnamed Location")
-        obj = Location(str(name.toLocal8Bit()))
+        obj = Location(str(name))
         tmp = elem.firstChildElement("card")
         while not tmp.isNull():
             tmp_card = Card.from_element(tmp)
@@ -224,7 +224,7 @@ class Style(Base):
     @classmethod
     def from_element(cls, elem):
         name = elem.attribute("name", "Unnamed Image")
-        obj = Style(str(name.toLocal8Bit()))
+        obj = Style(str(name))
         obj.load_attrib_string(elem, "linestyle")
         obj.load_attrib_obj(elem, "fillcolor")
         obj.load_attrib_obj(elem, "bordercolor")
@@ -253,7 +253,7 @@ class Image(Base):
     @classmethod
     def from_element(cls, elem):
         name = elem.attribute("name", "Unnamed Image")
-        obj = Image(str(name.toLocal8Bit()))
+        obj = Image(str(name))
         obj.load_attrib_string(elem, "file")
         obj.load_attrib_obj(elem, "rectangle")
         obj.load_attrib_string(elem, "usage")
@@ -283,8 +283,8 @@ class File(Base):
     @classmethod
     def from_element(cls, elem):
         name = elem.attribute("name", "Unnamed File")
-        obj = File(str(name.toLocal8Bit()))
-        s = base64.b64decode(str(elem.text().toLocal8Bit()))
+        obj = File(str(name))
+        s = base64.b64decode(str(elem.text()))
         buffer = QtCore.QBuffer()
         buffer.setData(s)
         buffer.open(QtCore.QIODevice.ReadWrite)
