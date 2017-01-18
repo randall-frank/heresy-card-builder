@@ -25,6 +25,7 @@ class Base(object):
         return self.xml_tag
 
     def load_attrib_string(self, elem, name, default=None):
+        QtWidgets.QApplication.processEvents()
         tmp = elem.firstChildElement(name)
         v = default
         if not tmp.isNull():
@@ -66,6 +67,7 @@ class Base(object):
         tmp.appendChild(text)
 
     def to_xml(self, doc, parent):
+        QtWidgets.QApplication.processEvents()
         tmp = doc.createElement(self.xml_tag)
         tmp.setAttribute('name', self.name)
         parent.appendChild(tmp)
@@ -282,22 +284,35 @@ class File(Base):
 
     @classmethod
     def from_element(cls, elem):
-        name = elem.attribute("name", "Unnamed File")
-        obj = File(str(name))
-        s = base64.b64decode(str(elem.text()))
-        buffer = QtCore.QBuffer()
-        buffer.setData(s)
-        buffer.open(QtCore.QIODevice.ReadWrite)
-        obj.image.load(buffer, "png")
+        QtWidgets.QApplication.processEvents()
+        try:
+            name = elem.attribute("name", "Unnamed File")
+            obj = File(name)
+            tmp = elem.text()  # get unicode string
+            tmp = bytes(tmp, "UTF-8")  # convert to ASCII 8bit bytes
+            s = base64.b64decode(tmp)   # decode to binary
+            buffer = QtCore.QBuffer()   # do the I/O
+            buffer.setData(s)
+            buffer.open(QtCore.QIODevice.ReadWrite)
+            if not obj.image.load(buffer, "png"):
+                return None
+        except Exception as e:
+            # print("Error", str(e))
+            return None
         return obj
 
     def to_element(self, doc, elem):
-        buffer = QtCore.QBuffer()
-        buffer.open(QtCore.QIODevice.ReadWrite)
-        self.image.save(buffer, "png")
-        s = base64.b64encode(buffer.data())
-        text = doc.createTextNode(str(s))
-        elem.appendChild(text)
+        try:
+            buffer = QtCore.QBuffer()
+            buffer.open(QtCore.QIODevice.ReadWrite)
+            self.image.save(buffer, "png")   # Do the I/O
+            s = base64.b64encode(buffer.data())   # encode binary data as ASCII 8bit bytes
+            tmp = s.decode(encoding="UTF-8")   # convert the ASCII 8bit sequence to Unicode
+            text = doc.createTextNode(tmp)  # Add it to the DOM
+            elem.appendChild(text)
+        except Exception as e:
+            # print("Error", str(e))
+            return False
         return True
 
 
