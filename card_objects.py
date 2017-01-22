@@ -322,9 +322,9 @@ class Deck(Base):
         self.files = list()  # of Files
         self.images = list()  # of Images
         self.styles = list()  # of Styles
-        self.default_card = Card("defaultcard", xml_tag="defaultcard")
-        self.default_item_card = Card("defaultitemcard", xml_tag="defaultitemcard")
-        self.default_location_card = Card("defaultlocationcard", xml_tag="defaultlocationcard")
+        self.default_card = Card("Card Base", xml_tag="defaultcard")
+        self.default_item_card = Card("Item Card Base", xml_tag="defaultitemcard")
+        self.default_location_card = Card("Location Card Base", xml_tag="defaultlocationcard")
         self.icon_reference = Card("Icon Reference", xml_tag='iconreference')
         self.base = list()  # of Cards
         self.plan = list()  # of Cards

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>608</width>
-    <height>580</height>
+    <width>648</width>
+    <height>548</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,7 +27,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QGraphicsView" name="graphicsView"/>
+     <widget class="QGraphicsView" name="gvRender"/>
     </item>
    </layout>
   </widget>
@@ -36,7 +36,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>608</width>
+     <width>648</width>
      <height>21</height>
     </rect>
    </property>
@@ -61,9 +61,9 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QDockWidget" name="dwAssets">
+  <widget class="QDockWidget" name="dwCards">
    <property name="windowTitle">
-    <string>Asset list</string>
+    <string>Cards</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
@@ -71,7 +71,13 @@
    <widget class="QWidget" name="dockWidgetContents">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QTreeWidget" name="twAssets">
+      <widget class="QTreeWidget" name="twCards">
+       <property name="rootIsDecorated">
+        <bool>true</bool>
+       </property>
+       <attribute name="headerVisible">
+        <bool>false</bool>
+       </attribute>
        <column>
         <property name="text">
          <string notr="true">1</string>
@@ -95,6 +101,33 @@
       <widget class="QStackedWidget" name="swRoot">
        <widget class="QWidget" name="page"/>
        <widget class="QWidget" name="page_2"/>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dwAssets">
+   <property name="windowTitle">
+    <string>Assets</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_3">
+    <layout class="QVBoxLayout" name="verticalLayout_4">
+     <item>
+      <widget class="QTreeWidget" name="twAssets">
+       <property name="rootIsDecorated">
+        <bool>true</bool>
+       </property>
+       <attribute name="headerVisible">
+        <bool>false</bool>
+       </attribute>
+       <column>
+        <property name="text">
+         <string notr="true">1</string>
+        </property>
+       </column>
       </widget>
      </item>
     </layout>
