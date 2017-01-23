@@ -18,6 +18,9 @@ class Base(object):
         self.name = name
         self.xml_tag = xml_tag
 
+    def get_column_info(self, col):
+        return ""
+
     def set_xml_name(self, name):
         self.xml_tag = name
 
@@ -91,6 +94,11 @@ class ImageRender(Renderable):
         self.image = ""
         self.rectangle = [0, 0, 0, 0]
 
+    def get_column_info(self, col):
+        if col != 1:
+            return super(ImageRender, self).get_column_info(col)
+        return "%d,%d - %d,%d" % tuple(self.rectangle)
+
     @classmethod
     def from_element(cls, elem):
         obj = ImageRender()
@@ -111,6 +119,11 @@ class TextRender(Renderable):
         self.style = "default"
         self.rectangle = [0, 0, 0, 0]
         self.text = ""
+
+    def get_column_info(self, col):
+        if col != 1:
+            return super(TextRender, self).get_column_info(col)
+        return "%d,%d - %d,%d" % tuple(self.rectangle)
 
     @classmethod
     def from_element(cls, elem):
@@ -252,6 +265,11 @@ class Image(Base):
         self.rectangle = [0, 0, 0, 0]  # x,y,dx,dy
         self.usage = 'any'
 
+    def get_column_info(self, col):
+        if col != 1:
+            return super(Image, self).get_column_info(col)
+        return "%d,%d - %d,%d" % tuple(self.rectangle)
+
     @classmethod
     def from_element(cls, elem):
         name = elem.attribute("name", "Unnamed Image")
@@ -278,6 +296,11 @@ class File(Base):
         self.name = filename
         if name:
             self.name = name
+
+    def get_column_info(self, col):
+        if col != 1:
+            return super(File, self).get_column_info(col)
+        return "%dx%d" % tuple(self.size())
 
     def size(self):
         return [self.image.width(), self.image.height()]

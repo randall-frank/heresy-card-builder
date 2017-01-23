@@ -15,6 +15,10 @@ class CEListItem(QtWidgets.QTreeWidgetItem):
         super(CEListItem, self).__init__()
         self._obj = obj
         self.setText(0, obj.name)
+        try:
+            self.setText(1, self._obj.get_column_info(1))
+        except:
+            pass
         flags = QtCore.Qt.ItemIsEnabled
         if can_select:
             flags |= QtCore.Qt.ItemIsSelectable
@@ -172,6 +176,21 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         tw.clear()
         if self._deck is None:
             return
+        tmp = QtWidgets.QTreeWidgetItem(["Files"])
+        tmp.setFlags(QtCore.Qt.ItemIsEnabled)
+        tw.addTopLevelItem(tmp)
+        for f in self._deck.files:
+            CEListItem(f, parent=tmp, can_move=True, can_rename=True)
+        tmp = QtWidgets.QTreeWidgetItem(["Images"])
+        tmp.setFlags(QtCore.Qt.ItemIsEnabled)
+        tw.addTopLevelItem(tmp)
+        for i in self._deck.images:
+            CEListItem(i, parent=tmp, can_move=True, can_rename=True)
+        tmp = QtWidgets.QTreeWidgetItem(["Styles"])
+        tmp.setFlags(QtCore.Qt.ItemIsEnabled)
+        tw.addTopLevelItem(tmp)
+        for s in self._deck.styles:
+            CEListItem(s, parent=tmp, can_move=True, can_rename=True)
 
     def update_properties(self):
         pass
