@@ -27,7 +27,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QGraphicsView" name="gvRender"/>
+     <widget class="QGraphicsView" name="gvCard"/>
     </item>
    </layout>
   </widget>
@@ -69,58 +69,49 @@
     <number>1</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents">
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QVBoxLayout" name="verticalLayout_5">
      <item>
-      <widget class="QTreeWidget" name="twCards">
-       <property name="dragEnabled">
-        <bool>true</bool>
+      <widget class="QSplitter" name="splitter_2">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
        </property>
-       <property name="dragDropMode">
-        <enum>QAbstractItemView::InternalMove</enum>
-       </property>
-       <property name="alternatingRowColors">
-        <bool>true</bool>
-       </property>
-       <property name="rootIsDecorated">
-        <bool>true</bool>
-       </property>
-       <property name="uniformRowHeights">
-        <bool>true</bool>
-       </property>
-       <property name="columnCount">
-        <number>2</number>
-       </property>
-       <attribute name="headerVisible">
-        <bool>true</bool>
-       </attribute>
-       <column>
-        <property name="text">
-         <string notr="true">Name</string>
+       <widget class="QTreeWidget" name="twCards">
+        <property name="dragEnabled">
+         <bool>true</bool>
         </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Info</string>
+        <property name="dragDropMode">
+         <enum>QAbstractItemView::InternalMove</enum>
         </property>
-       </column>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QDockWidget" name="dwProperties">
-   <property name="windowTitle">
-    <string>Properties</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>2</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_2">
-    <layout class="QVBoxLayout" name="verticalLayout_2">
-     <item>
-      <widget class="QStackedWidget" name="swRoot">
-       <widget class="QWidget" name="page"/>
-       <widget class="QWidget" name="page_2"/>
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="rootIsDecorated">
+         <bool>true</bool>
+        </property>
+        <property name="uniformRowHeights">
+         <bool>true</bool>
+        </property>
+        <property name="columnCount">
+         <number>2</number>
+        </property>
+        <attribute name="headerVisible">
+         <bool>true</bool>
+        </attribute>
+        <column>
+         <property name="text">
+          <string notr="true">Name</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Info</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QStackedWidget" name="swCardProps">
+        <widget class="QWidget" name="pgunknown"/>
+        <widget class="QWidget" name="page_4"/>
+       </widget>
       </widget>
      </item>
     </layout>
@@ -136,41 +127,78 @@
    <widget class="QWidget" name="dockWidgetContents_3">
     <layout class="QVBoxLayout" name="verticalLayout_4">
      <item>
-      <widget class="QTreeWidget" name="twAssets">
-       <property name="acceptDrops">
-        <bool>false</bool>
+      <widget class="QSplitter" name="splitter">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
        </property>
-       <property name="dragEnabled">
-        <bool>true</bool>
-       </property>
-       <property name="dragDropMode">
-        <enum>QAbstractItemView::InternalMove</enum>
-       </property>
-       <property name="alternatingRowColors">
-        <bool>true</bool>
-       </property>
-       <property name="rootIsDecorated">
-        <bool>true</bool>
-       </property>
-       <property name="uniformRowHeights">
-        <bool>true</bool>
-       </property>
-       <property name="columnCount">
-        <number>2</number>
-       </property>
-       <attribute name="headerVisible">
-        <bool>true</bool>
-       </attribute>
-       <column>
-        <property name="text">
-         <string notr="true">Name</string>
+       <widget class="QTreeWidget" name="twAssets">
+        <property name="acceptDrops">
+         <bool>false</bool>
         </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Info</string>
+        <property name="dragEnabled">
+         <bool>true</bool>
         </property>
-       </column>
+        <property name="dragDropMode">
+         <enum>QAbstractItemView::InternalMove</enum>
+        </property>
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="rootIsDecorated">
+         <bool>true</bool>
+        </property>
+        <property name="uniformRowHeights">
+         <bool>true</bool>
+        </property>
+        <property name="columnCount">
+         <number>1</number>
+        </property>
+        <attribute name="headerVisible">
+         <bool>true</bool>
+        </attribute>
+        <column>
+         <property name="text">
+          <string notr="true">Name</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QGraphicsView" name="gvAsset"/>
+       <widget class="QStackedWidget" name="swAssetProps">
+        <widget class="QWidget" name="pgnone"/>
+        <widget class="QWidget" name="pgfile">
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <item>
+           <widget class="QLabel" name="lblFilename">
+            <property name="text">
+             <string>TextLabel</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lblSize">
+            <property name="text">
+             <string>TextLabel</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>17</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="pgimage"/>
+        <widget class="QWidget" name="pgstyle"/>
+       </widget>
       </widget>
      </item>
     </layout>
@@ -307,6 +335,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>twAssets</sender>
+   <signal>currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>current_asset_changed(QTreeWidgetItem*,QTreeWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>530</x>
+     <y>169</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>434</x>
+     <y>271</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>twCards</sender>
+   <signal>currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>current_card_changed(QTreeWidgetItem*,QTreeWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>48</x>
+     <y>240</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>192</x>
+     <y>226</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>do_about()</slot>
@@ -314,5 +374,7 @@
   <slot>do_load()</slot>
   <slot>do_save()</slot>
   <slot>do_saveas()</slot>
+  <slot>current_asset_changed(QTreeWidgetItem*,QTreeWidgetItem*)</slot>
+  <slot>current_card_changed(QTreeWidgetItem*,QTreeWidgetItem*)</slot>
  </slots>
 </ui>

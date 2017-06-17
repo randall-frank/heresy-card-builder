@@ -15,10 +15,6 @@ class CEListItem(QtWidgets.QTreeWidgetItem):
         super(CEListItem, self).__init__()
         self._obj = obj
         self.setText(0, obj.name)
-        try:
-            self.setText(1, self._obj.get_column_info(1))
-        except:
-            pass
         flags = QtCore.Qt.ItemIsEnabled
         if can_select:
             flags |= QtCore.Qt.ItemIsSelectable
@@ -31,6 +27,9 @@ class CEListItem(QtWidgets.QTreeWidgetItem):
         if parent:
             parent.addChild(self)
 
+    def get_obj(self):
+        return self._obj
+
 
 class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
     def __init__(self, version, parent=None):
@@ -40,11 +39,15 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         self._dirty = False
         self._deck = None
         self._deck_filename = None
-        self.do_new()
         self._property_object = None
         self._render_object = None
         self._current_card = None
         self._current_asset = None
+        self._gs_card = QtWidgets.QGraphicsScene()
+        self.gvCard.setScene(self._gs_card)
+        self._gs_asset = QtWidgets.QGraphicsScene()
+        self.gvAsset.setScene(self._gs_asset)
+        self.do_new()
 
     def do_new(self):
         if self._deck and self._dirty:
@@ -130,9 +133,11 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         self._current_asset = None
         self._current_card = None
         self.update_assetlist()
+        self.update_asset_props()
+        self.update_asset_render()
         self.update_cardlist()
-        self.update_properties()
-        self.update_render()
+        self.update_card_props()
+        self.update_card_render()
 
     def update_cardlist(self):
         tw = self.twCards
@@ -192,8 +197,58 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         for s in self._deck.styles:
             CEListItem(s, parent=tmp, can_move=True, can_rename=True)
 
-    def update_properties(self):
-        pass
+    def update_asset_props(self):
+        # Files, Images, Styles
+        if self._current_asset is None:
+            self.swAssetProps.setCurrentIndex(0)
+            return
+        tag = self._current_asset.get_xml_name()
+        for i in range(self.swAssetProps.count()):
+            if self.swAssetProps.widget(i).objectName() == 'pg' + tag:
+                self.swAssetProps.setCurrentIndex(i)
+                break
+        if tag == 'file':
+            self.lblFilename.setText(self._current_asset.name)
+            self.lblSize.setText(self._current_asset.get_column_info(1))
+        elif tag == 'image':
+            pass
+        elif tag == 'style':
+            pass
 
-    def update_render(self):
-        pass
+    def update_asset_render(self):
+        self._gs_asset.clear()
+        if self._current_asset is None:
+            return
+
+    def current_asset_changed(self, new, dummy):
+        if isinstance(new, CEListItem):
+            obj = new.get_obj()
+        else:
+            obj = None
+        self._current_asset = obj
+        self.update_asset_props()
+        self.update_asset_render()
+
+    def update_card_props(self):
+        if self._current_card is None:
+            self.swCardProps.setCurrentIndex(0)
+            return
+        tag = self._current_card.get_xml_name()
+        for i in range(self.swCardProps.count()):
+            if self.swCardProps.widget(i).objectName() == 'pg' + tag:
+                self.swCardProps.setCurrentIndex(i)
+                break
+
+    def update_card_render(self):
+        self._gs_card.clear()
+        if self._current_card is None:
+            return
+
+    def current_card_changed(self, new, dummy):
+        if isinstance(new, CEListItem):
+            obj = new.get_obj()
+        else:
+            obj = None
+        self._current_card = obj
+        self.update_card_props()
+        self.update_card_render()
