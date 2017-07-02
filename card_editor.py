@@ -6,7 +6,7 @@
 
 import argparse
 import sys
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtWidgets
 from card_editor_main import CardEditorMain
 import platform
 

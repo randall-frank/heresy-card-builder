@@ -308,9 +308,11 @@ class File(Base):
     @classmethod
     def from_element(cls, elem):
         QtWidgets.QApplication.processEvents()
+        name = elem.attribute("name", "Unnamed File")
+        obj = File(name)
+        # two cases: text is the file content or text is empty
+        # in the latter case, try to read the 'name' as a file
         try:
-            name = elem.attribute("name", "Unnamed File")
-            obj = File(name)
             tmp = elem.text()  # get unicode string
             tmp = bytes(tmp, "UTF-8")  # convert to ASCII 8bit bytes
             s = base64.b64decode(tmp)   # decode to binary
@@ -318,7 +320,8 @@ class File(Base):
             buffer.setData(s)
             buffer.open(QtCore.QIODevice.ReadWrite)
             if not obj.image.load(buffer, "png"):
-                return None
+                if not obj.image.load(obj.name):
+                    return None
         except Exception as e:
             # print("Error", str(e))
             return None
@@ -333,6 +336,7 @@ class File(Base):
             tmp = s.decode(encoding="UTF-8")   # convert the ASCII 8bit sequence to Unicode
             text = doc.createTextNode(tmp)  # Add it to the DOM
             elem.appendChild(text)
+            self.save_attrib_string(doc, elem, "name")
         except Exception as e:
             # print("Error", str(e))
             return False
