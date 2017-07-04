@@ -4,7 +4,8 @@
 # See LICENSE for details
 #
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore
+from PyQt5 import QtWidgets
 
 from ui_card_editor_main import Ui_card_editor_main
 import card_objects

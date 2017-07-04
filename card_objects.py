@@ -83,6 +83,7 @@ class Base(object):
 class Renderable(Base):
     def __init__(self, name, xml_tag='renderable'):
         super(Renderable, self).__init__(name, xml_tag)
+        self.order = 0  # Z depth...
 
     def render_object(self):
         return
@@ -104,11 +105,13 @@ class ImageRender(Renderable):
         obj = ImageRender()
         obj.load_attrib_string(elem, "image")
         obj.load_attrib_obj(elem, "rectangle")
+        obj.load_attrib_int(elem, "order")
         return obj
 
     def to_element(self, doc, elem):
         self.save_attrib_string(doc, elem, "image")
         self.save_attrib_obj(doc, elem, "rectangle")
+        self.save_attrib_int(doc, elem, "order")
         return True
 
 
@@ -132,6 +135,7 @@ class TextRender(Renderable):
         obj.load_attrib_string(elem, "style")
         obj.load_attrib_int(elem, "rotation")
         obj.load_attrib_obj(elem, "rectangle")
+        obj.load_attrib_int(elem, "order")
         return obj
 
     def to_element(self, doc, elem):
@@ -139,6 +143,7 @@ class TextRender(Renderable):
         self.save_attrib_string(doc, elem, "style")
         self.save_attrib_int(doc, elem, "rotation")
         self.save_attrib_obj(doc, elem, "rectangle")
+        self.save_attrib_int(doc, elem, "order")
         return True
 
 
