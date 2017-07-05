@@ -36,8 +36,28 @@ class Renderer(object):
         self.image.save(os.path.join(self.outdir, "card_{}_{:03}.png".format(face, self.number)))
 
     def make_gfx_item(self, r):
-        # the big TODO
-        return None
+        obj = None
+        if isinstance(r, card_objects.TextRender):
+            obj = QtWidgets.QGraphicsTextItem()
+            doc = QtGui.QTextDocument()
+            # need to process style, macros, etc
+            style = self.deck.find_style(r.style)
+            doc.setPlainText(r.text)
+            obj.setDocument(doc)
+            obj.setTextWidth(r.rectangle[2])
+            obj.setX(r.rectangle[0])    # x,y,dx,dy
+            obj.setY(r.rectangle[1])
+            obj.setRotation(r.rotation)
+        elif isinstance(r, card_objects.ImageRender):
+            image = deck.find_image(r.image)
+            if image is not None:
+                sub_image = image.get_image(self.deck)
+                pixmap = QtGui.QPixmap.fromImage(sub_image)
+                obj = QtWidgets.QGraphicsPixmapItem(pixmap)
+                obj.setX(r.rectangle[0])    # x,y,dx,dy
+                obj.setY(r.rectangle[1])
+                obj.setRotation(r.rotation)
+        return obj
 
     def render_face(self, face, background, top_bottom):
         self.scene.clear()

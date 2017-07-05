@@ -84,6 +84,8 @@ class Renderable(Base):
     def __init__(self, name, xml_tag='renderable'):
         super(Renderable, self).__init__(name, xml_tag)
         self.order = 0  # Z depth...
+        self.rotation = 0
+        self.rectangle = [0, 0, 0, 0]
 
     def render_object(self):
         return
@@ -93,7 +95,6 @@ class ImageRender(Renderable):
     def __init__(self, name="image"):
         super(ImageRender, self).__init__(name, 'render_image')
         self.image = ""
-        self.rectangle = [0, 0, 0, 0]
 
     def get_column_info(self, col):
         if col != 1:
@@ -105,11 +106,13 @@ class ImageRender(Renderable):
         obj = ImageRender()
         obj.load_attrib_string(elem, "image")
         obj.load_attrib_obj(elem, "rectangle")
+        obj.load_attrib_int(elem, "rotation")
         obj.load_attrib_int(elem, "order")
         return obj
 
     def to_element(self, doc, elem):
         self.save_attrib_string(doc, elem, "image")
+        self.save_attrib_int(doc, elem, "rotation")
         self.save_attrib_obj(doc, elem, "rectangle")
         self.save_attrib_int(doc, elem, "order")
         return True
@@ -118,9 +121,7 @@ class ImageRender(Renderable):
 class TextRender(Renderable):
     def __init__(self, name="text"):
         super(TextRender, self).__init__(name, 'render_text')
-        self.rotation = 0
         self.style = "default"
-        self.rectangle = [0, 0, 0, 0]
         self.text = ""
 
     def get_column_info(self, col):
@@ -233,7 +234,7 @@ class Location(Base):
 class Style(Base):
     def __init__(self, name):
         super(Style, self).__init__(name, 'style')
-        self.typeface = ""
+        self.typeface = "Arial"
         self.typesize = 12
         self.fillcolor = [255, 255, 255, 255]
         self.borderthickness = 0
@@ -269,6 +270,13 @@ class Image(Base):
         self.file = ''
         self.rectangle = [0, 0, 0, 0]  # x,y,dx,dy
         self.usage = 'any'
+
+    def get_image(self, deck):
+        f = deck.find_file(self.file)
+        if f is None:
+            return None
+        img = f.image.copy(self.rectangle[0], self.rectangle[1], self.rectangle[2], self.rectangle[3])  # QImage
+        return img
 
     def get_column_info(self, col):
         if col != 1:
@@ -363,6 +371,24 @@ class Deck(Base):
         self.items = list()  # of Cards
         self.characters = list()  # of Cards
         self.locations = list()  # of Locations
+
+    def find_file(self, name, default=None):
+        for f in self.files:
+            if f.name == name:
+                return f
+        return default
+
+    def find_image(self, name, default=None):
+        for i in self.images:
+            if i.name == name:
+                return i
+        return default
+
+    def find_style(self, name, default=Style("default")):
+        for s in self.styles:
+            if s.name == name:
+                return s
+        return default
 
     def save(self, filename):
         QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
