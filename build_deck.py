@@ -35,8 +35,9 @@ class Renderer(object):
         self.scene.render(self.painter)
         self.image.save(os.path.join(self.outdir, "card_{}_{:03}.png".format(face, self.number)))
 
-    def make_gfx_item(self, r):
-        obj = None
+    def make_gfx_items(self, r):
+        objs = list()
+        # return a list of QGraphicsItem objects in order top to bottom
         if isinstance(r, card_objects.TextRender):
             obj = QtWidgets.QGraphicsTextItem()
             doc = QtGui.QTextDocument()
@@ -48,6 +49,7 @@ class Renderer(object):
             obj.setX(r.rectangle[0])    # x,y,dx,dy
             obj.setY(r.rectangle[1])
             obj.setRotation(r.rotation)
+            objs.append(obj)
         elif isinstance(r, card_objects.ImageRender):
             image = deck.find_image(r.image)
             if image is not None:
@@ -57,20 +59,25 @@ class Renderer(object):
                 obj.setX(r.rectangle[0])    # x,y,dx,dy
                 obj.setY(r.rectangle[1])
                 obj.setRotation(r.rotation)
-        return obj
+                objs.append(obj)
+        return objs
 
     def render_face(self, face, background, top_bottom):
         self.scene.clear()
         # generate the QGraphicsItems from the face and the background
         for renderable in face.renderables:
-            gfx_item = self.make_gfx_item(renderable)
-            if gfx_item is not None:
-                gfx_item.setZValue(renderable.order)
+            z = float(renderable.order)
+            gfx_items = self.make_gfx_items(renderable)
+            for gfx_item in gfx_items:
+                gfx_item.setZValue(z)
+                z -= 0.01
                 self.scene.addItem(gfx_item)
         for renderable in background.renderables:
-            gfx_item = self.make_gfx_item(renderable)
-            if gfx_item is not None:
-                gfx_item.setZValue(renderable.order)
+            z = float(renderable.order)
+            gfx_items = self.make_gfx_items(renderable)
+            for gfx_item in gfx_items:
+                gfx_item.setZValue(z)
+                z -= 0.01
                 self.scene.addItem(gfx_item)
         # render them to a file
         self.render(top_bottom)
