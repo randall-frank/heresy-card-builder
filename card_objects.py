@@ -5,6 +5,8 @@
 #
 
 import base64
+import os
+import os.path
 from PyQt5 import QtXml
 from PyQt5 import QtGui
 from PyQt5 import QtCore
@@ -303,12 +305,17 @@ class File(Base):
     def __init__(self, name):
         super(File, self).__init__(name, 'file')
         self.image = QtGui.QImage()
+        self.filename = ""
+        self.store_inline = True
 
-    def load_file(self, filename, name=None):
+    def load_file(self, filename, name=None, store_as_resource=True):
         self.image.load(filename)
-        self.name = filename
-        if name:
+        self.filename = filename
+        self.store_inline = store_as_resource
+        if name is not None:
             self.name = name
+        else:
+            self.name = filename
 
     def get_column_info(self, col):
         if col != 1:
@@ -322,36 +329,43 @@ class File(Base):
     def from_element(cls, elem):
         QtWidgets.QApplication.processEvents()
         name = elem.attribute("name", "Unnamed File")
+        filename = elem.attribute("filename", None)
         obj = File(name)
         # two cases: text is the file content or text is empty
         # in the latter case, try to read the 'name' as a file
         try:
             tmp = elem.text()  # get unicode string
-            tmp = bytes(tmp, "UTF-8")  # convert to ASCII 8bit bytes
-            s = base64.b64decode(tmp)   # decode to binary
-            buffer = QtCore.QBuffer()   # do the I/O
-            buffer.setData(s)
-            buffer.open(QtCore.QIODevice.ReadWrite)
-            if not obj.image.load(buffer, "png"):
-                if not obj.image.load(obj.name):
+            if len(tmp) == 0:
+                if not obj.image.load(filename, name):
+                    print("Warning, failed to load file: {}".format(filename))
                     return None
+            else:
+                tmp = bytes(tmp, "UTF-8")  # convert to ASCII 8bit bytes
+                s = base64.b64decode(tmp)   # decode to binary
+                buffer = QtCore.QBuffer()   # do the I/O
+                buffer.setData(s)
+                buffer.open(QtCore.QIODevice.ReadWrite)
+                if not obj.image.load(buffer, "png"):
+                    if not obj.image.load(filename, name):
+                        return None
         except Exception as e:
-            # print("Error", str(e))
+            print("File from_element Error", str(e))
             return None
         return obj
 
     def to_element(self, doc, elem):
         try:
-            buffer = QtCore.QBuffer()
-            buffer.open(QtCore.QIODevice.ReadWrite)
-            self.image.save(buffer, "png")   # Do the I/O
-            s = base64.b64encode(buffer.data())   # encode binary data as ASCII 8bit bytes
-            tmp = s.decode(encoding="UTF-8")   # convert the ASCII 8bit sequence to Unicode
-            text = doc.createTextNode(tmp)  # Add it to the DOM
-            elem.appendChild(text)
-            self.save_attrib_string(doc, elem, "name")
+            if self.store_inline:
+                buffer = QtCore.QBuffer()
+                buffer.open(QtCore.QIODevice.ReadWrite)
+                self.image.save(buffer, "png")   # Do the I/O
+                s = base64.b64encode(buffer.data())   # encode binary data as ASCII 8bit bytes
+                tmp = s.decode(encoding="UTF-8")   # convert the ASCII 8bit sequence to Unicode
+                text = doc.createTextNode(tmp)  # Add it to the DOM
+                elem.appendChild(text)
+            elem.setAttribute('filename', self.filename)
         except Exception as e:
-            # print("Error", str(e))
+            print("File to_element Error", str(e))
             return False
         return True
 
@@ -515,14 +529,26 @@ class Deck(Base):
         return True
 
 
-def build_empty_deck():
+def build_empty_deck(media_dirs=None):
     deck = Deck()
-    # Load images from resources
-    d = QtCore.QDir(":/default_files")
-    for name in d.entryList():
-        f = File(name)
-        f.load_file(":/default_files/"+name, name)
-        deck.files.append(f)
+    if media_dirs is None:
+        # Load images from resources
+        d = QtCore.QDir(":/default_files")
+        for name in d.entryList():
+            f = File(name)
+            f.load_file(":/default_files/"+name, name, store_as_resource=True)
+            deck.files.append(f)
+    else:
+        for d in media_dirs:
+            for root, dirs, files in os.walk(d):
+                for name in files:
+                    filename = os.path.join(root, name)
+                    basename, ext = os.path.splitext(os.path.basename(filename))
+                    if ext.lower() in [".jpg", ".png"]:
+                        print("Adding image: {} ({})".format(filename, basename))
+                        f = File(basename)
+                        f.load_file(filename, basename, store_as_resource=False)
+                        deck.files.append(f)
     # Init the default style
     # default card
     # default item card

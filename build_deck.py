@@ -93,13 +93,20 @@ if __name__ == '__main__':
     parser.add_argument('cardfile', nargs=1, help='The name of a saved project.')
     parser.add_argument('--version', action='version', version='%(prog)s ' + __version__)
     parser.add_argument('--outdir', default=None, nargs='?', help='The name of a saved project.')
+    parser.add_argument('--default_deck', default=None, metavar='dirname', nargs='*',
+                        help='Create new deck from images in directories')
     args = parser.parse_args()
 
     # bootstrap Qt
     app = QtWidgets.QApplication(sys.argv)
 
-    print("Reading {}\n".format(args.cardfile))
-    filename = os.path.abspath(args.cardfile)
+    if args.default_deck is not None:
+        print("Building deck {}...".format(args.cardfile[0]))
+        deck = card_objects.build_empty_deck(media_dirs=args.default_deck)
+        deck.save(args.cardfile[0])
+        sys.exit(0)
+    print("Reading {}...".format(args.cardfile[0]))
+    filename = os.path.abspath(args.cardfile[0])
     directory = os.path.dirname(filename)
     os.chdir(directory)
     outdir = directory
