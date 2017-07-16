@@ -13,13 +13,13 @@ import sys
 from PyQt5 import QtWidgets
 from PyQt5 import QtGui
 
-__version__ = "0.1.0.0"
+__version__ = "0.2.0.0"
 
 
 class Renderer(object):
-    def __init__(self, the_deck, outdir):
+    def __init__(self, the_deck, output_dir):
         self.deck = the_deck
-        self.outdir = outdir
+        self.outdir = output_dir
         self.scene = QtWidgets.QGraphicsScene()
         self.view = QtWidgets.QGraphicsView()
         self.view.setScene(self.scene)
@@ -28,12 +28,14 @@ class Renderer(object):
         self.scene.setSceneRect(self.view.sceneRect())
         self.image = QtGui.QImage(self.scene.sceneRect().size().toSize(), QtGui.QImage.Format_RGBA8888)
         self.painter = QtGui.QPainter(self.image)
-        self.number = 1
+        self.macros = dict()
 
     def render(self, face):
         self.image.fill(0)
         self.scene.render(self.painter)
-        self.image.save(os.path.join(self.outdir, "card_{}_{:03}.png".format(face, self.number)))
+        pathname = os.path.join(self.outdir, "card_{}_{:03}.png".format(face, self.macros['card_number']))
+        print("Output file: {}".format(pathname))
+        self.image.save(pathname)
 
     def make_gfx_items(self, r):
         objs = list()
@@ -83,10 +85,39 @@ class Renderer(object):
         self.render(top_bottom)
 
     def render_card(self, the_card, the_background):
+        print("rendering card: {}".format(the_card.name))
+        self.macros['card_number'] = the_card.card_number
+        self.macros['local_card_number'] = the_card.local_card_number
         self.render_face(the_card.top_face, the_background.top_face, "top")
         self.render_face(the_card.bot_face, the_background.bot_face, "bot")
-        self.number += 1
 
+    def render_deck(self, the_deck):
+        self.macros = dict()
+        # Walk all of the cards, rendering them to images
+        # misc - the catacomb attackers, success/failure
+        # base, items, plan, misc, characters, reference, locations
+        the_deck.renumber_entities()
+        # base
+        for card in the_deck.base:
+            render.render_card(card, the_deck.default_card)
+        # items
+        for card in the_deck.items:
+            render.render_card(card, the_deck.default_item_card)
+        # plan
+        for card in the_deck.plan:
+            render.render_card(card, the_deck.default_card)
+        # misc
+        for card in the_deck.misc:
+            render.render_card(card, the_deck.default_card)
+        # characters
+        for card in the_deck.characters:
+            render.render_card(card, the_deck.default_card)
+        # reference card
+        render.render_card(the_deck.icon_reference, the_deck.default_card)
+        # locations
+        for location in the_deck.locations:
+            for card in location.cards:
+                render.render_card(card, the_deck.default_location_card)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Generate T.I.M.E Stories cards from art assets.')
@@ -120,32 +151,16 @@ if __name__ == '__main__':
     outdir = os.path.join(outdir, "generated_cards")
     try:
         shutil.rmtree(outdir)
-        os.mkdir(outdir)
     except:
         pass
+    try:
+        os.mkdir(outdir)
+    except Exception as e:
+        print("Unable to create output directory {} : {}".format(outdir, str(e)))
+        sys.exit(1)
 
     # set up the renderer
     render = Renderer(deck, outdir)
-
-    # Walk all of the cards, rendering them to images
-    # misc? - the catacomb attackers
-    # base
-    for card in deck.base:
-        render.render_card(card, deck.default_card)
-    # reference card
-    render.render_card(deck.icon_reference, deck.default_card)
-    # plan
-    for card in deck.plan:
-        render.render_card(card, deck.default_card)
-    # items
-    for card in deck.items:
-        render.render_card(card, deck.default_item_card)
-    # characters
-    for card in deck.characters:
-        render.render_card(card, deck.default_card)
-    # locations
-    for location in deck.locations:
-        for card in location.cards:
-            render.render_card(card, deck.default_location_card)
+    render.render_deck(deck)
 
     sys.exit(0)

@@ -191,6 +191,8 @@ class Card(Base):
         super(Card, self).__init__(name, xml_tag)
         self.top_face = Face('top')
         self.bot_face = Face('bottom')
+        self.card_number = 0
+        self.local_card_number = 0
 
     @classmethod
     def from_element(cls, elem):
@@ -379,11 +381,13 @@ class Deck(Base):
         self.default_card = Card("Card Base", xml_tag="defaultcard")
         self.default_item_card = Card("Item Card Base", xml_tag="defaultitemcard")
         self.default_location_card = Card("Location Card Base", xml_tag="defaultlocationcard")
-        self.icon_reference = Card("Icon Reference", xml_tag='iconreference')
+        # Proper order of a deck
         self.base = list()  # of Cards
-        self.plan = list()  # of Cards
         self.items = list()  # of Cards
+        self.plan = list()  # of Cards
+        self.misc = list()  # of Cards
         self.characters = list()  # of Cards
+        self.icon_reference = Card("Icon Reference", xml_tag='iconreference')
         self.locations = list()  # of Locations
 
     def find_file(self, name, default=None):
@@ -403,6 +407,30 @@ class Deck(Base):
             if s.name == name:
                 return s
         return default
+
+    def renumber_entities(self):
+        global_count = 1
+        # card blocks
+        for chunk in [self.base, self.items, self.plan, self.misc, self.characters]:
+            local_count = 1
+            for card in chunk:
+                card.card_number = global_count
+                card.local_card_number = local_count
+                global_count += 1
+                local_count += 1
+        # reference card
+        self.icon_reference.card_number = global_count
+        self.icon_reference.local_card_number = local_count
+        global_count += 1
+        local_count += 1
+        # locations
+        for location in self.locations:
+            local_count = 1
+            for card in location:
+                card.card_number = global_count
+                card.local_card_number = local_count
+                global_count += 1
+                local_count += 1
 
     def save(self, filename):
         QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
@@ -468,9 +496,10 @@ class Deck(Base):
         # Plan, Items, Base, Characters, Locations - simple lists
         # [v0, v1, v2] use v0.from_element() to create an object starting at the tag v2
         # make a list of objects at self.{v1}
-        work = dict(plan=[Card, 'plan', 'card'],
+        work = dict(base=[Card, 'base', 'card'],
                     items=[Card, 'items', 'card'],
-                    base=[Card, 'base', 'card'],
+                    plan=[Card, 'plan', 'card'],
+                    misc=[Card, 'misc', 'card'],
                     characters=[Card, 'characters', 'card'],
                     locations=[Location, 'locations', 'location'])
         for tag, v in work.items():
@@ -483,7 +512,6 @@ class Deck(Base):
                     if tmp_obj is not None:
                         self.__getattribute__(v[1]).append(tmp_obj)
                     tmp = tmp.nextSiblingElement(v[2])
-
         return True
 
     def parse_assets(self, root):
@@ -511,19 +539,19 @@ class Deck(Base):
         for i in self.images:
             i.to_xml(doc, tmp)
         # cards
-        tmp = doc.createElement("cards")
-        elem.appendChild(tmp)
+        card_root = doc.createElement("cards")
+        elem.appendChild(card_root)
         # singletons
-        self.default_card.to_xml(doc, tmp)
-        self.default_item_card.to_xml(doc, tmp)
-        self.default_location_card.to_xml(doc, tmp)
-        self.icon_reference.to_xml(doc, tmp)
-        # lists: base, plan, items, characters, locations
-        blocks = dict(base=self.base, plan=self.plan, items=self.items,
+        self.default_card.to_xml(doc, card_root)
+        self.default_item_card.to_xml(doc, card_root)
+        self.default_location_card.to_xml(doc, card_root)
+        self.icon_reference.to_xml(doc, card_root)
+        # lists: base, items,  plan, misc, characters, locations
+        blocks = dict(base=self.base, plan=self.plan, items=self.items, misc=self.misc,
                       characters=self.characters, locations=self.locations)
         for tag, v in blocks.items():
             tag_elem = doc.createElement(tag)  # make an element inside of <cards>
-            elem.appendChild(tag_elem)
+            card_root.appendChild(tag_elem)
             for i in v:
                 i.to_xml(doc, tag_elem)  # write all of the cards into the new element
         return True
@@ -549,12 +577,8 @@ def build_empty_deck(media_dirs=None):
                         f = File(basename)
                         f.load_file(filename, basename, store_as_resource=False)
                         deck.files.append(f)
-    # Init the default style
-    # default card
-    # default item card
-    # default location card
-    # icon reference
-    # plan
+    # a default style
+    deck.styles.append(Style("default"))
     return deck
 
 # <deck>
@@ -630,6 +654,10 @@ def build_empty_deck(media_dirs=None):
 # 			<card></card>
 # 			<card></card>
 # 		</items>
+# 		<misc>
+# 			<card></card>
+# 			<card></card>
+# 		</misc>
 # 		<locations>
 # 			<location>
 # 				<card></card>
