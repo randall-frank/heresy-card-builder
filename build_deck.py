@@ -5,6 +5,7 @@
 #
 
 import argparse
+import copy
 import card_objects
 import os
 import os.path
@@ -12,9 +13,14 @@ import shutil
 import sys
 from PyQt5 import QtWidgets
 from PyQt5 import QtGui
+from PyQt5 import QtCore
 
 __version__ = "0.2.0.0"
 
+# http://www.makeplayingcards.com
+# 827x1416 - 897x1497=min size with 36pixel borders
+
+# TODO: Text macro substitution,  document formatting...
 
 class Renderer(object):
     def __init__(self, the_deck, output_dir):
@@ -24,32 +30,135 @@ class Renderer(object):
         self.view = QtWidgets.QGraphicsView()
         self.view.setScene(self.scene)
         self.card_size = (945, 1535)
+        self.pad_size = 0
         self.view.setSceneRect(0, 0, self.card_size[0], self.card_size[1])
         self.scene.setSceneRect(self.view.sceneRect())
         self.image = QtGui.QImage(self.scene.sceneRect().size().toSize(), QtGui.QImage.Format_RGBA8888)
         self.painter = QtGui.QPainter(self.image)
         self.macros = dict()
 
+    def pad_image(self):
+        if self.pad_size == 0:
+            return self.image
+        w = self.image.width()
+        h = self.image.height()
+        s = [self.pad_size*2 + w, self.pad_size*2 + h]
+        l = int((s[0] - w) / 2)
+        r = int((s[0] - w) - l)
+        t = int((s[1] - h) / 2)
+        b = int((s[1] - h) - l)
+        # ok, pad by l,r,t,b
+        out = QtGui.QImage(s[0], s[1], QtGui.QImage.Format_RGBA8888)
+        p = QtGui.QPainter()
+        p.begin(out)
+        # Paint the center rect
+        src = QtCore.QRectF(0, 0, w, h)
+        tgt = QtCore.QRectF(l, t, w, h)
+        p.drawImage(tgt, self.image, src)
+        # Top trapezoid
+        src = QtCore.QRectF(0, 0, w, 1)
+        f = float(l + r + 1) / float(t - 1)
+        for i in range(t):
+            tgt = QtCore.QRectF(l - i * f * 0.5 - 1, t - i - 1, w + f * i + 2, 1)
+            p.drawImage(tgt, self.image, src)
+        # Bottom trapezoid
+        src = QtCore.QRectF(0, h - 1, w, 1)
+        f = float(l + r + 1) / float(b - 1)
+        for i in range(b):
+            tgt = QtCore.QRectF(l - i * f * 0.5 - 1, t + h + i, w + f * i + 2, 1)
+            p.drawImage(tgt, self.image, src)
+        # Left trapezoid
+        src = QtCore.QRectF(0, 0, 1, h)
+        f = float(t + b + 1) / float(l - 1)
+        for i in range(l):
+            tgt = QtCore.QRectF(l - i - 1, t - i * f * 0.5 - 1, 1, h + f * i + 2)
+            p.drawImage(tgt, self.image, src)
+        # Right trapezoid
+        src = QtCore.QRectF(w - 1, 0, 1, h)
+        f = float(t + b + 1) / float(r - 1)
+        for i in range(r):
+            tgt = QtCore.QRectF(l + w + i, t - i * f * 0.5 - 1, 1, h + f * i + 2)
+            p.drawImage(tgt, self.image, src)
+        p.end()
+        return out
+
     def render(self, face):
         self.image.fill(0)
         self.scene.render(self.painter)
         pathname = os.path.join(self.outdir, "card_{}_{:03}.png".format(face, self.macros['card_number']))
         print("Output file: {}".format(pathname))
-        self.image.save(pathname)
+        img = self.pad_image()
+        img.save(pathname)
+
+    def build_text_document(self, text, base_style):
+        doc = QtGui.QTextDocument()
+        font = self.build_font(base_style)
+        doc.setDefaultFont(font)
+        # need to process style, macros, etc
+        # Break the text into blocks as styles change
+        doc.setPlainText(text)
+        return doc
+
+    def build_font(self, style):
+        name = style.typeface
+        modifiers = ""
+        pos = name.find(':')
+        if pos > 0:
+            modifiers = name[pos+1:]
+            name = name[:pos]
+        font = QtGui.QFont(name)
+        # typeface and size, convert points to pixels
+        dpi = self.card_size[0] / 2.75  # the card is 2.75 inches wide
+        # base points on 72dpi
+        font.setPixelSize(style.typesize * (dpi / 72.))
+        font.setBold("bold" in modifiers)
+        font.setItalic("italic" in modifiers)
+        return font
 
     def make_gfx_items(self, r):
         objs = list()
         # return a list of QGraphicsItem objects in order top to bottom
         if isinstance(r, card_objects.TextRender):
+            # actual text item
             obj = QtWidgets.QGraphicsTextItem()
-            doc = QtGui.QTextDocument()
-            # need to process style, macros, etc
-            style = self.deck.find_style(r.style)
-            doc.setPlainText(r.text)
+            base_style = self.deck.find_style(r.style)
+            doc = self.build_text_document(r.text, base_style)
             obj.setDocument(doc)
+            # some defaults
+            obj.setDefaultTextColor(QtGui.QColor(base_style.textcolor[0],
+                                                 base_style.textcolor[1],
+                                                 base_style.textcolor[2],
+                                                 base_style.textcolor[3]))
             obj.setTextWidth(r.rectangle[2])
             obj.setX(r.rectangle[0])    # x,y,dx,dy
             obj.setY(r.rectangle[1])
+            # compute the bounding box and snag the height for the backdrop...
+            obj.adjustSize()
+            height = int(obj.boundingRect().height())
+            obj.setRotation(r.rotation)
+            objs.append(obj)
+            # backdrop
+            obj = QtWidgets.QGraphicsRectItem(r.rectangle[0], r.rectangle[1], r.rectangle[2], height)
+            obj.setTransformOriginPoint(QtCore.QPointF(r.rectangle[0], r.rectangle[1]))
+            color = QtGui.QColor(base_style.fillcolor[0],
+                                 base_style.fillcolor[1],
+                                 base_style.fillcolor[2],
+                                 base_style.fillcolor[3])
+            obj.setBrush(QtGui.QBrush(color))
+            pen = QtGui.QPen()
+            tmp = copy.deepcopy(base_style.bordercolor)
+            if base_style.borderthickness == 0:
+                tmp[3] = 0
+            color = QtGui.QColor(tmp[0], tmp[1], tmp[2], tmp[3])
+            pen.setColor(color)
+            pen.setWidth(base_style.borderthickness)
+            if base_style.linestyle == 'dash':
+                pen.setStyle(QtCore.Qt.DashLine)
+            elif base_style.linestyle == 'dot':
+                pen.setStyle(QtCore.Qt.DotLine)
+            elif base_style.linestyle == 'dashdot':
+                pen.setStyle(QtCore.Qt.DashDotLine)
+            obj.setPen(pen)
             obj.setRotation(r.rotation)
             objs.append(obj)
         elif isinstance(r, card_objects.ImageRender):
@@ -60,12 +169,23 @@ class Renderer(object):
                 obj = QtWidgets.QGraphicsPixmapItem(pixmap)
                 obj.setX(r.rectangle[0])    # x,y,dx,dy
                 obj.setY(r.rectangle[1])
-                obj.setRotation(r.rotation)
+                transform = QtGui.QTransform()
+                transform.rotate(r.rotation)
+                if (r.rectangle[2] > 0) and (r.rectangle[3] > 0):
+                    sx = float(r.rectangle[2])/float(sub_image.width())
+                    sy = float(r.rectangle[3])/float(sub_image.height())
+                    transform.scale(sx, sy)
+                obj.setTransform(transform, False)
                 objs.append(obj)
         return objs
 
     def render_face(self, face, background, top_bottom):
         self.scene.clear()
+        # light blue background
+        base = QtWidgets.QGraphicsRectItem(0, 0, self.card_size[0], self.card_size[1])
+        base.setBrush(QtGui.QBrush(QtGui.QColor("#E0E0FF")))
+        base.setZValue(-1000)
+        self.scene.addItem(base)
         # generate the QGraphicsItems from the face and the background
         for renderable in face.renderables:
             z = float(renderable.order)

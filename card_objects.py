@@ -250,6 +250,7 @@ class Style(Base):
     def from_element(cls, elem):
         name = elem.attribute("name", "Unnamed Image")
         obj = Style(str(name))
+        obj.load_attrib_string(elem, "typeface", "Arial")
         obj.load_attrib_string(elem, "linestyle")
         obj.load_attrib_obj(elem, "fillcolor")
         obj.load_attrib_obj(elem, "bordercolor")
@@ -259,6 +260,7 @@ class Style(Base):
         return obj
 
     def to_element(self, doc, elem):
+        self.save_attrib_string(doc, elem, "typeface")
         self.save_attrib_string(doc, elem, "linestyle")
         self.save_attrib_obj(doc, elem, "fillcolor")
         self.save_attrib_obj(doc, elem, "bordercolor")
