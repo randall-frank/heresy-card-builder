@@ -94,10 +94,28 @@ class Renderer(object):
         doc = QtGui.QTextDocument()
         font = self.build_font(base_style)
         doc.setDefaultFont(font)
+        cursor = QtGui.QTextCursor(doc)
+        cursor.insertText(text, self.build_format(base_style))
         # need to process style, macros, etc
         # Break the text into blocks as styles change
-        doc.setPlainText(text)
+        # doc.setPlainText(text)
+        #
+        # {s:style_name} - pick another style
+        # {XY:name} - ':name' is optional and defaults to 'current'
+        # X - c=card, i=item, l=location
+        # Y - #=number, n=name
         return doc
+
+    def build_format(self, style):
+        tf = QtGui.QTextCharFormat()
+        font = self.build_font(style)
+        tf.setFont(font)
+        color = QtGui.QColor(style.textcolor[0],
+                             style.textcolor[1],
+                             style.textcolor[2],
+                             style.textcolor[3])
+        tf.setForeground(QtGui.QBrush(color))
+        return tf
 
     def build_font(self, style):
         name = style.typeface
