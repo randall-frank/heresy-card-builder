@@ -216,6 +216,8 @@ class Location(Base):
     def __init__(self, name):
         super(Location, self).__init__(name, 'location')
         self.cards = list()
+        self.card_number = 0
+        self.local_card_number = 0
 
     @classmethod
     def from_element(cls, elem):
@@ -410,6 +412,31 @@ class Deck(Base):
                 return s
         return default
 
+    def find_item(self, name, default=None):
+        for i in self.items:
+            if i.name == name:
+                return i
+        return default
+
+    def find_location(self, name, default=None):
+        for l in self.locations:
+            if l.name == name:
+                return l
+        return default
+
+    def find_card(self, name, default=None):
+        for chunk in [self.base, self.items, self.plan, self.misc, self.characters]:
+            for card in chunk:
+                if card.name == name:
+                    return card
+        if self.icon_reference.name == name:
+            return self.icon_reference
+        for location in self.locations:
+            for card in location:
+                if card.name == name:
+                    return card
+        return default
+
     def renumber_entities(self):
         global_count = 1
         # card blocks
@@ -426,7 +453,11 @@ class Deck(Base):
         global_count += 1
         local_count += 1
         # locations
+        location_count = 1
         for location in self.locations:
+            location.card_number = global_count
+            location.local_card_number = location_count
+            location_count += 1
             local_count = 1
             for card in location:
                 card.card_number = global_count

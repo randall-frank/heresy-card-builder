@@ -15,12 +15,13 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtGui
 from PyQt5 import QtCore
 
+# Bug: text word wrapping not correct yet
+
 __version__ = "0.2.0.0"
 
 # http://www.makeplayingcards.com
 # 827x1416 - 897x1497=min size with 36pixel borders
 
-# TODO: Text macro substitution,  document formatting...
 
 class Renderer(object):
     def __init__(self, the_deck, output_dir):
@@ -35,7 +36,8 @@ class Renderer(object):
         self.scene.setSceneRect(self.view.sceneRect())
         self.image = QtGui.QImage(self.scene.sceneRect().size().toSize(), QtGui.QImage.Format_RGBA8888)
         self.painter = QtGui.QPainter(self.image)
-        self.macros = dict()
+        self.cur_location = None
+        self.cur_card = None
 
     def pad_image(self):
         if self.pad_size == 0:
@@ -85,28 +87,95 @@ class Renderer(object):
     def render(self, face):
         self.image.fill(0)
         self.scene.render(self.painter)
-        pathname = os.path.join(self.outdir, "card_{}_{:03}.png".format(face, self.macros['card_number']))
+        pathname = os.path.join(self.outdir, "card_{}_{:03}.png".format(face, self.cur_card.card_number))
         print("Output file: {}".format(pathname))
         img = self.pad_image()
         img.save(pathname)
+
+    def replace_macros(self, text):
+        # {XY:name} - ':name' is optional and defaults to 'current'
+        # X - c=card, i=item, l=location
+        # Y - N=global number, n=local number, s=string name,  A=global letter, a=local letter
+        for key in 'cil':
+            while True:
+                start = text.find("{"+key)
+                if start == -1:
+                    break
+                end = text[start:].find("}")
+                if end == -1:
+                    break
+                macro = text[start:start+end+1]
+                replacement = "{err}"
+                opt = macro[2]
+                if opt in 'NnsAa':
+                    # get the referenced object
+                    offset = macro.find(":")
+                    # the "current" object
+                    if offset == -1:
+                        current = self.cur_card
+                        if key == 'l':
+                            current = self.cur_location
+                    # by name lookup
+                    else:
+                        name = macro[offset+1:-1]
+                        if key == 'l':
+                            current = self.deck.find_location(name, default=self.cur_card)
+                        elif key == 'i':
+                            current = self.deck.find_item(name, default=self.cur_card)
+                        else:
+                            current = self.deck.find_card(name, default=self.cur_card)
+                    if current is not None:
+                        # we have a target card
+                        if opt == 'N':
+                            replacement = str(current.card_number)
+                        elif opt == 'n':
+                            replacement = str(current.local_card_number)
+                        elif opt == 's':
+                            replacement = current.name
+                        elif opt == 'A':
+                            replacement = chr(ord('A') + current.card_number - 1)
+                        elif opt == 'a':
+                            replacement = chr(ord('A') + current.local_card_number - 1)
+                text = text[:start] + replacement + text[start+end+1:]
+        return text
 
     def build_text_document(self, text, base_style):
         doc = QtGui.QTextDocument()
         font = self.build_font(base_style)
         doc.setDefaultFont(font)
+        text_option = QtGui.QTextOption()
+        text_option.setAlignment(QtCore.Qt.AlignJustify)
+        text_option.setWrapMode(QtGui.QTextOption.WordWrap)
+        doc.setDefaultTextOption(text_option)
         cursor = QtGui.QTextCursor(doc)
-        cursor.insertText(text, self.build_format(base_style))
-        # need to process style, macros, etc
+        #cursor.block().layout().setTextOption(text_option)
+        text = self.replace_macros(text)
         # Break the text into blocks as styles change
-        # doc.setPlainText(text)
-        #
         # {s:style_name} - pick another style
-        # {XY:name} - ':name' is optional and defaults to 'current'
-        # X - c=card, i=item, l=location
-        # Y - #=number, n=name
+        text_format = self.build_text_format(base_style)
+        while True:
+            # find the next style change
+            start = text.find("{s:")
+            # if no more, done looping...
+            if start == -1:
+                break
+            end = text[start:].find("}")
+            if end == -1:
+                break
+            # send text up to the format
+            cursor.insertText(text[:start], text_format)
+            #cursor.block().layout().setTextOption(text_option)
+            # update the style and the remaining text
+            style = self.deck.find_style(text[start+3:start+end], default=base_style)
+            text_format = self.build_text_format(style)
+            text = text[start+end+1:]
+        # send the remaining text in the last format
+        if len(text):
+            cursor.insertText(text, text_format)
+            #cursor.block().layout().setTextOption(text_option)
         return doc
 
-    def build_format(self, style):
+    def build_text_format(self, style):
         tf = QtGui.QTextCharFormat()
         font = self.build_font(style)
         tf.setFont(font)
@@ -141,16 +210,18 @@ class Renderer(object):
             obj = QtWidgets.QGraphicsTextItem()
             base_style = self.deck.find_style(r.style)
             doc = self.build_text_document(r.text, base_style)
-            obj.setDocument(doc)
             # some defaults
             obj.setDefaultTextColor(QtGui.QColor(base_style.textcolor[0],
                                                  base_style.textcolor[1],
                                                  base_style.textcolor[2],
                                                  base_style.textcolor[3]))
             obj.setTextWidth(r.rectangle[2])
+            doc.setTextWidth(r.rectangle[2])
+            obj.setDocument(doc)
             obj.setX(r.rectangle[0])    # x,y,dx,dy
             obj.setY(r.rectangle[1])
             # compute the bounding box and snag the height for the backdrop...
+            doc.adjustSize()
             obj.adjustSize()
             height = int(obj.boundingRect().height())
             obj.setRotation(r.rotation)
@@ -223,39 +294,39 @@ class Renderer(object):
         self.render(top_bottom)
 
     def render_card(self, the_card, the_background):
+        self.cur_card = the_card
         print("rendering card: {}".format(the_card.name))
-        self.macros['card_number'] = the_card.card_number
-        self.macros['local_card_number'] = the_card.local_card_number
         self.render_face(the_card.top_face, the_background.top_face, "top")
         self.render_face(the_card.bot_face, the_background.bot_face, "bot")
 
-    def render_deck(self, the_deck):
-        self.macros = dict()
+    def render_deck(self):
         # Walk all of the cards, rendering them to images
         # misc - the catacomb attackers, success/failure
         # base, items, plan, misc, characters, reference, locations
-        the_deck.renumber_entities()
+        self.deck.renumber_entities()
         # base
-        for card in the_deck.base:
-            render.render_card(card, the_deck.default_card)
+        for card in self.deck.base:
+            render.render_card(card, self.deck.default_card)
         # items
-        for card in the_deck.items:
-            render.render_card(card, the_deck.default_item_card)
+        for card in self.deck.items:
+            render.render_card(card, self.deck.default_item_card)
         # plan
-        for card in the_deck.plan:
-            render.render_card(card, the_deck.default_card)
+        for card in self.deck.plan:
+            render.render_card(card, self.deck.default_card)
         # misc
-        for card in the_deck.misc:
-            render.render_card(card, the_deck.default_card)
+        for card in self.deck.misc:
+            render.render_card(card, self.deck.default_card)
         # characters
-        for card in the_deck.characters:
-            render.render_card(card, the_deck.default_card)
+        for card in self.deck.characters:
+            render.render_card(card, self.deck.default_card)
         # reference card
-        render.render_card(the_deck.icon_reference, the_deck.default_card)
+        render.render_card(self.deck.icon_reference, self.deck.default_card)
         # locations
-        for location in the_deck.locations:
+        for location in self.deck.locations:
+            self.cur_location = location
             for card in location.cards:
-                render.render_card(card, the_deck.default_location_card)
+                render.render_card(card, self.deck.default_location_card)
+            self.cur_location = None
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Generate T.I.M.E Stories cards from art assets.')
@@ -299,6 +370,6 @@ if __name__ == '__main__':
 
     # set up the renderer
     render = Renderer(deck, outdir)
-    render.render_deck(deck)
+    render.render_deck()
 
     sys.exit(0)
