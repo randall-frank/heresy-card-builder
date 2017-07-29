@@ -247,6 +247,7 @@ class Style(Base):
         self.bordercolor = [0, 0, 0, 255]
         self.textcolor = [0, 0, 0, 255]
         self.linestyle = "solid"
+        self.justification = "full"
 
     @classmethod
     def from_element(cls, elem):
@@ -254,6 +255,7 @@ class Style(Base):
         obj = Style(str(name))
         obj.load_attrib_string(elem, "typeface", "Arial")
         obj.load_attrib_string(elem, "linestyle")
+        obj.load_attrib_string(elem, "justification")
         obj.load_attrib_obj(elem, "fillcolor")
         obj.load_attrib_obj(elem, "bordercolor")
         obj.load_attrib_obj(elem, "textcolor")
@@ -264,6 +266,7 @@ class Style(Base):
     def to_element(self, doc, elem):
         self.save_attrib_string(doc, elem, "typeface")
         self.save_attrib_string(doc, elem, "linestyle")
+        self.save_attrib_string(doc, elem, "justification")
         self.save_attrib_obj(doc, elem, "fillcolor")
         self.save_attrib_obj(doc, elem, "bordercolor")
         self.save_attrib_obj(doc, elem, "textcolor")
@@ -385,6 +388,8 @@ class Deck(Base):
         self.default_card = Card("Card Base", xml_tag="defaultcard")
         self.default_item_card = Card("Item Card Base", xml_tag="defaultitemcard")
         self.default_location_card = Card("Location Card Base", xml_tag="defaultlocationcard")
+        # un-numbered cards
+        self.deckcards = list()
         # Proper order of a deck
         self.base = list()  # of Cards
         self.items = list()  # of Cards
@@ -425,7 +430,7 @@ class Deck(Base):
         return default
 
     def find_card(self, name, default=None):
-        for chunk in [self.base, self.items, self.plan, self.misc, self.characters]:
+        for chunk in [self.base, self.items, self.plan, self.misc, self.characters, self.deckcards]:
             for card in chunk:
                 if card.name == name:
                     return card
@@ -438,6 +443,11 @@ class Deck(Base):
         return default
 
     def renumber_entities(self):
+        local_count = 1
+        for card in self.deckcards:
+            card.card_number = 1
+            card.local_card_number = local_count
+            local_count += 1
         global_count = 1
         # card blocks
         for chunk in [self.base, self.items, self.plan, self.misc, self.characters]:
@@ -534,7 +544,8 @@ class Deck(Base):
                     plan=[Card, 'plan', 'card'],
                     misc=[Card, 'misc', 'card'],
                     characters=[Card, 'characters', 'card'],
-                    locations=[Location, 'locations', 'location'])
+                    locations=[Location, 'locations', 'location'],
+                    deckcards=[Card, "deckcards", "card"])
         for tag, v in work.items():
             tmp_root = root.firstChildElement(tag)
             if not tmp_root.isNull():
@@ -579,9 +590,9 @@ class Deck(Base):
         self.default_item_card.to_xml(doc, card_root)
         self.default_location_card.to_xml(doc, card_root)
         self.icon_reference.to_xml(doc, card_root)
-        # lists: base, items,  plan, misc, characters, locations
+        # lists: base, items,  plan, misc, characters, locations, deckcards
         blocks = dict(base=self.base, plan=self.plan, items=self.items, misc=self.misc,
-                      characters=self.characters, locations=self.locations)
+                      characters=self.characters, locations=self.locations, deckcards=self.deckcards)
         for tag, v in blocks.items():
             tag_elem = doc.createElement(tag)  # make an element inside of <cards>
             card_root.appendChild(tag_elem)
@@ -631,6 +642,7 @@ def build_empty_deck(media_dirs=None):
 # 			<bordercolor></bordercolor>
 # 			<textcolor></textcolor>
 # 			<linestyle></linestyle>
+#           <justification></justification>
 # 		</style>
 # 	</assets>
 # 	<cards>
@@ -661,6 +673,9 @@ def build_empty_deck(media_dirs=None):
 # 				<image name="bottom"></image>
 # 			</bottom>
 # 		</defaultlocationcard>
+#       <deckcards>
+# 			<card></card>
+# 		</deckcards>
 # 		<base>
 # 			<card></card>
 # 			<card></card>
