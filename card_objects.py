@@ -87,7 +87,7 @@ class Renderable(Base):
         super(Renderable, self).__init__(name, xml_tag)
         self.order = 0  # Z depth...
         self.rotation = 0
-        self.rectangle = [0, 0, 0, 0]
+        self.rectangle = [0, 0, -1, -1]
 
     def render_object(self):
         return
@@ -229,7 +229,7 @@ class Location(Base):
             if tmp_card is not None:
                 obj.cards.append(tmp_card)
             tmp = tmp.nextSiblingElement('card')
-        return None
+        return obj
 
     def to_element(self, doc, elem):
         for c in self.cards:
@@ -279,14 +279,20 @@ class Image(Base):
     def __init__(self, name):
         super(Image, self).__init__(name, 'image')
         self.file = ''
-        self.rectangle = [0, 0, 0, 0]  # x,y,dx,dy
+        self.rectangle = [0, 0, -1, -1]  # x,y,dx,dy
         self.usage = 'any'
 
     def get_image(self, deck):
         f = deck.find_file(self.file)
         if f is None:
             return None
-        img = f.image.copy(self.rectangle[0], self.rectangle[1], self.rectangle[2], self.rectangle[3])  # QImage
+        w = self.rectangle[2]
+        if w < 0:
+            w = f.image.width()
+        h = self.rectangle[3]
+        if h < 0:
+            h = f.image.height()
+        img = f.image.copy(self.rectangle[0], self.rectangle[1], w, h)  # QImage
         return img
 
     def get_column_info(self, col):
@@ -469,7 +475,7 @@ class Deck(Base):
             location.local_card_number = location_count
             location_count += 1
             local_count = 1
-            for card in location:
+            for card in location.cards:
                 card.card_number = global_count
                 card.local_card_number = local_count
                 global_count += 1
@@ -504,6 +510,7 @@ class Deck(Base):
         doc = QtXml.QDomDocument()
         ok, msg, line, col = doc.setContent(xml)
         if not ok:
+            print("Parsing error {},{}: {}".format(line, col, msg))
             QtWidgets.QApplication.restoreOverrideCursor()
             return False
         deck = doc.firstChildElement("deck")
@@ -625,113 +632,3 @@ def build_empty_deck(media_dirs=None):
     deck.styles.append(Style("default"))
     return deck
 
-# <deck>
-# 	<assets>
-# 	   <file name="name">pngcontent</file>
-#      <image name="name">
-#   		<file>name</file>
-#  			<rect_pix>x0 y0 dx dy</rect_pix>
-#   		<usage>face|badge|token...</usage>
-#   		</locked/>
-#   	</image>
-# 		<style name="name">
-# 			<typeface>name</typeface>
-# 			<typesize>size</typesize>
-# 			<fillcolor></fillcolor>
-# 			<borderthickness></borderthickness>
-# 			<bordercolor></bordercolor>
-# 			<textcolor></textcolor>
-# 			<linestyle></linestyle>
-#           <justification></justification>
-# 		</style>
-# 	</assets>
-# 	<cards>
-# 		<defaultcard>
-# 			<top>
-# 				<image name="top"></image>
-# 				<textblock name="locationname"></textblock>
-# 			</top>
-# 			<bottom>
-# 				<image name="bottom"></image>
-# 			</bottom>
-# 		</defaultcard>
-# 		<defaultitemcard>
-# 			<top>
-# 				<image name="top"></image>
-# 				<textblock name="locationname"></textblock>
-# 			</top>
-# 			<bottom>
-# 				<image name="bottom"></image>
-# 			</bottom>
-# 		</defaultitemcard>
-# 		<defaultlocationcard>
-# 			<top>
-# 				<image name="top"></image>
-# 				<textblock name="locationname"></textblock>
-# 			</top>
-# 			<bottom>
-# 				<image name="bottom"></image>
-# 			</bottom>
-# 		</defaultlocationcard>
-#       <deckcards>
-# 			<card></card>
-# 		</deckcards>
-# 		<base>
-# 			<card></card>
-# 			<card></card>
-# 			<card></card>
-# 			<card></card>
-# 			<card></card>
-# 		</base>
-# 		<iconreference>
-# 			<top></top>
-#           <bottom></bottom>
-# 		</iconreference>
-# 		<characters>
-# 			<card></card>
-# 			<card></card>
-# 			<card></card>
-# 		</characters>
-# 		<plan>
-# 			<card></card>
-# 			<card></card>
-# 			<card></card>
-# 			<card></card>
-# 		</plan>
-# 		<items>
-# 			<card></card>
-# 			<card></card>
-# 		</items>
-# 		<misc>
-# 			<card></card>
-# 			<card></card>
-# 		</misc>
-# 		<locations>
-# 			<location>
-# 				<card></card>
-# 				<card></card>
-# 				<card></card>
-# 			</location>
-# 			<location>
-# 				<card></card>
-# 				<card></card>
-# 				<card></card>
-# 			</location>
-# 		</locations>
-# 	</cards>
-# </deck>
-# <card name="name">
-# 	<top>
-# 		<render_text name="">
-# 			<rotation>angle</rotation>
-# 			<style>style</style>
-# 			<rectangle>x y dx dy</rectangle>
-# 		</render_text>
-# 		<render_image name="">
-# 			<image>name</image>
-# 			<rectangle>x y dx dy</rectangle>
-# 		</render_image>
-# 	</top>
-# 	<bottom>
-# 	</bottom>
-# </card>

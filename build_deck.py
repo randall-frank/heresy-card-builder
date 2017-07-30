@@ -21,6 +21,7 @@ __version__ = "0.2.0.0"
 
 # http://www.makeplayingcards.com
 # 827x1416 - 897x1497=min size with 36pixel borders
+# Tarrot card is 70mmx120mm
 
 
 class Renderer(object):
@@ -89,7 +90,7 @@ class Renderer(object):
         self.image.fill(0)
         self.scene.render(self.painter)
         pathname = os.path.join(self.outdir, "card_{}_{:03}.png".format(face, number))
-        print("Output file: {}".format(pathname))
+        # print("Output file: {}".format(pathname))
         img = self.pad_image()
         img.save(pathname)
 
@@ -148,7 +149,7 @@ class Renderer(object):
         doc = QtGui.QTextDocument()
         font = self.build_font(base_style)
         doc.setDefaultFont(font)
-        doc.setTextWidth(width)
+        #doc.setTextWidth(width)
         text_option = QtGui.QTextOption()
         if base_style.justification == "center":
             text_option.setAlignment(QtCore.Qt.AlignCenter)
@@ -233,8 +234,8 @@ class Renderer(object):
             obj.setX(r.rectangle[0])    # x,y,dx,dy
             obj.setY(r.rectangle[1])
             # compute the bounding box and snag the height for the backdrop...
-            obj.adjustSize()
             height = int(obj.boundingRect().height())
+            width = int(obj.boundingRect().width())
             obj.setRotation(r.rotation)
             objs.append(obj)
             # backdrop
@@ -348,6 +349,7 @@ class Renderer(object):
         render.render_card(self.deck.icon_reference, self.deck.default_card)
         # locations
         for location in self.deck.locations:
+            print("Rendering location {}".format(location.name))
             self.cur_location = location
             for card in location.cards:
                 render.render_card(card, self.deck.default_location_card)
