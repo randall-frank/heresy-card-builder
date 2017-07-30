@@ -2,6 +2,12 @@ The deck format is a fairly simple xml schema that describes a deck of
 cards.  Each card has a top and a bottom face.  Each face can have image,
 text or rectangle renderable items that make up the card visuals.
 
+One can generate the cards for a specific deck with the command line:
+
+python.exe card_builder/build_deck.py example.deck
+
+The Python needs to be 3.x and include the PyQt5 module.
+
 In addition to cards, the deck includes asset entities.  Asset items are
 used by renderable items to declare visual styles and imagery sources.
 A File asset refers to a .png or .jpg file on disk.  An Image asset
