@@ -510,7 +510,7 @@ class Deck(Base):
         doc = QtXml.QDomDocument()
         ok, msg, line, col = doc.setContent(xml)
         if not ok:
-            print("Parsing error {},{}: {}".format(line, col, msg))
+            print("Parsing error on line {}, column {}: {}".format(line, col, msg))
             QtWidgets.QApplication.restoreOverrideCursor()
             return False
         deck = doc.firstChildElement("deck")
