@@ -149,7 +149,6 @@ class Renderer(object):
         doc = QtGui.QTextDocument()
         font = self.build_font(base_style)
         doc.setDefaultFont(font)
-        #doc.setTextWidth(width)
         text_option = QtGui.QTextOption()
         if base_style.justification == "center":
             text_option.setAlignment(QtCore.Qt.AlignCenter)
@@ -162,7 +161,6 @@ class Renderer(object):
         text_option.setWrapMode(QtGui.QTextOption.WordWrap)
         doc.setDefaultTextOption(text_option)
         cursor = QtGui.QTextCursor(doc)
-        #cursor.block().layout().setTextOption(text_option)
         text = self.replace_macros(text)
         # Break the text into blocks as styles change
         # {s:style_name} - pick another style
@@ -178,7 +176,6 @@ class Renderer(object):
                 break
             # send text up to the format
             cursor.insertText(text[:start], text_format)
-            #cursor.block().layout().setTextOption(text_option)
             # update the style and the remaining text
             style = self.deck.find_style(text[start+3:start+end], default=base_style)
             text_format = self.build_text_format(style)
@@ -186,7 +183,6 @@ class Renderer(object):
         # send the remaining text in the last format
         if len(text):
             cursor.insertText(text, text_format)
-            #cursor.block().layout().setTextOption(text_option)
         return doc
 
     def build_text_format(self, style):
@@ -219,25 +215,47 @@ class Renderer(object):
     def make_gfx_items(self, r):
         objs = list()
         # return a list of QGraphicsItem objects in order top to bottom
-        if isinstance(r, card_objects.TextRender):
-            # actual text item
-            obj = QtWidgets.QGraphicsTextItem()
-            base_style = self.deck.find_style(r.style)
-            doc = self.build_text_document(r.text, base_style, r.rectangle[2])
-            # some defaults
-            obj.setDefaultTextColor(QtGui.QColor(base_style.textcolor[0],
-                                                 base_style.textcolor[1],
-                                                 base_style.textcolor[2],
-                                                 base_style.textcolor[3]))
-            obj.setDocument(doc)
-            obj.setTextWidth(r.rectangle[2])
-            obj.setX(r.rectangle[0])    # x,y,dx,dy
-            obj.setY(r.rectangle[1])
-            # compute the bounding box and snag the height for the backdrop...
-            height = int(obj.boundingRect().height())
-            width = int(obj.boundingRect().width())
-            obj.setRotation(r.rotation)
-            objs.append(obj)
+        if isinstance(r, card_objects.TextRender) or isinstance(r, card_objects.RectRender):
+            width = r.rectangle[2]
+            height = r.rectangle[3]
+            if isinstance(r, card_objects.TextRender):
+                # actual text item
+                obj = QtWidgets.QGraphicsTextItem()
+                base_style = self.deck.find_style(r.style)
+                doc = self.build_text_document(r.text, base_style, r.rectangle[2])
+                # some defaults
+                obj.setDefaultTextColor(QtGui.QColor(base_style.textcolor[0],
+                                                     base_style.textcolor[1],
+                                                     base_style.textcolor[2],
+                                                     base_style.textcolor[3]))
+                obj.setDocument(doc)
+                obj.setTextWidth(r.rectangle[2])
+                obj.setX(r.rectangle[0])    # x,y,dx,dy
+                obj.setY(r.rectangle[1])
+                # compute the bounding box and snag the height for the backdrop...
+                height = int(obj.boundingRect().height())
+                width = int(obj.boundingRect().width())
+                obj.setRotation(r.rotation)
+                objs.append(obj)
+                # handle the 'halo' effect
+                if base_style.linestyle == 'halo':
+                    offsets = [[-1, -1], [-1, 1], [1, -1], [1, 1], [0, 1], [0, -1], [1, 0], [-1, 0]]
+                    tmp = copy.deepcopy(base_style.textcolor)
+                    base_style.textcolor = base_style.bordercolor
+                    doc = self.build_text_document(r.text, base_style, r.rectangle[2])
+                    for pair in offsets:
+                        obj = QtWidgets.QGraphicsTextItem()
+                        obj.setDefaultTextColor(QtGui.QColor(base_style.textcolor[0],
+                                                             base_style.textcolor[1],
+                                                             base_style.textcolor[2],
+                                                             base_style.textcolor[3]))
+                        obj.setDocument(doc)
+                        obj.setTextWidth(r.rectangle[2])
+                        obj.setX(r.rectangle[0] + pair[0]*3)    # x,y,dx,dy
+                        obj.setY(r.rectangle[1] + pair[1]*3)
+                        obj.setRotation(r.rotation)
+                        objs.append(obj)
+                    base_style.textcolor = tmp
             # backdrop
             obj = QtWidgets.QGraphicsRectItem(r.rectangle[0], r.rectangle[1], r.rectangle[2], height)
             obj.setTransformOriginPoint(QtCore.QPointF(r.rectangle[0], r.rectangle[1]))
@@ -248,7 +266,7 @@ class Renderer(object):
             obj.setBrush(QtGui.QBrush(color))
             pen = QtGui.QPen()
             tmp = copy.deepcopy(base_style.bordercolor)
-            if base_style.borderthickness == 0:
+            if (base_style.borderthickness == 0) or (base_style.linestyle == 'halo'):
                 tmp[3] = 0
             color = QtGui.QColor(tmp[0], tmp[1], tmp[2], tmp[3])
             pen.setColor(color)

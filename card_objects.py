@@ -150,6 +150,34 @@ class TextRender(Renderable):
         return True
 
 
+class RectRender(Renderable):
+    def __init__(self, name="text"):
+        super(RectRender, self).__init__(name, 'render_rect')
+        self.style = "default"
+        self.rectangle = [10, 10, 110, 110]
+
+    def get_column_info(self, col):
+        if col != 1:
+            return super(RectRender, self).get_column_info(col)
+        return "%d,%d - %d,%d" % tuple(self.rectangle)
+
+    @classmethod
+    def from_element(cls, elem):
+        obj = RectRender()
+        obj.load_attrib_string(elem, "style")
+        obj.load_attrib_int(elem, "rotation")
+        obj.load_attrib_obj(elem, "rectangle")
+        obj.load_attrib_int(elem, "order")
+        return obj
+
+    def to_element(self, doc, elem):
+        self.save_attrib_string(doc, elem, "style")
+        self.save_attrib_int(doc, elem, "rotation")
+        self.save_attrib_obj(doc, elem, "rectangle")
+        self.save_attrib_int(doc, elem, "order")
+        return True
+
+
 # Essentially, a Face is a list of renderable items.  Right now, text or image items
 # that reference styles and images, along with content.
 class Face(Base):
@@ -173,6 +201,8 @@ class Face(Base):
                 tmp_obj = ImageRender.from_element(tmp)
             elif tag.endswith('text'):
                 tmp_obj = TextRender.from_element(tmp)
+            elif tag.endswith('rect'):
+                tmp_obj = RectRender.from_element(tmp)
             else:
                 tmp_obj = None
             if tmp_obj is not None:
