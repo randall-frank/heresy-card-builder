@@ -124,12 +124,13 @@ class Renderer(object):
                         # by name lookup
                         else:
                             name = macro[offset+1:-1]
-                            if key == 'l':
-                                current = self.deck.find_location(name, default=self.cur_card)
-                            elif key == 'i':
-                                current = self.deck.find_item(name, default=self.cur_card)
-                            else:
-                                current = self.deck.find_card(name, default=self.cur_card)
+                            if len(name):
+                                if key == 'l':
+                                    current = self.deck.find_location(name, default=self.cur_card)
+                                elif key == 'i':
+                                    current = self.deck.find_item(name, default=self.cur_card)
+                                else:
+                                    current = self.deck.find_card(name, default=self.cur_card)
                         if current is not None:
                             # we have a target card
                             if opt == 'N':

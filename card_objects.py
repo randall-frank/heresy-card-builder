@@ -473,7 +473,7 @@ class Deck(Base):
         if self.icon_reference.name == name:
             return self.icon_reference
         for location in self.locations:
-            for card in location:
+            for card in location.cards:
                 if card.name == name:
                     return card
         return default
