@@ -40,6 +40,7 @@ class Renderer(object):
         self.cur_location = None
         self.cur_card = None
         self.output_card_number = 0
+        self.target_card = None
 
     def pad_image(self):
         if self.pad_size == 0:
@@ -342,19 +343,21 @@ class Renderer(object):
         self.render(top_bottom, number)
 
     def render_card(self, the_card, the_background):
-        self.cur_card = the_card
-        print("rendering card number {}: {}".format(self.output_card_number, the_card.name))
-        face = None
-        if the_background is not None:
-            face = the_background.top_face
-        self.render_face(the_card.top_face, face, "top", self.output_card_number)
-        if the_background is not None:
-            face = the_background.bot_face
-        self.render_face(the_card.bot_face, face, "bot", self.output_card_number)
+        if (self.target_card is None) or (self.target_card == self.output_card_number):
+            self.cur_card = the_card
+            print("rendering card number {}: {}".format(self.output_card_number, the_card.name))
+            face = None
+            if the_background is not None:
+                face = the_background.top_face
+            self.render_face(the_card.top_face, face, "top", self.output_card_number)
+            if the_background is not None:
+                face = the_background.bot_face
+            self.render_face(the_card.bot_face, face, "bot", self.output_card_number)
         self.output_card_number += 1
 
-    def render_deck(self):
+    def render_deck(self, target_card=None):
         self.output_card_number = 0
+        self.target_card = target_card
         # Walk all of the cards, rendering them to images
         # misc - the catacomb attackers, success/failure
         # base, items, plan, misc, characters, reference, locations
@@ -392,9 +395,11 @@ if __name__ == '__main__':
     parser.add_argument('cardfile', nargs=1, help='The name of a saved project.')
     parser.add_argument('--version', action='version', version='%(prog)s ' + __version__)
     parser.add_argument('--outdir', default=None, nargs='?', help='The name of a saved project.')
-    parser.add_argument('--pad_width', default=[0], nargs=1, help="Extra border padding for printing.")
+    parser.add_argument('--pad_width', default=0, nargs='?', help="Extra border padding for printing.")
     parser.add_argument('--default_deck', default=None, metavar='dirname', nargs='*',
                         help='Create new deck from images in directories')
+    parser.add_argument('--card', default=None, metavar='card_number', nargs='?',
+                        help='Render a single card')
     args = parser.parse_args()
 
     # bootstrap Qt
@@ -428,9 +433,13 @@ if __name__ == '__main__':
         print("Unable to create output directory {} : {}".format(outdir, str(e)))
         sys.exit(1)
 
+    the_card = None
+    if args.card is not None:
+        the_card = int(args.card)
+        print("Rendering card: {}".format(the_card))
     # set up the renderer
     render = Renderer(deck, outdir)
-    render.pad_size = int(args.pad_width[0])
-    render.render_deck()
+    render.pad_size = int(args.pad_width)
+    render.render_deck(the_card)
 
     sys.exit(0)
