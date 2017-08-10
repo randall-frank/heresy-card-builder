@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8cfc4c4e-5ad7-4556-a225-5ccb4b4d928e" name="Default" comment="All locations laid out, many items.">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/heresy_src.iml" afterPath="$PROJECT_DIR$/.idea/heresy_src.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+    <list default="true" id="8cfc4c4e-5ad7-4556-a225-5ccb4b4d928e" name="Default" comment="Added &quot;Halo&quot; text effect">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build_deck.py" afterPath="$PROJECT_DIR$/build_deck.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/card_objects.py" afterPath="$PROJECT_DIR$/card_objects.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/deck_format.txt" afterPath="$PROJECT_DIR$/deck_format.txt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,7 +17,7 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/heresy_src$card_editor.coverage" NAME="card_editor Coverage Results" MODIFIED="1499017294151" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/heresy$build_deck.coverage" NAME="build_deck Coverage Results" MODIFIED="1500592352087" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/card_builder$build_deck.coverage" NAME="build_deck Coverage Results" MODIFIED="1501719779738" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/card_builder$build_deck.coverage" NAME="build_deck Coverage Results" MODIFIED="1502329307123" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/heresy_src$build_deck.coverage" NAME="build_deck Coverage Results" MODIFIED="1499197641883" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -38,7 +38,7 @@
       <file leaf-file-name="card_editor_main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/card_editor_main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2020">
+            <state relative-caret-position="2100">
               <caret line="105" column="18" lean-forward="false" selection-start-line="105" selection-start-column="18" selection-end-line="105" selection-end-column="18" />
               <folding>
                 <element signature="e#96#120#0" expanded="true" />
@@ -47,11 +47,31 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="deck_format.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/deck_format.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3280">
+              <caret line="164" column="0" lean-forward="false" selection-start-line="164" selection-start-column="0" selection-end-line="164" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="card_objects.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/card_objects.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2420">
+              <caret line="127" column="0" lean-forward="false" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="build_deck.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/build_deck.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20">
-              <caret line="97" column="53" lean-forward="false" selection-start-line="97" selection-start-column="53" selection-end-line="97" selection-end-column="53" />
+            <state relative-caret-position="433">
+              <caret line="441" column="40" lean-forward="false" selection-start-line="441" selection-start-column="40" selection-end-line="441" selection-end-column="40" />
               <folding>
                 <element signature="e#99#114#0" expanded="true" />
               </folding>
@@ -77,7 +97,18 @@
       <find>load_file</find>
       <find>get_image</find>
       <find>solid</find>
+      <find>build_format</find>
+      <find>Renderer</find>
+      <find>render_card</find>
       <find>linestyle</find>
+      <find>justif</find>
+      <find>adjus</find>
+      <find>adjust</find>
+      <find>copyright</find>
+      <find>cha</find>
+      <find>Output file:</find>
+      <find>pa</find>
+      <find>TextRender</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -89,8 +120,10 @@
         <option value="$PROJECT_DIR$/LICENSE" />
         <option value="$PROJECT_DIR$/card_editor.py" />
         <option value="$PROJECT_DIR$/card_editor_main.py" />
-        <option value="$PROJECT_DIR$/card_objects.py" />
         <option value="$PROJECT_DIR$/default.deck" />
+        <option value="$PROJECT_DIR$/../heresy_assets/heresy.deck" />
+        <option value="$PROJECT_DIR$/deck_format.txt" />
+        <option value="$PROJECT_DIR$/card_objects.py" />
         <option value="$PROJECT_DIR$/build_deck.py" />
       </list>
     </option>
@@ -102,8 +135,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="200" />
-    <option name="y" value="9" />
+    <option name="x" value="301" />
+    <option name="y" value="13" />
     <option name="width" value="1440" />
     <option name="height" value="1007" />
   </component>
@@ -111,7 +144,7 @@
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
-      <showMembers ProjectPane="true" />
+      <showMembers />
       <showModules />
       <showLibraryContents />
       <hideEmptyPackages />
@@ -123,24 +156,28 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Project Files">
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
           <expand>
             <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="card_builder" type="cbb8eebc:String" user="card_builder" />
+              <item name="card_builder" type="b2602c69:ProjectViewProjectNode" />
+              <item name="card_builder" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="card_builder" type="b2602c69:ProjectViewProjectNode" />
+              <item name="heresy_assets" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../heresy_assets" />
     <property name="WebServerToolWindowFactoryState" value="false" />
   </component>
   <component name="RunDashboard">
@@ -437,14 +474,56 @@
       <option name="project" value="LOCAL" />
       <updated>1500238134301</updated>
     </task>
-    <task id="LOCAL-00011" summary="All locations laid out, many items.">
-      <created>1501727895381</created>
+    <task id="LOCAL-00011" summary="Proper initial deck.">
+      <created>1501028497430</created>
       <option name="number" value="00011" />
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
-      <updated>1501727895381</updated>
+      <updated>1501028497430</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Macros and inline formatting working.  Word wrap still not ideal.">
+      <created>1501036425204</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1501036425204</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Added text justification and top/bottom (non-counted) cards.">
+      <created>1501368004802</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1501368004802</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Location bug fixes and added many image asset references.">
+      <created>1501444752419</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1501444752419</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Added how to generate the images.">
+      <created>1501448504556</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1501448504556</updated>
+    </task>
+    <task id="LOCAL-00016" summary="A larger number of top cards working now...">
+      <created>1501582560367</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1501582560367</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Added &quot;Halo&quot; text effect">
+      <created>1501633037124</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1501633037124</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TodoView">
@@ -457,17 +536,17 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="200" y="9" width="1440" height="1007" extended-state="0" />
+    <frame x="301" y="13" width="1440" height="1007" extended-state="0" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17668621" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32951945" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32951945" sideWeight="0.503096" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18328446" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295063" sideWeight="0.49710146" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23416965" sideWeight="0.5461877" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28076464" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32951945" sideWeight="0.49690402" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28554362" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19409283" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27001196" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23416965" sideWeight="0.45381233" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295063" sideWeight="0.47971013" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23058543" sideWeight="0.5872434" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17521994" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27001196" sideWeight="0.64882696" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -512,8 +591,15 @@
     <MESSAGE value="update build options." />
     <MESSAGE value="move file filename to an attribute instead of a child." />
     <MESSAGE value="not rendering properly, but it is walking cards..." />
-    <MESSAGE value="All locations laid out, many items." />
-    <option name="LAST_COMMIT_MESSAGE" value="All locations laid out, many items." />
+    <MESSAGE value="Proper initial deck." />
+    <MESSAGE value="Macros and inline formatting working.  Word wrap still not ideal." />
+    <MESSAGE value="Added text justification and top/bottom (non-counted) cards." />
+    <MESSAGE value="Location bug fixes and added many image asset references." />
+    <MESSAGE value="Added how to generate the images." />
+    <MESSAGE value="A larger number of top cards working now..." />
+    <MESSAGE value="Added &quot;Halo&quot; text effect" />
+    <MESSAGE value="Added ability to render a single card." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added ability to render a single card." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -522,31 +608,11 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/card_editor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_editor_main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="1" lean-forward="false" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
-          <folding>
-            <element signature="e#96#120#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/card_objects.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4947">
           <caret line="295" column="18" lean-forward="true" selection-start-line="295" selection-start-column="18" selection-end-line="295" selection-end-column="18" />
-          <folding>
-            <element signature="e#96#109#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -589,9 +655,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2550">
           <caret line="154" column="24" lean-forward="false" selection-start-line="154" selection-start-column="13" selection-end-line="154" selection-end-column="24" />
-          <folding>
-            <element signature="e#96#109#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -644,9 +708,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="12" column="40" lean-forward="false" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
-          <folding>
-            <element signature="e#96#109#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -689,9 +751,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="12" column="40" lean-forward="false" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
-          <folding>
-            <element signature="e#96#109#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -734,9 +794,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="40" lean-forward="false" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
-          <folding>
-            <element signature="e#96#109#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -769,9 +827,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="12" column="40" lean-forward="false" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
-          <folding>
-            <element signature="e#96#109#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -814,9 +870,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="12" column="40" lean-forward="false" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
-          <folding>
-            <element signature="e#96#109#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -859,9 +913,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="12" column="40" lean-forward="false" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
-          <folding>
-            <element signature="e#96#109#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -920,9 +972,10 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/default.deck" />
     <entry file="file://$PROJECT_DIR$/card_editor_main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2020">
+        <state relative-caret-position="2100">
           <caret line="105" column="18" lean-forward="false" selection-start-line="105" selection-start-column="18" selection-end-line="105" selection-end-column="18" />
           <folding>
             <element signature="e#96#120#0" expanded="true" />
@@ -930,21 +983,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/default.deck" />
+    <entry file="file://$PROJECT_DIR$/../heresy_assets/heresy.deck">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="429" column="8" lean-forward="true" selection-start-line="429" selection-start-column="8" selection-end-line="429" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/card_objects.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-573">
-          <caret line="240" column="31" lean-forward="true" selection-start-line="240" selection-start-column="31" selection-end-line="240" selection-end-column="31" />
-          <folding>
-            <element signature="e#96#109#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="2420">
+          <caret line="127" column="0" lean-forward="false" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deck_format.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3280">
+          <caret line="164" column="0" lean-forward="false" selection-start-line="164" selection-start-column="0" selection-end-line="164" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build_deck.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="97" column="53" lean-forward="false" selection-start-line="97" selection-start-column="53" selection-end-line="97" selection-end-column="53" />
+        <state relative-caret-position="433">
+          <caret line="441" column="40" lean-forward="false" selection-start-line="441" selection-start-column="40" selection-end-line="441" selection-end-column="40" />
           <folding>
             <element signature="e#99#114#0" expanded="true" />
           </folding>

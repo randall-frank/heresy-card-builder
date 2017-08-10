@@ -124,12 +124,13 @@ class Renderer(object):
                         # by name lookup
                         else:
                             name = macro[offset+1:-1]
-                            if key == 'l':
-                                current = self.deck.find_location(name, default=self.cur_card)
-                            elif key == 'i':
-                                current = self.deck.find_item(name, default=self.cur_card)
-                            else:
-                                current = self.deck.find_card(name, default=self.cur_card)
+                            if len(name):
+                                if key == 'l':
+                                    current = self.deck.find_location(name, default=self.cur_card)
+                                elif key == 'i':
+                                    current = self.deck.find_item(name, default=self.cur_card)
+                                else:
+                                    current = self.deck.find_card(name, default=self.cur_card)
                         if current is not None:
                             # we have a target card
                             if opt == 'N':
@@ -293,10 +294,23 @@ class Renderer(object):
                     obj.setY(r.rectangle[1])
                     transform = QtGui.QTransform()
                     transform.rotate(r.rotation)
-                    if (r.rectangle[2] > 0) and (r.rectangle[3] > 0):
-                        sx = float(r.rectangle[2])/float(sub_image.width())
-                        sy = float(r.rectangle[3])/float(sub_image.height())
-                        transform.scale(sx, sy)
+                    w = r.rectangle[2]
+                    h = r.rectangle[3]
+                    if w == -1:
+                        w = sub_image.width()
+                    if h == -1:
+                        h = sub_image.height()
+                    if w == -2:
+                        w = sub_image.width()
+                        if h > 0:
+                            w = float(h)/float(sub_image.height()) * float(w)
+                    if h == -2:
+                        h = sub_image.height()
+                        if w > 0:
+                            h = float(w)/float(sub_image.width()) * float(h)
+                    sx = float(w)/float(sub_image.width())
+                    sy = float(h)/float(sub_image.height())
+                    transform.scale(sx, sy)
                     obj.setTransform(transform, False)
                     objs.append(obj)
         return objs

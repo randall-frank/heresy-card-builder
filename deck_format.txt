@@ -156,6 +156,9 @@ Some notes on renderables:
 
 1) all rotations are around the upper left corner of the target renderable item
 2) image dx and dy can be -1, if so, they default to the width and height of the source image asset
+   One of the two values (dx,dy) can also be set to -2.  In that case, the other value (which can be -1) is used
+   to select the isotropic scaling factor for the image and the -2  value will be set to preserve the ratio selected
+   by the other value.
 3) image assets will be scaled to fill the image renderable rectangle
 4) if the height of a text renderable is -1, the height will be selected to hold all of the formatted text
 5) order values specify the compositing order of elements. lower numbered elements are rendered first.
