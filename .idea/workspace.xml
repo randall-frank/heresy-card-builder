@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8cfc4c4e-5ad7-4556-a225-5ccb4b4d928e" name="Default" comment="Added &quot;Halo&quot; text effect">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build_deck.py" afterPath="$PROJECT_DIR$/build_deck.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/card_objects.py" afterPath="$PROJECT_DIR$/card_objects.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/deck_format.txt" afterPath="$PROJECT_DIR$/deck_format.txt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -38,7 +35,7 @@
       <file leaf-file-name="card_editor_main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/card_editor_main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2100">
+            <state relative-caret-position="2020">
               <caret line="105" column="18" lean-forward="false" selection-start-line="105" selection-start-column="18" selection-end-line="105" selection-end-column="18" />
               <folding>
                 <element signature="e#96#120#0" expanded="true" />
@@ -70,8 +67,8 @@
       <file leaf-file-name="build_deck.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/build_deck.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="433">
-              <caret line="441" column="40" lean-forward="false" selection-start-line="441" selection-start-column="40" selection-end-line="441" selection-end-column="40" />
+            <state relative-caret-position="225">
+              <caret line="434" column="0" lean-forward="false" selection-start-line="434" selection-start-column="0" selection-end-line="434" selection-end-column="0" />
               <folding>
                 <element signature="e#99#114#0" expanded="true" />
               </folding>
@@ -156,7 +153,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -173,6 +169,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -523,7 +520,35 @@
       <option name="project" value="LOCAL" />
       <updated>1501633037124</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="added single card rendering.">
+      <created>1502331146607</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1502331146607</updated>
+    </task>
+    <task id="LOCAL-00019" summary="single file update.">
+      <created>1502331208371</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1502331208371</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Added cats.">
+      <created>1502410612992</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1502410612992</updated>
+    </task>
+    <task id="LOCAL-00021" summary="add cat images.">
+      <created>1502411318874</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1502411318874</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TodoView">
@@ -538,11 +563,11 @@
   <component name="ToolWindowManager">
     <frame x="301" y="13" width="1440" height="1007" extended-state="0" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18328446" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19428152" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295063" sideWeight="0.49710146" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23416965" sideWeight="0.5461877" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23416965" sideWeight="0.55498534" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23416965" sideWeight="0.45381233" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23416965" sideWeight="0.44501466" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295063" sideWeight="0.47971013" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23058543" sideWeight="0.5872434" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17521994" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -599,7 +624,11 @@
     <MESSAGE value="A larger number of top cards working now..." />
     <MESSAGE value="Added &quot;Halo&quot; text effect" />
     <MESSAGE value="Added ability to render a single card." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added ability to render a single card." />
+    <MESSAGE value="added single card rendering." />
+    <MESSAGE value="single file update." />
+    <MESSAGE value="Added cats." />
+    <MESSAGE value="add cat images." />
+    <option name="LAST_COMMIT_MESSAGE" value="add cat images." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -975,7 +1004,7 @@
     <entry file="file://$PROJECT_DIR$/default.deck" />
     <entry file="file://$PROJECT_DIR$/card_editor_main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2100">
+        <state relative-caret-position="2020">
           <caret line="105" column="18" lean-forward="false" selection-start-line="105" selection-start-column="18" selection-end-line="105" selection-end-column="18" />
           <folding>
             <element signature="e#96#120#0" expanded="true" />
@@ -1008,8 +1037,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/build_deck.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="433">
-          <caret line="441" column="40" lean-forward="false" selection-start-line="441" selection-start-column="40" selection-end-line="441" selection-end-column="40" />
+        <state relative-caret-position="225">
+          <caret line="434" column="0" lean-forward="false" selection-start-line="434" selection-start-column="0" selection-end-line="434" selection-end-column="0" />
           <folding>
             <element signature="e#99#114#0" expanded="true" />
           </folding>
