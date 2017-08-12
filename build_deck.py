@@ -421,18 +421,18 @@ if __name__ == '__main__':
     if not deck.load(filename):
         print("Unable to read the file: {}\n".format(filename))
         sys.exit(1)
-    # remove and set up the output directory
     outdir = os.path.join(outdir, "generated_cards")
-    try:
-        shutil.rmtree(outdir)
-    except:
-        pass
-    try:
-        os.mkdir(outdir)
-    except Exception as e:
-        print("Unable to create output directory {} : {}".format(outdir, str(e)))
-        sys.exit(1)
-
+    if args.card is None:
+        # remove and set up the output directory
+        try:
+            shutil.rmtree(outdir)
+        except:
+            pass
+        try:
+            os.mkdir(outdir)
+        except Exception as e:
+            print("Unable to create output directory {} : {}".format(outdir, str(e)))
+            sys.exit(1)
     the_card = None
     if args.card is not None:
         the_card = int(args.card)
