@@ -267,10 +267,10 @@ class Renderer(object):
         if isinstance(r, card_objects.TextRender) or isinstance(r, card_objects.RectRender):
             width = r.rectangle[2]
             height = r.rectangle[3]
+            base_style = self.deck.find_style(r.style)
             if isinstance(r, card_objects.TextRender):
                 # actual text item
                 obj = QtWidgets.QGraphicsTextItem()
-                base_style = self.deck.find_style(r.style)
                 doc = self.build_text_document(r.text, base_style, r.rectangle[2])
                 # some defaults
                 obj.setDefaultTextColor(QtGui.QColor(base_style.textcolor[0],
@@ -306,6 +306,8 @@ class Renderer(object):
                         objs.append(obj)
                     base_style.textcolor = tmp
             # backdrop
+            if r.rectangle[3] > 0:
+                height = r.rectangle[3]
             obj = QtWidgets.QGraphicsRectItem(r.rectangle[0], r.rectangle[1], r.rectangle[2], height)
             obj.setTransformOriginPoint(QtCore.QPointF(r.rectangle[0], r.rectangle[1]))
             color = QtGui.QColor(base_style.fillcolor[0],
