@@ -204,27 +204,30 @@ class Renderer(object):
                     image = self.deck.find_image(info[0], default=None)
                     if image is not None:
                         image = image.get_image(self.deck)
-                        try:
-                            dx = int(info[1])
-                            dy = int(info[2])
-                        except:
-                            dx = image.width()
-                            dy = image.height()
-                        if dx == -1:
-                            dx = image.width()
-                        if dy == -1:
-                            dy = image.height()
-                        if dx == -2:
-                            dx = image.width()
-                            if dy > 0:
-                                dx = int(float(dy)/float(image.height()) * float(dx))
-                        if dy == -2:
-                            dy = image.height()
-                            if dx > 0:
-                                dy = int(float(dx)/float(image.width()) * float(dy))
-                        # resize the image
-                        final_image = image.scaled(dx, dy, QtCore.Qt.IgnoreAspectRatio, QtCore.Qt.SmoothTransformation)
-                        cursor.insertImage(final_image)
+                        if image is None:
+                            print("Unable to find pixels for image:".format(info[0]))
+                        else:
+                            try:
+                                dx = int(info[1])
+                                dy = int(info[2])
+                            except:
+                                dx = image.width()
+                                dy = image.height()
+                            if dx == -1:
+                                dx = image.width()
+                            if dy == -1:
+                                dy = image.height()
+                            if dx == -2:
+                                dx = image.width()
+                                if dy > 0:
+                                    dx = int(float(dy)/float(image.height()) * float(dx))
+                            if dy == -2:
+                                dy = image.height()
+                                if dx > 0:
+                                    dy = int(float(dx)/float(image.width()) * float(dy))
+                            # resize the image
+                            final_image = image.scaled(dx, dy, QtCore.Qt.IgnoreAspectRatio, QtCore.Qt.SmoothTransformation)
+                            cursor.insertImage(final_image)
                 else:
                     print("Invalid image token: {}".text[start+3:start+end])
             # remove the {} clause

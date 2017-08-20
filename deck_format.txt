@@ -183,3 +183,5 @@ will look for a card, item or location with the specified name and use that enti
 {s:} = set text formatting back to the style specified in the text renderable
 {s:style_name} = set text formatting to the style with the name "style_name"
 {I:image_name:dx:dy} = insert the image by name and resize to dx,dy}
+
+Unicode characters can be inserted as per XML specification: &#x2022;
