@@ -113,6 +113,7 @@ class Renderer(object):
                 if key == 'n':
                     replacement = "\n"
                 else:
+                    current = self.cur_card
                     opt = macro[2]
                     if opt in 'NnsAa':
                         # get the referenced object
