@@ -113,6 +113,7 @@ class Renderer(object):
                 if key == 'n':
                     replacement = "\n"
                 else:
+                    current = self.cur_card
                     opt = macro[2]
                     if opt in 'NnsAa':
                         # get the referenced object
@@ -168,19 +169,69 @@ class Renderer(object):
         # {s:style_name} - pick another style
         text_format = self.build_text_format(base_style)
         while True:
-            # find the next style change
-            start = text.find("{s:")
+            # find the next style change or image
+            start_style = text.find("{s:")
+            start_image = text.find("{I:")
             # if no more, done looping...
-            if start == -1:
+            if (start_style == -1) and (start_image == -1):
                 break
+            # a style or an image on the left?
+            if (start_style > -1) and (start_image > -1):
+                if start_style < start_image:
+                    start_image = -1
+                else:
+                    start_style = -1
+            # we should only have one or the other
+            if start_style > -1:
+                is_style = True
+                start = start_style
+            elif start_image > -1:
+                is_style = False
+                start = start_image
+            # terminator
             end = text[start:].find("}")
             if end == -1:
                 break
             # send text up to the format
             cursor.insertText(text[:start], text_format)
-            # update the style and the remaining text
-            style = self.deck.find_style(text[start+3:start+end], default=base_style)
-            text_format = self.build_text_format(style)
+            if is_style:
+                # update the style and the remaining text
+                style = self.deck.find_style(text[start+3:start+end], default=base_style)
+                text_format = self.build_text_format(style)
+            else:
+                # parse image:dx:dy
+                info = text[start+3:start+end].split(":")
+                if len(info) == 3:
+                    image = self.deck.find_image(info[0], default=None)
+                    if image is not None:
+                        image = image.get_image(self.deck)
+                        if image is None:
+                            print("Unable to find pixels for image:".format(info[0]))
+                        else:
+                            try:
+                                dx = int(info[1])
+                                dy = int(info[2])
+                            except:
+                                dx = image.width()
+                                dy = image.height()
+                            if dx == -1:
+                                dx = image.width()
+                            if dy == -1:
+                                dy = image.height()
+                            if dx == -2:
+                                dx = image.width()
+                                if dy > 0:
+                                    dx = int(float(dy)/float(image.height()) * float(dx))
+                            if dy == -2:
+                                dy = image.height()
+                                if dx > 0:
+                                    dy = int(float(dx)/float(image.width()) * float(dy))
+                            # resize the image
+                            final_image = image.scaled(dx, dy, QtCore.Qt.IgnoreAspectRatio, QtCore.Qt.SmoothTransformation)
+                            cursor.insertImage(final_image)
+                else:
+                    print("Invalid image token: {}".text[start+3:start+end])
+            # remove the {} clause
             text = text[start+end+1:]
         # send the remaining text in the last format
         if len(text):
@@ -220,10 +271,10 @@ class Renderer(object):
         if isinstance(r, card_objects.TextRender) or isinstance(r, card_objects.RectRender):
             width = r.rectangle[2]
             height = r.rectangle[3]
+            base_style = self.deck.find_style(r.style)
             if isinstance(r, card_objects.TextRender):
                 # actual text item
                 obj = QtWidgets.QGraphicsTextItem()
-                base_style = self.deck.find_style(r.style)
                 doc = self.build_text_document(r.text, base_style, r.rectangle[2])
                 # some defaults
                 obj.setDefaultTextColor(QtGui.QColor(base_style.textcolor[0],
@@ -259,6 +310,8 @@ class Renderer(object):
                         objs.append(obj)
                     base_style.textcolor = tmp
             # backdrop
+            if r.rectangle[3] > 0:
+                height = r.rectangle[3]
             obj = QtWidgets.QGraphicsRectItem(r.rectangle[0], r.rectangle[1], r.rectangle[2], height)
             obj.setTransformOriginPoint(QtCore.QPointF(r.rectangle[0], r.rectangle[1]))
             color = QtGui.QColor(base_style.fillcolor[0],
@@ -421,18 +474,18 @@ if __name__ == '__main__':
     if not deck.load(filename):
         print("Unable to read the file: {}\n".format(filename))
         sys.exit(1)
-    # remove and set up the output directory
     outdir = os.path.join(outdir, "generated_cards")
-    try:
-        shutil.rmtree(outdir)
-    except:
-        pass
-    try:
-        os.mkdir(outdir)
-    except Exception as e:
-        print("Unable to create output directory {} : {}".format(outdir, str(e)))
-        sys.exit(1)
-
+    if args.card is None:
+        # remove and set up the output directory
+        try:
+            shutil.rmtree(outdir)
+        except:
+            pass
+        try:
+            os.mkdir(outdir)
+        except Exception as e:
+            print("Unable to create output directory {} : {}".format(outdir, str(e)))
+            sys.exit(1)
     the_card = None
     if args.card is not None:
         the_card = int(args.card)
