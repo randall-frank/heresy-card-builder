@@ -312,8 +312,13 @@ class Renderer(object):
             # backdrop
             if r.rectangle[3] > 0:
                 height = r.rectangle[3]
-            obj = QtWidgets.QGraphicsRectItem(r.rectangle[0], r.rectangle[1], r.rectangle[2], height)
-            obj.setTransformOriginPoint(QtCore.QPointF(r.rectangle[0], r.rectangle[1]))
+            # "outset" the rectangle by the boundary_offset
+            left = r.rectangle[0] - base_style.boundary_offset
+            top = r.rectangle[1] - base_style.boundary_offset
+            width = r.rectangle[2] + 2*base_style.boundary_offset
+            height += 2*base_style.boundary_offset
+            obj = QtWidgets.QGraphicsRectItem(left, top, width, height)
+            obj.setTransformOriginPoint(QtCore.QPointF(left, top))
             color = QtGui.QColor(base_style.fillcolor[0],
                                  base_style.fillcolor[1],
                                  base_style.fillcolor[2],

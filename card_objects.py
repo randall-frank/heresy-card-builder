@@ -278,6 +278,7 @@ class Style(Base):
         self.textcolor = [0, 0, 0, 255]
         self.linestyle = "solid"
         self.justification = "full"
+        self.boundary_offset = 0
 
     @classmethod
     def from_element(cls, elem):
@@ -291,6 +292,7 @@ class Style(Base):
         obj.load_attrib_obj(elem, "textcolor")
         obj.load_attrib_int(elem, "typesize")
         obj.load_attrib_int(elem, "borderthickness")
+        obj.load_attrib_int(elem, "boundary_offset")
         return obj
 
     def to_element(self, doc, elem):
@@ -302,6 +304,7 @@ class Style(Base):
         self.save_attrib_obj(doc, elem, "textcolor")
         self.save_attrib_int(doc, elem, "typesize")
         self.save_attrib_int(doc, elem, "borderthickness")
+        self.save_attrib_int(doc, elem, "boundary_offset")
         return True
 
 

@@ -38,6 +38,7 @@ Deck structure outline:
 			<textcolor>[0,0,0,255]</textcolor>
 			<linestyle>solid</linestyle>  # solid, dot, dash, dashdot
             <justification>full</justification>   # full, left, right, center
+            <boundary_offset>n</boundary_offset>  # number of pixels to outset background rect outside of text rect
 		</style>
 	</assets>
 	<cards>
