@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="8cfc4c4e-5ad7-4556-a225-5ccb4b4d928e" name="Default" comment="remove the pycharm bits.">
+    <list default="true" id="8cfc4c4e-5ad7-4556-a225-5ccb4b4d928e" name="Default" comment="local update">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/heresy_src.iml" afterPath="$PROJECT_DIR$/.idea/heresy_src.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build_deck.py" afterPath="$PROJECT_DIR$/build_deck.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/card_objects.py" afterPath="$PROJECT_DIR$/card_objects.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/deck_format.txt" afterPath="$PROJECT_DIR$/deck_format.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../heresy_assets/heresy.deck" afterPath="$PROJECT_DIR$/../heresy_assets/heresy.deck" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,7 +26,7 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/heresy_src$build_deck.coverage" NAME="build_deck Coverage Results" MODIFIED="1499197641883" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/heresy_src$card_editor.coverage" NAME="card_editor Coverage Results" MODIFIED="1499017294151" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/card_builder$build_deck.coverage" NAME="build_deck Coverage Results" MODIFIED="1503538876209" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/card_builder$build_deck.coverage" NAME="build_deck Coverage Results" MODIFIED="1507389783752" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/heresy$build_deck.coverage" NAME="build_deck Coverage Results" MODIFIED="1500592352087" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -40,7 +47,7 @@
       <file leaf-file-name="card_editor_main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/card_editor_main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1717">
+            <state relative-caret-position="829">
               <caret line="105" column="18" lean-forward="false" selection-start-line="105" selection-start-column="18" selection-end-line="105" selection-end-column="18" />
               <folding>
                 <element signature="e#96#120#0" expanded="true" />
@@ -52,31 +59,41 @@
       <file leaf-file-name="deck_format.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/deck_format.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3179">
-              <caret line="187" column="0" lean-forward="false" selection-start-line="187" selection-start-column="0" selection-end-line="187" selection-end-column="0" />
+            <state relative-caret-position="538">
+              <caret line="40" column="12" lean-forward="false" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="card_objects.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="card_objects.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/card_objects.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5236">
-              <caret line="314" column="12" lean-forward="false" selection-start-line="314" selection-start-column="8" selection-end-line="314" selection-end-column="17" />
+            <state relative-caret-position="499">
+              <caret line="293" column="50" lean-forward="false" selection-start-line="293" selection-start-column="50" selection-end-line="293" selection-end-column="50" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build_deck.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="build_deck.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/build_deck.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="123" column="20" lean-forward="true" selection-start-line="123" selection-start-column="20" selection-end-line="123" selection-end-column="20" />
+            <state relative-caret-position="593">
+              <caret line="315" column="62" lean-forward="false" selection-start-line="315" selection-start-column="62" selection-end-line="315" selection-end-column="62" />
               <folding>
                 <element signature="e#99#114#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="heresy.deck" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../heresy_assets/heresy.deck">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75089">
+              <caret line="4420" column="39" lean-forward="false" selection-start-line="4420" selection-start-column="39" selection-end-line="4420" selection-end-column="39" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -114,10 +131,14 @@
       <find>justi</find>
       <find>jus</find>
       <find>unic</find>
+      <find>st_dumm</find>
+      <find>boundary_offset</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
+    <option name="ROOT_SYNC" value="SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_COMMON_BRANCH" value="master" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -127,8 +148,8 @@
         <option value="$PROJECT_DIR$/card_editor_main.py" />
         <option value="$PROJECT_DIR$/default.deck" />
         <option value="$PROJECT_DIR$/../heresy_assets/heresy.deck" />
-        <option value="$PROJECT_DIR$/card_objects.py" />
         <option value="$PROJECT_DIR$/deck_format.txt" />
+        <option value="$PROJECT_DIR$/card_objects.py" />
         <option value="$PROJECT_DIR$/build_deck.py" />
       </list>
     </option>
@@ -140,10 +161,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="370" />
-    <option name="y" value="7" />
-    <option name="width" value="1453" />
-    <option name="height" value="998" />
+    <option name="x" value="431" />
+    <option name="y" value="30" />
+    <option name="width" value="2056" />
+    <option name="height" value="1223" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -162,6 +183,7 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -169,11 +191,14 @@
               <item name="card_builder" type="b2602c69:ProjectViewProjectNode" />
               <item name="card_builder" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="card_builder" type="b2602c69:ProjectViewProjectNode" />
+              <item name="heresy_assets" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -181,6 +206,11 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../heresy_assets" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="ChangesBrowser.SHOW_FLATTEN" value="false" />
+  </component>
+  <component name="Push.Settings">
+    <excluded-roots>
+      <path value="$PROJECT_DIR$" />
+    </excluded-roots>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -406,139 +436,6 @@
       <option name="presentableId" value="Default" />
       <updated>1482611788575</updated>
     </task>
-    <task id="LOCAL-00001" summary="initial checkin.">
-      <created>1482611870897</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1482611870897</updated>
-    </task>
-    <task id="LOCAL-00002" summary="initial checkin.">
-      <created>1482611920636</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1482611920636</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Updated license">
-      <created>1482612096287</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1482612096287</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Updated license">
-      <created>1482612247674</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1482612247674</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Add simpler tool">
-      <created>1498953662254</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1498953662254</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Add simpler tool">
-      <created>1499197812000</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1499197812000</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Some graphics item generation bits.">
-      <created>1499223815389</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1499223815389</updated>
-    </task>
-    <task id="LOCAL-00008" summary="update build options.">
-      <created>1500142772757</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1500142772757</updated>
-    </task>
-    <task id="LOCAL-00009" summary="move file filename to an attribute instead of a child.">
-      <created>1500149374130</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1500149374130</updated>
-    </task>
-    <task id="LOCAL-00010" summary="not rendering properly, but it is walking cards...">
-      <created>1500238134301</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1500238134301</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Proper initial deck.">
-      <created>1501028497430</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1501028497430</updated>
-    </task>
-    <task id="LOCAL-00012" summary="Macros and inline formatting working.  Word wrap still not ideal.">
-      <created>1501036425204</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1501036425204</updated>
-    </task>
-    <task id="LOCAL-00013" summary="Added text justification and top/bottom (non-counted) cards.">
-      <created>1501368004802</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1501368004802</updated>
-    </task>
-    <task id="LOCAL-00014" summary="Location bug fixes and added many image asset references.">
-      <created>1501444752419</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1501444752419</updated>
-    </task>
-    <task id="LOCAL-00015" summary="Added how to generate the images.">
-      <created>1501448504556</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1501448504556</updated>
-    </task>
-    <task id="LOCAL-00016" summary="A larger number of top cards working now...">
-      <created>1501582560367</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1501582560367</updated>
-    </task>
-    <task id="LOCAL-00017" summary="Added &quot;Halo&quot; text effect">
-      <created>1501633037124</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1501633037124</updated>
-    </task>
-    <task id="LOCAL-00018" summary="Added &quot;Halo&quot; text effect">
-      <created>1501892538295</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1501892538295</updated>
-    </task>
-    <task id="LOCAL-00019" summary="Added plan card tops.">
-      <created>1501941962553</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1501941962553</updated>
-    </task>
     <task id="LOCAL-00020" summary="Add bottom background, lose/win cards.">
       <created>1502158265050</created>
       <option name="number" value="00020" />
@@ -672,7 +569,217 @@
       <option name="project" value="LOCAL" />
       <updated>1503541832495</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="local update">
+      <created>1503542000719</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1503542000719</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Merge in Marina's changes and fix ASCII issues.">
+      <created>1503543078025</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1503543078025</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Courthouse is in.">
+      <created>1503856855768</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1503856855768</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Added dungeon cards.">
+      <created>1504060675114</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1504060675114</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Added field cards.">
+      <created>1504321546503</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1504321546503</updated>
+    </task>
+    <task id="LOCAL-00044" summary="added catacombs.">
+      <created>1504378201745</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1504378201745</updated>
+    </task>
+    <task id="LOCAL-00045" summary="renamed some files.">
+      <created>1504378262524</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1504378262524</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Improved door.">
+      <created>1504381712216</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1504381712216</updated>
+    </task>
+    <task id="LOCAL-00047" summary="add the laboratory.">
+      <created>1504393522047</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1504393522047</updated>
+    </task>
+    <task id="LOCAL-00048" summary="All Locations are in!">
+      <created>1504452264223</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1504452264223</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Working on the plans.">
+      <created>1504484383059</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1504484383059</updated>
+    </task>
+    <task id="LOCAL-00050" summary="All plan cards in.">
+      <created>1504499126311</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1504499126312</updated>
+    </task>
+    <task id="LOCAL-00051" summary="End game cards done and key to glass puzzle.">
+      <created>1504664515359</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1504664515359</updated>
+    </task>
+    <task id="LOCAL-00052" summary="random encounter and golem cards in.">
+      <created>1504750478844</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1504750478845</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Added the stained glass puzzle.">
+      <created>1504985154126</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1504985154126</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Star charts in place.">
+      <created>1505004188778</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1505004188778</updated>
+    </task>
+    <task id="LOCAL-00055" summary="All cards covered.">
+      <created>1505182892042</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1505182892043</updated>
+    </task>
+    <task id="LOCAL-00056" summary="improved filtering.">
+      <created>1505572755101</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1505572755101</updated>
+    </task>
+    <task id="LOCAL-00057" summary="A couple of small layout issues.">
+      <created>1505961789412</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1505961789412</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Some card cleanup.">
+      <created>1506181217065</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1506181217066</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Merge in more changes.">
+      <created>1506187013604</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1506187013605</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Rework top card boundaries and pic up missing bottle image.">
+      <created>1506480631964</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1506480631964</updated>
+    </task>
+    <task id="LOCAL-00061" summary="customize the judge's responses.">
+      <created>1506793477874</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1506793477875</updated>
+    </task>
+    <task id="LOCAL-00062" summary="second half of the custom stakes.">
+      <created>1506794869239</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1506794869240</updated>
+    </task>
+    <task id="LOCAL-00063" summary="Justin first 70 card update.">
+      <created>1506822760769</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1506822760769</updated>
+    </task>
+    <task id="LOCAL-00064" summary="more rewrites.">
+      <created>1506870503792</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1506870503792</updated>
+    </task>
+    <task id="LOCAL-00065" summary="update end game cards.">
+      <created>1506880002858</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1506880002863</updated>
+    </task>
+    <task id="LOCAL-00066" summary="More typos fixed.">
+      <created>1506881995073</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1506881995073</updated>
+    </task>
+    <task id="LOCAL-00067" summary="done for the day...">
+      <created>1506884360579</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1506884360579</updated>
+    </task>
+    <task id="LOCAL-00068" summary="local update">
+      <created>1506915498421</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1506915498421</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TodoView">
@@ -685,17 +792,17 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="370" y="7" width="1453" height="998" extended-state="0" />
+    <frame x="431" y="30" width="2056" height="1223" extended-state="0" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22900215" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1993988" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295063" sideWeight="0.49710146" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21925753" sideWeight="0.6223977" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3146274" sideWeight="0.6983968" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21925753" sideWeight="0.3776023" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32830626" sideWeight="0.46518305" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22981367" sideWeight="0.43607306" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17503805" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36273292" sideWeight="0.52130896" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3146274" sideWeight="0.3016032" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3278539" sideWeight="0.44655582" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22886422" sideWeight="0.371714" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17402734" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23919043" sideWeight="0.39679357" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -704,6 +811,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32946634" sideWeight="0.49748743" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -723,6 +831,14 @@
               <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
                 <collection />
               </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
             </State>
           </value>
         </entry>
@@ -733,32 +849,32 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added text justification and top/bottom (non-counted) cards." />
-    <MESSAGE value="Location bug fixes and added many image asset references." />
-    <MESSAGE value="Added how to generate the images." />
-    <MESSAGE value="A larger number of top cards working now..." />
-    <MESSAGE value="Added &quot;Halo&quot; text effect" />
-    <MESSAGE value="Added plan card tops." />
-    <MESSAGE value="Add bottom background, lose/win cards." />
-    <MESSAGE value="Remove some corner numbers." />
-    <MESSAGE value="Added books" />
-    <MESSAGE value="Added astronomy." />
-    <MESSAGE value="checkin." />
-    <MESSAGE value="Catacomb images are in." />
-    <MESSAGE value="remove the pycharm bits." />
-    <MESSAGE value="Bottom of several character cards." />
-    <MESSAGE value="Added inline images." />
-    <MESSAGE value="The base cards are in..." />
-    <MESSAGE value="Reference card." />
-    <MESSAGE value="Added familiar cards and added text to the back of location A cards." />
-    <MESSAGE value="Finish location: Path to town..." />
-    <MESSAGE value="Finish out graveyard scene." />
-    <MESSAGE value="Add the inn and fix a macro parsing issue." />
-    <MESSAGE value="Clarified the bishop special ability." />
-    <MESSAGE value="Fixed a typo." />
-    <MESSAGE value="Added Chapel cards." />
-    <MESSAGE value="Added stair image" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added stair image" />
+    <MESSAGE value="added catacombs." />
+    <MESSAGE value="renamed some files." />
+    <MESSAGE value="Improved door." />
+    <MESSAGE value="add the laboratory." />
+    <MESSAGE value="All Locations are in!" />
+    <MESSAGE value="Working on the plans." />
+    <MESSAGE value="All plan cards in." />
+    <MESSAGE value="End game cards done and key to glass puzzle." />
+    <MESSAGE value="random encounter and golem cards in." />
+    <MESSAGE value="Added the stained glass puzzle." />
+    <MESSAGE value="Star charts in place." />
+    <MESSAGE value="All cards covered." />
+    <MESSAGE value="improved filtering." />
+    <MESSAGE value="A couple of small layout issues." />
+    <MESSAGE value="Some card cleanup." />
+    <MESSAGE value="Merge in more changes." />
+    <MESSAGE value="Rework top card boundaries and pic up missing bottle image." />
+    <MESSAGE value="customize the judge's responses." />
+    <MESSAGE value="second half of the custom stakes." />
+    <MESSAGE value="Justin first 70 card update." />
+    <MESSAGE value="more rewrites." />
+    <MESSAGE value="update end game cards." />
+    <MESSAGE value="More typos fixed." />
+    <MESSAGE value="done for the day..." />
+    <MESSAGE value="local update" />
+    <option name="LAST_COMMIT_MESSAGE" value="local update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1124,23 +1240,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/default.deck" />
-    <entry file="file://$PROJECT_DIR$/card_editor_main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1717">
-          <caret line="105" column="18" lean-forward="false" selection-start-line="105" selection-start-column="18" selection-end-line="105" selection-end-column="18" />
-          <folding>
-            <element signature="e#96#120#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../heresy_assets/heresy.deck">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="429" column="8" lean-forward="true" selection-start-line="429" selection-start-column="8" selection-end-line="429" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/card_editor.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -1149,29 +1248,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/card_objects.py">
+    <entry file="file://$PROJECT_DIR$/../heresy_assets/heresy.deck">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5236">
-          <caret line="314" column="12" lean-forward="false" selection-start-line="314" selection-start-column="8" selection-end-line="314" selection-end-column="17" />
+        <state relative-caret-position="75089">
+          <caret line="4420" column="39" lean-forward="false" selection-start-line="4420" selection-start-column="39" selection-end-line="4420" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/deck_format.txt">
+    <entry file="file://$PROJECT_DIR$/card_editor_main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3179">
-          <caret line="187" column="0" lean-forward="false" selection-start-line="187" selection-start-column="0" selection-end-line="187" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="829">
+          <caret line="105" column="18" lean-forward="false" selection-start-line="105" selection-start-column="18" selection-end-line="105" selection-end-column="18" />
+          <folding>
+            <element signature="e#96#120#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build_deck.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="123" column="20" lean-forward="true" selection-start-line="123" selection-start-column="20" selection-end-line="123" selection-end-column="20" />
+        <state relative-caret-position="593">
+          <caret line="315" column="62" lean-forward="false" selection-start-line="315" selection-start-column="62" selection-end-line="315" selection-end-column="62" />
           <folding>
             <element signature="e#99#114#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deck_format.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="538">
+          <caret line="40" column="12" lean-forward="false" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/card_objects.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="499">
+          <caret line="293" column="50" lean-forward="false" selection-start-line="293" selection-start-column="50" selection-end-line="293" selection-end-column="50" />
+          <folding />
         </state>
       </provider>
     </entry>
