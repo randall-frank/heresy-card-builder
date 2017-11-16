@@ -20,7 +20,7 @@ from PyQt5 import QtCore
 __version__ = "0.2.0.0"
 
 # http://www.makeplayingcards.com
-# 827x1416 - 897x1497=min size with 36pixel borders
+# 897x1497=min size with 36pixel safe zone
 # Tarrot card is 70mmx120mm
 
 
@@ -33,6 +33,7 @@ class Renderer(object):
         self.view.setScene(self.scene)
         self.card_size = (945, 1535)
         self.pad_size = 0
+        self.mpc = False
         self.view.setSceneRect(0, 0, self.card_size[0], self.card_size[1])
         self.scene.setSceneRect(self.view.sceneRect())
         self.image = QtGui.QImage(self.scene.sceneRect().size().toSize(), QtGui.QImage.Format_RGBA8888)
@@ -42,11 +43,11 @@ class Renderer(object):
         self.output_card_number = 0
         self.target_card = None
 
-    def pad_image(self):
+    def pad_image(self, input):
         if self.pad_size == 0:
-            return self.image
-        w = self.image.width()
-        h = self.image.height()
+            return input
+        w = input.width()
+        h = input.height()
         s = [self.pad_size*2 + w, self.pad_size*2 + h]
         l = int((s[0] - w) / 2)
         r = int((s[0] - w) - l)
@@ -59,31 +60,31 @@ class Renderer(object):
         # Paint the center rect
         src = QtCore.QRectF(0, 0, w, h)
         tgt = QtCore.QRectF(l, t, w, h)
-        p.drawImage(tgt, self.image, src)
+        p.drawImage(tgt, input, src)
         # Top trapezoid
         src = QtCore.QRectF(0, 0, w, 1)
         f = float(l + r + 1) / float(t - 1)
         for i in range(t):
             tgt = QtCore.QRectF(l - i * f * 0.5 - 1, t - i - 1, w + f * i + 2, 1)
-            p.drawImage(tgt, self.image, src)
+            p.drawImage(tgt, input, src)
         # Bottom trapezoid
         src = QtCore.QRectF(0, h - 1, w, 1)
         f = float(l + r + 1) / float(b - 1)
         for i in range(b):
             tgt = QtCore.QRectF(l - i * f * 0.5 - 1, t + h + i, w + f * i + 2, 1)
-            p.drawImage(tgt, self.image, src)
+            p.drawImage(tgt, input, src)
         # Left trapezoid
         src = QtCore.QRectF(0, 0, 1, h)
         f = float(t + b + 1) / float(l - 1)
         for i in range(l):
             tgt = QtCore.QRectF(l - i - 1, t - i * f * 0.5 - 1, 1, h + f * i + 2)
-            p.drawImage(tgt, self.image, src)
+            p.drawImage(tgt, input, src)
         # Right trapezoid
         src = QtCore.QRectF(w - 1, 0, 1, h)
         f = float(t + b + 1) / float(r - 1)
         for i in range(r):
             tgt = QtCore.QRectF(l + w + i, t - i * f * 0.5 - 1, 1, h + f * i + 2)
-            p.drawImage(tgt, self.image, src)
+            p.drawImage(tgt, input, src)
         p.end()
         return out
 
@@ -92,7 +93,13 @@ class Renderer(object):
         self.scene.render(self.painter)
         pathname = os.path.join(self.outdir, "card_{}_{:03}.png".format(face, number))
         # print("Output file: {}".format(pathname))
-        img = self.pad_image()
+        if self.mpc:
+            # resize to 825x1425
+            self.pad_size = 36
+            tmp = self.image.scaled(825, 1425, QtCore.Qt.IgnoreAspectRatio, QtCore.Qt.SmoothTransformation)
+            img = self.pad_image(tmp)
+        else:
+            img = self.pad_image(self.image)
         img.save(pathname)
 
     def replace_macros(self, text):
@@ -448,6 +455,7 @@ class Renderer(object):
                 render.render_card(card, self.deck.default_location_card)
             self.cur_location = None
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Generate T.I.M.E Stories cards from art assets.')
     parser.add_argument('cardfile', nargs=1, help='The name of a saved project.')
@@ -458,6 +466,8 @@ if __name__ == '__main__':
                         help='Create new deck from images in directories')
     parser.add_argument('--card', default=None, metavar='card_number', nargs='?',
                         help='Render a single card')
+    parser.add_argument('--mpc', action='store_true', default=False,
+                        help="Set up for printing with makeplayingcards.com")
     args = parser.parse_args()
 
     # bootstrap Qt
@@ -497,6 +507,7 @@ if __name__ == '__main__':
         print("Rendering card: {}".format(the_card))
     # set up the renderer
     render = Renderer(deck, outdir)
+    render.mpc = args.mpc
     render.pad_size = int(args.pad_width)
     render.render_deck(the_card)
 
