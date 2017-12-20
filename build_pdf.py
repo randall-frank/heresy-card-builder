@@ -12,6 +12,19 @@ from PyQt5 import QtGui
 from PyQt5 import QtCore
 
 
+def do_card(p, num, w, h, xoffset, yoffset, top):
+    pp = "top"
+    if not top:
+        pp = "bot"
+    s = "card_{}_{:03}.png".format(pp, num)
+    face = QtGui.QImage(s, "png")
+    print("Reading: {}".format(s))
+    # paste
+    src = QtCore.QRectF(0, 0, face.width(), face.height())
+    tgt = QtCore.QRectF(xoffset, yoffset, w, h)
+    p.drawImage(tgt, face, src)
+
+
 if __name__ == '__main__':
 
     # bootstrap Qt
@@ -26,30 +39,59 @@ if __name__ == '__main__':
             break
     print("Num files {}".format(num))
 
+    # Raw numbers
     w = int(945)
     h = int(1535)
 
-    writer = QtGui.QPdfWriter("desk.pdf")
-    writer.setPageSize(QtGui.QPagedPaintDevice.A4)
-    writer.setPageMargins(QtCore.QMargins(30, 30, 30, 30))
+    # MPC numbers
+    w = int(825)
+    h = int(1425)
 
-    painter = QtGui.QPainter(writer)
-    r = painter.rect()
+    writer = QtGui.QPdfWriter("deck.pdf")
+    writer.setPageSize(QtGui.QPagedPaintDevice.Letter)
+    #writer.setPageSize(QtGui.QPagedPaintDevice.A4)
+    writer.setResolution(300)
+    writer.setCreator("build_pdf tool")
+
+    painter = QtGui.QPainter()
+    painter.begin(writer)
+
+    r = painter.viewport()
+    print("rectangle: {} {} {} {}".format(r.left(), r.top(), r.width(), r.height()))
+    pw = r.width()
+    ph = r.height()
+    xspace = (pw - 2*w)/3
+    yspace = (ph - 2*h)/3
+
     done = 0
+    pnum = 1
     while done < num:
+        print("Writing page: {}".format(pnum))
+
+        if done+0 < num:
+            do_card(painter, done+0, w, h, xspace, yspace, True)
+        if done+1 < num:
+            do_card(painter, done+1, w, h, 2*xspace+w, yspace, True)
+        if done+2 < num:
+            do_card(painter, done+2, w, h, xspace, 2*yspace+h, True)
+        if done+3 < num:
+            do_card(painter, done+3, w, h, 2*xspace+w, 2*yspace+h, True)
+        writer.newPage()
+
+        if done+0 < num:
+            do_card(painter, done+0, w, h, 2*xspace+w, yspace, False)
+        if done+1 < num:
+            do_card(painter, done+1, w, h, xspace, yspace, False)
+        if done+2 < num:
+            do_card(painter, done+2, w, h, 2*xspace+w, 2*yspace+h, False)
+        if done+3 < num:
+            do_card(painter, done+3, w, h, xspace, 2*yspace+h, False)
+
+        pnum += 1
         done += 4
+        if done < num:
+            writer.newPage()
+
     painter.end()
 
-    '''
-
-                        s = "card_{}_{:03}.png".format(pp, done)
-                        face = QtGui.QImage(s, "png")
-                        print("Reading: {}".format(s))
-                        # scale
-                        tmp = face.scaled(w, h, QtCore.Qt.IgnoreAspectRatio, QtCore.Qt.SmoothTransformation)
-                        # paste
-                        src = QtCore.QRectF(0, 0, w, h)
-                        tgt = QtCore.QRectF(x*w, y*h, w, h)
-                        p.drawImage(tgt, tmp, src)
-    '''
     sys.exit(0)
