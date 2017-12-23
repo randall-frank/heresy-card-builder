@@ -95,7 +95,7 @@ class Renderer(object):
         # print("Output file: {}".format(pathname))
         if self.mpc:
             # resize to 825x1425
-            self.pad_size = 36
+            #self.pad_size = 36
             tmp = self.image.scaled(825, 1425, QtCore.Qt.IgnoreAspectRatio, QtCore.Qt.SmoothTransformation)
             img = self.pad_image(tmp)
         else:
@@ -467,7 +467,7 @@ if __name__ == '__main__':
     parser.add_argument('--card', default=None, metavar='card_number', nargs='?',
                         help='Render a single card')
     parser.add_argument('--mpc', action='store_true', default=False,
-                        help="Set up for printing with makeplayingcards.com")
+                        help="Set up for printing with makeplayingcards.com (use --pad_width 36")
     args = parser.parse_args()
 
     # bootstrap Qt
