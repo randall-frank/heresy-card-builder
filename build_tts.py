@@ -28,8 +28,14 @@ if __name__ == '__main__':
 
     w = int(945/2)
     h = int(1535/2)
+    w = int(825/2)
+    h = int(1425/2)
     nx = int(5000/w)
     ny = int(5000/h)
+    if nx > 10:
+        nx = 10
+    if ny > 7:
+        ny = 7
     count = nx*ny - 1
     dx = w*nx
     dy = h*ny
