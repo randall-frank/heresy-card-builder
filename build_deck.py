@@ -20,7 +20,7 @@ from build_tts import generate_tts
 
 # Bug: text word wrapping not correct yet
 
-__version__ = "0.2.0.0"
+__version__ = "0.8.0.0"
 
 # http://www.makeplayingcards.com
 # 897x1497=min size with 36pixel safe zone
