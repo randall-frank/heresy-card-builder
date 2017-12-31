@@ -2,7 +2,7 @@
 [Heresy]: http://heresy.mrtrashcan.com
 
 #Heresy Deck Generation Tools
-Copyright &copy; 2017 Randall Frank
+Copyright (C) 2017 Randall Frank
 
 These tools were developed for use with the Heresy series of T.I.M.E Stories
 scenarios.  For more details on the scenarios and how to obtain them, see
@@ -52,14 +52,14 @@ C:\Python35 and the source code to the deck tools where checked out to
 D:\git\card_builder\.  One can build all of the output imagery types using 
 the command line:
 
-<pre>C:\Python35\python.exe D:\git\card_builder\build_deck.py --pdf --tabletop heresy.deck</pre>
+```C:\Python35\python.exe D:\git\card_builder\build_deck.py --pdf --tabletop heresy.deck```
 
 Will create a directory "generated_cards" in the same directory as hersey.deck
 containing all of the output products.  
 
 The complete command line to the tool looks like:
 
-<pre>
+```
 C:\Python35\python.exe D:\git\card_builder\build_deck.py -h
 usage: build_deck.py [-h] [--version] [--outdir [OUTDIR]]
                      [--pad_width [PAD_WIDTH]]
@@ -86,10 +86,9 @@ optional arguments:
   --pdf                 Generate pdf files from the generated cards
   --tabletop            Generate Tabletop Simulator deck images from generated
                         cards
-</pre>
+```
 
 The most useful options are --outdir, --card, --pdf, and --tabletop
-
 
 ###Notes
 The card builder uses the Qt rendering engine to generate card images.
