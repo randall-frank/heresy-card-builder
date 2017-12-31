@@ -16,12 +16,18 @@ scales, rotates and places an Image asset on a card face.  The other
 asset entity is a Style.  Text and rectangle renderable items refer to
 Style assets to define their color and other rendering properties.
 
-Note: all cards are 945x1535 in pixels for a standard Tarot card size
-card (70mmx120mm)
+Note: cards are 825x1425 pixels for a standard Tarot card size
+card (70mmx120mm) @ 300 DPI.
+
+The tool will generate cards at the resolution specified by the <decksize> element and will
+then rescale the cares to 825x1425.  Heresy uses a 945x1535 decksize as this is the size
+used by the Space Cowboys SDK imagery.  In retrospect, it should have been laid out at
+825x1425 resolution.
 
 Deck structure outline:
 
 <deck>
+    <decksize>[825, 1425]</decksize>
     <assets>
 	    <file filename="somefilename.png" name="sample_file_name"/>  # refer to a png/jpg relative to the .deck location
         <image name="image_asset_name">  # define an image asset

@@ -15,6 +15,9 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtGui
 from PyQt5 import QtCore
 
+from build_pdf import generate_pdf
+from build_tts import generate_tts
+
 # Bug: text word wrapping not correct yet
 
 __version__ = "0.2.0.0"
@@ -31,9 +34,8 @@ class Renderer(object):
         self.scene = QtWidgets.QGraphicsScene()
         self.view = QtWidgets.QGraphicsView()
         self.view.setScene(self.scene)
-        self.card_size = (945, 1535)
+        self.card_size = the_deck.get_card_size()
         self.pad_size = 0
-        self.mpc = False
         self.view.setSceneRect(0, 0, self.card_size[0], self.card_size[1])
         self.scene.setSceneRect(self.view.sceneRect())
         self.image = QtGui.QImage(self.scene.sceneRect().size().toSize(), QtGui.QImage.Format_RGBA8888)
@@ -43,11 +45,11 @@ class Renderer(object):
         self.output_card_number = 0
         self.target_card = None
 
-    def pad_image(self, input):
+    def pad_image(self, img):
         if self.pad_size == 0:
-            return input
-        w = input.width()
-        h = input.height()
+            return img
+        w = img.width()
+        h = img.height()
         s = [self.pad_size*2 + w, self.pad_size*2 + h]
         l = int((s[0] - w) / 2)
         r = int((s[0] - w) - l)
@@ -60,31 +62,31 @@ class Renderer(object):
         # Paint the center rect
         src = QtCore.QRectF(0, 0, w, h)
         tgt = QtCore.QRectF(l, t, w, h)
-        p.drawImage(tgt, input, src)
+        p.drawImage(tgt, img, src)
         # Top trapezoid
         src = QtCore.QRectF(0, 0, w, 1)
         f = float(l + r + 1) / float(t - 1)
         for i in range(t):
             tgt = QtCore.QRectF(l - i * f * 0.5 - 1, t - i - 1, w + f * i + 2, 1)
-            p.drawImage(tgt, input, src)
+            p.drawImage(tgt, img, src)
         # Bottom trapezoid
         src = QtCore.QRectF(0, h - 1, w, 1)
         f = float(l + r + 1) / float(b - 1)
         for i in range(b):
             tgt = QtCore.QRectF(l - i * f * 0.5 - 1, t + h + i, w + f * i + 2, 1)
-            p.drawImage(tgt, input, src)
+            p.drawImage(tgt, img, src)
         # Left trapezoid
         src = QtCore.QRectF(0, 0, 1, h)
         f = float(t + b + 1) / float(l - 1)
         for i in range(l):
             tgt = QtCore.QRectF(l - i - 1, t - i * f * 0.5 - 1, 1, h + f * i + 2)
-            p.drawImage(tgt, input, src)
+            p.drawImage(tgt, img, src)
         # Right trapezoid
         src = QtCore.QRectF(w - 1, 0, 1, h)
         f = float(t + b + 1) / float(r - 1)
         for i in range(r):
             tgt = QtCore.QRectF(l + w + i, t - i * f * 0.5 - 1, 1, h + f * i + 2)
-            p.drawImage(tgt, input, src)
+            p.drawImage(tgt, img, src)
         p.end()
         return out
 
@@ -93,9 +95,8 @@ class Renderer(object):
         self.scene.render(self.painter)
         pathname = os.path.join(self.outdir, "card_{}_{:03}.png".format(face, number))
         # print("Output file: {}".format(pathname))
-        if self.mpc:
+        if (self.card_size[0] != 825) or (self.card_size[1] != 1425):
             # resize to 825x1425
-            #self.pad_size = 36
             tmp = self.image.scaled(825, 1425, QtCore.Qt.IgnoreAspectRatio, QtCore.Qt.SmoothTransformation)
             img = self.pad_image(tmp)
         else:
@@ -467,7 +468,11 @@ if __name__ == '__main__':
     parser.add_argument('--card', default=None, metavar='card_number', nargs='?',
                         help='Render a single card')
     parser.add_argument('--mpc', action='store_true', default=False,
-                        help="Set up for printing with makeplayingcards.com (use --pad_width 36")
+                        help="Set up for printing with makeplayingcards.com (same as --pad_width 36)")
+    parser.add_argument('--pdf', action='store_true', default=False,
+                        help="Generate pdf files from the generated cards")
+    parser.add_argument('--tabletop', action='store_true', default=False,
+                        help="Generate Tabletop Simulator deck images from generated cards")
     args = parser.parse_args()
 
     # bootstrap Qt
@@ -478,6 +483,7 @@ if __name__ == '__main__':
         deck = card_objects.build_empty_deck(media_dirs=args.default_deck)
         deck.save(args.cardfile[0])
         sys.exit(0)
+
     print("Reading {}...".format(args.cardfile[0]))
     filename = os.path.abspath(args.cardfile[0])
     directory = os.path.dirname(filename)
@@ -501,14 +507,27 @@ if __name__ == '__main__':
         except Exception as e:
             print("Unable to create output directory {} : {}".format(outdir, str(e)))
             sys.exit(1)
+
     the_card = None
     if args.card is not None:
         the_card = int(args.card)
         print("Rendering card: {}".format(the_card))
+
     # set up the renderer
     render = Renderer(deck, outdir)
-    render.mpc = args.mpc
+    if args.mpc:
+        render.pad_size = 36
     render.pad_size = int(args.pad_width)
     render.render_deck(the_card)
+
+    # generate pdf file(s)
+    if args.pdf:
+        print("Generating PDF files")
+        generate_pdf(render)
+
+    # generate Tabletop Simulator images
+    if args.tabletop:
+        print("Generating Tabletop Simulator files")
+        generate_tts(render)
 
     sys.exit(0)

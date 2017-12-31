@@ -437,6 +437,12 @@ class Deck(Base):
         self.characters = list()  # of Cards
         self.icon_reference = Card("Icon Reference", xml_tag='iconreference')
         self.locations = list()  # of Locations
+        self.card_size = [825, 1425]       #[945, 1535]
+        # 2.75" * 300dpi = 825
+        # 4.75" * 300dpi = 1425
+
+    def get_card_size(self):
+        return self.card_size
 
     def find_file(self, name, default=None):
         for f in self.files:
@@ -548,6 +554,9 @@ class Deck(Base):
             return False
         deck = doc.firstChildElement("deck")
         if not deck.isNull():
+            decksize = deck.firstChildElement("decksize")  # the <decksize> block
+            if not decksize.isNull():
+                self.card_size = eval(str(decksize.text()))
             assets = deck.firstChildElement("assets")  # the <assets> block
             if not assets.isNull():
                 if not self.parse_assets(assets):
@@ -612,6 +621,11 @@ class Deck(Base):
         return True
 
     def to_element(self, doc, elem):  # the deck element
+        # decksize
+        tmp = doc.createElement("decksize")
+        elem.appendChild(tmp)
+        text = doc.createTextNode(self.card_size.__repr__())
+        tmp.appendChild(text)
         # assets
         tmp = doc.createElement("assets")
         elem.appendChild(tmp)

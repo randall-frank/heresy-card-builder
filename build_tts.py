@@ -4,23 +4,18 @@
 # See LICENSE for details
 #
 
-import os
 import os.path
-import sys
-from PyQt5 import QtWidgets
 from PyQt5 import QtGui
 from PyQt5 import QtCore
 
 
-if __name__ == '__main__':
-
-    # bootstrap Qt
-    app = QtWidgets.QApplication(sys.argv)
+def generate_tts(render):
 
     num = 0
     while True:
         s = "card_bot_{:03}.png".format(num)
-        if os.path.exists(s):
+        tmp = os.path.join(render.outdir, s)
+        if os.path.exists(tmp):
             num += 1
         else:
             break
@@ -30,8 +25,15 @@ if __name__ == '__main__':
     h = int(1535/2)
     w = int(825/2)
     h = int(1425/2)
+
+    # 150dpi
+    w = render.card_size[0]*0.5
+    h = render.card_size[1]*0.5
+
+    # maximum texture size should be 5kx5k
     nx = int(5000/w)
     ny = int(5000/h)
+    # and no more that 10 cards by 7 cards
     if nx > 10:
         nx = 10
     if ny > 7:
@@ -51,7 +53,8 @@ if __name__ == '__main__':
                 for x in range(nx):
                     if done < num:
                         s = "card_{}_{:03}.png".format(pp, done)
-                        face = QtGui.QImage(s, "png")
+                        tmp = os.path.join(render.outdir, s)
+                        face = QtGui.QImage(tmp, "png")
                         print("Reading: {}".format(s))
                         # scale
                         tmp = face.scaled(w, h, QtCore.Qt.IgnoreAspectRatio, QtCore.Qt.SmoothTransformation)
@@ -63,8 +66,9 @@ if __name__ == '__main__':
                         done += 1
             p.end()
             s = "deck_{}_{}.png".format(pp, tile)
-            img.save(s, "png")
+            tmp = os.path.join(render.outdir, s)
+            img.save(tmp, "png")
             print("Saving {}".format(s))
             tile += 1
 
-    sys.exit(0)
+    return
