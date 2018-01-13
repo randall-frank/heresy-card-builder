@@ -14,12 +14,13 @@ open source license. See LICENSE for additional Copyright information.
 XML schema and renderable entities details.
 
 ###What can they do?
-The Heresy, Python-based toolset is capable of laying out and rendering cards
-in various forms.  It is capable of generating individual PNG files for the 
-top and bottom of each card in the deck as well as Letter and A4 format PDF 
-files of the whole deck and the composite PNG file deck images used by Tabletop 
-Simulator from the same XML source.  The tool has the ability to pad out a card 
-with the bleeding region needed for printing services like makeplayingcards.com.
+The Heresy, Python-based toolset is capable of laying out and rendering 
+cards in various forms.  It is capable of generating individual PNG files 
+for the top and bottom of each card in the deck as well as Letter and A4 
+format PDF files of the whole deck and the composite PNG file 'deck' images 
+used by Tabletop Simulator from the same XML source.  The tool has the 
+ability to generate cards padded out with the bleeding region needed for 
+printing services like makeplayingcards.com.
 
 ###How do they work?
 The tools work on a 'deck' file, an XML formatted description of a T.I.M.E 
@@ -27,24 +28,32 @@ Stories deck.  A deck contains lists of cards (e.g. Items, plans, characters,
 etc).  Each card contains a set of text or image blocks that can be sized, 
 rotated and placed on the card.  Individual items have the concept of 'depth' 
 which controls the compositing order of the various card elements. Finally, 
-every type of card has a "default" card that it can inherit from as base layer.  
-This makes it very easy to do things like add the item number to all item cards 
-by adding it to the default card with a depth that ensures it is visible over 
-(or under) other content.
+every type of card has a "default" card that it can inherit from as base 
+layer.  This makes it very easy to do things like add the item number to 
+all item cards by adding it to the default card with a depth that ensures 
+it is visible over (or under) other content.
 
-The text item plays a key role. It allows for the application of "styles" to 
-sections of text that are common over all cards (e.g. all item references should 
-be bold and green).  The text item includes a collection of macros that can 
-substitute for actual card names, numbers, letters, etc.  These are computed 
-when the card is rendered and help make sure that moving things around leaves 
-most links intact.
+The deck XML schema describes text styles and images as "assets" that can 
+be referenced by name on the cards. One can even refer to subsections of a 
+source image file as an image, making it very simple to crop out portions 
+of a larger image (or a single image of a location into cards) and use 
+them in additional places. We often import the Space Cowboys' SDK at the 
+start of a new scenario for consistency with other decks.
 
-The deck XML schema describes text styles and images as "assets" that can be 
-referenced by name on the cards. One can even refer to subsections of a source 
-image file as an image, making it very simple to crop out portions of a larger 
-image (or a single image of a location into cards) and use them in additional 
-places. We often import the Space Cowboys' SDK at the start of a new scenario 
-for consistency with other decks.
+At the heart of the deck is the representation of a card face. Every card 
+has a top and a bottom face with a different collection of renderable items. 
+The final rendered card is a composite of the current card items and any 
+items from the default card for the current card type.  The items from the 
+card and the default card are merged and sorted by depth (layers) that 
+determine the order of the item compositing.  There are rectangle, image 
+and text items. The text item plays a key role as much of the story is told 
+through these items. The text item allows for the application of "styles" 
+to sections of text that are common over all cards (e.g. all item references 
+should be bold and green).  Text can include macros that substitute for 
+actual card names, numbers, letters, etc.  These are computed when the card 
+is rendered and help make sure that moving things around leaves most links 
+intact. Image objects can even be embedded (inline) into the text of a text 
+item.  In short enough functionality to cover the needs of the Heresy story.
 
 ###Quick Example
 Suppose one has a file named "hersey.deck", Python 3.5 has been installed in
