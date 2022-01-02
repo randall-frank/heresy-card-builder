@@ -1,6 +1,6 @@
 #
 # T.I.M.E Stories card generator
-# Copyright (C) 2017 Randall Frank
+# Copyright (C) Randall Frank
 # See LICENSE for details
 #
 

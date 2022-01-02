@@ -4,20 +4,337 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8cfc4c4e-5ad7-4556-a225-5ccb4b4d928e" name="Default" comment="local update">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/heresy_src.iml" afterPath="$PROJECT_DIR$/.idea/heresy_src.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build_deck.py" afterPath="$PROJECT_DIR$/build_deck.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/card_objects.py" afterPath="$PROJECT_DIR$/card_objects.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/deck_format.txt" afterPath="$PROJECT_DIR$/deck_format.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../heresy_assets/heresy.deck" afterPath="$PROJECT_DIR$/../heresy_assets/heresy.deck" />
+    <list default="true" id="8cfc4c4e-5ad7-4556-a225-5ccb4b4d928e" name="Default" comment="Updated for makeplayingcards.com support.">
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/.idea/heresy_assets.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/Masters/box_art2.jpg.xar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/arm_badge_100.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/box_art.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/box_art2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/box_graveyard.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/box_path.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_000.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_001.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_002.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_003.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_004.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_005.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_006.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_007.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_008.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_009.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_010.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_011.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_012.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_013.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_014.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_015.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_016.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_017.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_018.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_019.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_020.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_021.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_022.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_023.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_024.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_025.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_026.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_027.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_028.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_029.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_030.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_031.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_032.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_033.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_034.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_035.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_036.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_037.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_038.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_039.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_040.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_041.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_042.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_043.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_044.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_045.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_046.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_047.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_048.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_049.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_050.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_051.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_052.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_053.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_054.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_055.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_056.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_057.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_058.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_059.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_060.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_061.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_062.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_063.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_064.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_065.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_066.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_067.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_068.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_069.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_070.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_071.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_072.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_073.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_074.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_075.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_076.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_077.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_078.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_079.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_080.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_081.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_082.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_083.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_084.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_085.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_086.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_087.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_088.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_089.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_090.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_091.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_092.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_093.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_094.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_095.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_096.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_097.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_098.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_099.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_100.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_101.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_102.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_103.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_104.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_105.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_106.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_107.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_108.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_109.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_110.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_111.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_112.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_113.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_114.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_115.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_116.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_117.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_118.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_119.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_120.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_121.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_122.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_123.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_124.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_125.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_126.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_127.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_128.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_129.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_130.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_131.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_132.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_133.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_134.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_135.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_136.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_137.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_138.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_139.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_140.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_141.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_142.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_143.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_144.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_145.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_146.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_000.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_001.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_002.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_003.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_004.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_005.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_006.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_007.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_008.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_009.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_010.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_011.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_012.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_013.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_014.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_015.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_016.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_017.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_018.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_019.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_020.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_021.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_022.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_023.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_024.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_025.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_026.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_027.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_028.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_029.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_030.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_031.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_032.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_033.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_034.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_035.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_036.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_037.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_038.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_039.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_040.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_041.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_042.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_043.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_044.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_045.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_046.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_047.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_048.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_049.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_050.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_051.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_052.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_053.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_054.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_055.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_056.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_057.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_058.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_059.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_060.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_061.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_062.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_063.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_064.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_065.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_066.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_067.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_068.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_069.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_070.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_071.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_072.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_073.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_074.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_075.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_076.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_077.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_078.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_079.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_080.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_081.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_082.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_083.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_084.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_085.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_086.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_087.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_088.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_089.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_090.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_091.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_092.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_093.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_094.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_095.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_096.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_097.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_098.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_099.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_100.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_101.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_102.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_103.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_104.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_105.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_106.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_107.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_108.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_109.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_110.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_111.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_112.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_113.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_114.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_115.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_116.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_117.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_118.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_119.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_120.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_121.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_122.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_123.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_124.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_125.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_126.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_127.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_128.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_129.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_130.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_131.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_132.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_133.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_134.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_135.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_136.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_137.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_138.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_139.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_140.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_141.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_142.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_143.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_144.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_145.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_146.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/deck_A4.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/deck_Letter.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/deck_bot_0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/deck_bot_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/deck_bot_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/deck_top_0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/deck_top_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/deck_top_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/heresy_box.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/heresy_box.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/heresy_media/Zombie Brute.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/heresy_media/paper2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../heresy_assets/raw_box.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/heresy_src.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/heresy_src.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build_deck.py" beforeDir="false" afterPath="$PROJECT_DIR$/build_deck.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build_pdf.py" beforeDir="false" afterPath="$PROJECT_DIR$/build_pdf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build_tts.py" beforeDir="false" afterPath="$PROJECT_DIR$/build_tts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_editor_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_objects.py" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,80 +342,12 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/heresy_src$build_deck.coverage" NAME="build_deck Coverage Results" MODIFIED="1499197641883" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/heresy_src$card_editor.coverage" NAME="card_editor Coverage Results" MODIFIED="1499017294151" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/card_builder$build_deck.coverage" NAME="build_deck Coverage Results" MODIFIED="1507389783752" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/heresy$build_deck.coverage" NAME="build_deck Coverage Results" MODIFIED="1500592352087" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/card_builder$build_deck.coverage" NAME="build_deck Coverage Results" MODIFIED="1514751210508" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/heresy_src$card_editor.coverage" NAME="card_editor Coverage Results" MODIFIED="1499017294151" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="card_editor.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/card_editor.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="27" lean-forward="false" selection-start-line="7" selection-start-column="10" selection-end-line="8" selection-end-column="27" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="card_editor_main.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/card_editor_main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="829">
-              <caret line="105" column="18" lean-forward="false" selection-start-line="105" selection-start-column="18" selection-end-line="105" selection-end-column="18" />
-              <folding>
-                <element signature="e#96#120#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="deck_format.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/deck_format.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="538">
-              <caret line="40" column="12" lean-forward="false" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="card_objects.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/card_objects.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="499">
-              <caret line="293" column="50" lean-forward="false" selection-start-line="293" selection-start-column="50" selection-end-line="293" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="build_deck.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build_deck.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="593">
-              <caret line="315" column="62" lean-forward="false" selection-start-line="315" selection-start-column="62" selection-end-line="315" selection-end-column="62" />
-              <folding>
-                <element signature="e#99#114#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="heresy.deck" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../heresy_assets/heresy.deck">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75089">
-              <caret line="4420" column="39" lean-forward="false" selection-start-line="4420" selection-start-column="39" selection-end-line="4420" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -109,21 +358,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>QtGui</find>
-      <find>Location</find>
-      <find>Renderable</find>
-      <find>rectangl</find>
-      <find>load_file</find>
-      <find>get_image</find>
-      <find>solid</find>
-      <find>build_format</find>
-      <find>Renderer</find>
-      <find>render_card</find>
-      <find>linestyle</find>
-      <find>justif</find>
-      <find>adjus</find>
-      <find>adjust</find>
-      <find>copyright</find>
       <find>cha</find>
       <find>Output file:</find>
       <find>pa</find>
@@ -133,171 +367,69 @@
       <find>unic</find>
       <find>st_dumm</find>
       <find>boundary_offset</find>
+      <find>pad_size</find>
+      <find>pad_im</find>
+      <find>Calibri</find>
+      <find>Copyright</find>
+      <find>carefully</find>
+      <find>tube with han</find>
+      <find>Uniqu</find>
+      <find>Astronomy Boo</find>
+      <find>Travel</find>
+      <find>copyr</find>
+      <find>if rand</find>
+      <find>Weep</find>
+      <find>random</find>
+      <find>encounter</find>
+      <find>border_item_number</find>
+      <find>nail gun</find>
+      <find>the isabel character ta</find>
+      <find>confront</find>
+      <find>card_size</find>
+      <find>mpc</find>
+      <find>art</find>
     </findStrings>
+    <replaceStrings>
+      <replace />
+      <replace>Carlito</replace>
+    </replaceStrings>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="ROOT_SYNC" value="SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_COMMON_BRANCH" value="master" />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/LICENSE" />
-        <option value="$PROJECT_DIR$/card_editor.py" />
-        <option value="$PROJECT_DIR$/card_editor_main.py" />
-        <option value="$PROJECT_DIR$/default.deck" />
-        <option value="$PROJECT_DIR$/../heresy_assets/heresy.deck" />
-        <option value="$PROJECT_DIR$/deck_format.txt" />
-        <option value="$PROJECT_DIR$/card_objects.py" />
-        <option value="$PROJECT_DIR$/build_deck.py" />
-      </list>
-    </option>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsGulpfileManager">
-    <detection-done>true</detection-done>
-    <sorting>DEFINITION_ORDER</sorting>
-  </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="431" />
-    <option name="y" value="30" />
-    <option name="width" value="2056" />
-    <option name="height" value="1223" />
-  </component>
+  <component name="ProjectId" id="1VywG0SmTTb0BizKXgC3ubqf0fq" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-      <flattenPackages />
-      <showMembers />
-      <showModules />
-      <showLibraryContents />
-      <hideEmptyPackages />
-      <abbreviatePackageNames />
-      <autoscrollToSource />
-      <autoscrollFromSource />
-      <sortByType />
-      <manualOrder />
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="card_builder" type="b2602c69:ProjectViewProjectNode" />
-              <item name="card_builder" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="card_builder" type="b2602c69:ProjectViewProjectNode" />
-              <item name="heresy_assets" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../heresy_assets" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="ChangesBrowser.SHOW_FLATTEN" value="false" />
-  </component>
-  <component name="Push.Settings">
-    <excluded-roots>
-      <path value="$PROJECT_DIR$" />
-    </excluded-roots>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager" selected="Python.build_deck">
-    <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="heresy_src" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="ADDITIONAL_ARGS" value="" />
-    </configuration>
-    <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="heresy_src" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="TARGET" value="" />
-      <option name="SETTINGS_FILE" value="" />
-      <option name="CUSTOM_SETTINGS" value="false" />
-      <option name="USE_OPTIONS" value="false" />
-      <option name="OPTIONS" value="" />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Doctests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="heresy_src" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-    </configuration>
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <arguments />
-      <envs />
-    </configuration>
-    <configuration default="true" type="PyLettuceRunConfigurationType" factoryName="Lettuce">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="heresy_src" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="ADDITIONAL_ARGS" value="" />
-    </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="heresy_src" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -308,79 +440,18 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="heresy_src" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
-    </configuration>
-    <configuration default="true" type="Tox" factoryName="Tox">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <module name="heresy_src" />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerJest" factoryName="Jest">
-      <node-interpreter value="project" />
-      <working-dir value="" />
-      <envs />
-      <scope-kind value="ALL" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
-      <config-file value="" />
-      <node-interpreter value="project" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
-      <method />
-    </configuration>
-    <configuration default="true" type="PyRemoteDebugConfigurationType" factoryName="Python Remote Debug">
-      <module name="" />
-      <option name="PORT" value="0" />
-      <option name="HOST" value="null" />
-      <PathMappingSettings>
-        <option name="pathMappings">
-          <list />
-        </option>
-      </PathMappingSettings>
-      <option name="REDIRECT_OUTPUT" value="true" />
-      <option name="SUSPEND_AFTER_CONNECT" value="true" />
-      <method />
-    </configuration>
-    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
-      <command value="run" />
-      <scripts />
-      <node-interpreter value="project" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Nosetests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="heresy_src" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="_new_regexPattern" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;.&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
     </configuration>
     <configuration name="build_deck" type="PythonConfigurationType" factoryName="Python">
+      <module name="heresy_src" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -391,42 +462,75 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="heresy_src" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/build_deck.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
     </configuration>
     <configuration name="card_editor" type="PythonConfigurationType" factoryName="Python">
+      <module name="heresy_src" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="PYDEVD_LOAD_VALUES_ASYNC" value="True" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="heresy_src" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/card_editor.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
-      <method>
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2">
         <option name="ToolBeforeRunTask" enabled="true" actionId="Tool_External Tools_Build Resource files" />
         <option name="ToolBeforeRunTask" enabled="true" actionId="Tool_External Tools_Build UI files" />
       </method>
     </configuration>
-    <list size="2">
-      <item index="0" class="java.lang.String" itemvalue="Python.card_editor" />
-      <item index="1" class="java.lang.String" itemvalue="Python.build_deck" />
+    <configuration default="true" type="js.build_tools.gulp">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <module name="heresy_src" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_regexPattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.build_deck" />
+      <item itemvalue="Python.card_editor" />
     </list>
   </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="project-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -435,97 +539,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1482611788575</updated>
-    </task>
-    <task id="LOCAL-00020" summary="Add bottom background, lose/win cards.">
-      <created>1502158265050</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1502158265050</updated>
-    </task>
-    <task id="LOCAL-00021" summary="Remove some corner numbers.">
-      <created>1502158724319</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1502158724319</updated>
-    </task>
-    <task id="LOCAL-00022" summary="Added books">
-      <created>1502238306978</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1502238306978</updated>
-    </task>
-    <task id="LOCAL-00023" summary="Added astronomy.">
-      <created>1502238583330</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1502238583330</updated>
-    </task>
-    <task id="LOCAL-00024" summary="checkin.">
-      <created>1502412119058</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1502412119058</updated>
-    </task>
-    <task id="LOCAL-00025" summary="Catacomb images are in.">
-      <created>1502422324458</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1502422324458</updated>
-    </task>
-    <task id="LOCAL-00026" summary="remove the pycharm bits.">
-      <created>1502559772227</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1502559772227</updated>
-    </task>
-    <task id="LOCAL-00027" summary="Bottom of several character cards.">
-      <created>1502565936879</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1502565936879</updated>
-    </task>
-    <task id="LOCAL-00028" summary="Added inline images.">
-      <created>1502580474519</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1502580474519</updated>
-    </task>
-    <task id="LOCAL-00029" summary="The base cards are in...">
-      <created>1502646616546</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1502646616546</updated>
-    </task>
-    <task id="LOCAL-00030" summary="Reference card.">
-      <created>1502672438084</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1502672438084</updated>
-    </task>
-    <task id="LOCAL-00031" summary="Added familiar cards and added text to the back of location A cards.">
-      <created>1503187074011</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1503187074011</updated>
-    </task>
-    <task id="LOCAL-00032" summary="Finish location: Path to town...">
-      <created>1503246059615</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1503246059615</updated>
+      <workItem from="1571789498529" duration="46000" />
+      <workItem from="1571789781457" duration="18000" />
+      <workItem from="1578238553212" duration="27000" />
+      <workItem from="1578238644777" duration="1179000" />
+      <workItem from="1610909355004" duration="150000" />
+      <workItem from="1641156413666" duration="574000" />
     </task>
     <task id="LOCAL-00033" summary="Finish out graveyard scene.">
       <created>1503254845206</created>
@@ -779,7 +798,98 @@
       <option name="project" value="LOCAL" />
       <updated>1506915498421</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="Another rework of the icon reference.">
+      <created>1507767874269</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1507767874269</updated>
+    </task>
+    <task id="LOCAL-00070" summary="Almost all other changes from first playthrough....">
+      <created>1507774743987</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1507774743987</updated>
+    </task>
+    <task id="LOCAL-00071" summary="differentiate the characters a bit more.">
+      <created>1507775188317</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1507775188317</updated>
+    </task>
+    <task id="LOCAL-00072" summary="hypermarket update and no shield_shields.">
+      <created>1507852611343</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1507852611350</updated>
+    </task>
+    <task id="LOCAL-00073" summary="random encounter updates.">
+      <created>1507992777654</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1507992777655</updated>
+    </task>
+    <task id="LOCAL-00074" summary="Changes from Justin play through.">
+      <created>1509305397377</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1509305397377</updated>
+    </task>
+    <task id="LOCAL-00075" summary="Updated for makeplayingcards.com support.">
+      <created>1510802931283</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1510802931283</updated>
+    </task>
+    <task id="LOCAL-00076" summary="Add item number in the margins.">
+      <created>1512922319200</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1512922319201</updated>
+    </task>
+    <task id="LOCAL-00077" summary="PDF conversion tool working.">
+      <created>1513741759906</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1513741759906</updated>
+    </task>
+    <task id="LOCAL-00078" summary="Updated for makeplayingcards.com support.">
+      <created>1513995758119</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1513995758119</updated>
+    </task>
+    <task id="LOCAL-00079" summary="Patches for table top simulator export.">
+      <created>1514003210849</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1514003210849</updated>
+    </task>
+    <task id="LOCAL-00080" summary="Added decksize element.">
+      <created>1514752951167</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1514752951168</updated>
+    </task>
+    <task id="LOCAL-00081" summary="Updated for makeplayingcards.com support.">
+      <created>1515868302427</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1515868302428</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="TodoView">
@@ -791,75 +901,35 @@
       <is-autoscroll-to-source value="true" />
     </todo-panel>
   </component>
-  <component name="ToolWindowManager">
-    <frame x="431" y="30" width="2056" height="1223" extended-state="0" />
-    <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1993988" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295063" sideWeight="0.49710146" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3146274" sideWeight="0.6983968" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3146274" sideWeight="0.3016032" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3278539" sideWeight="0.44655582" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22886422" sideWeight="0.371714" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17402734" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23919043" sideWeight="0.39679357" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32946634" sideWeight="0.49748743" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-    </layout>
-  </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="RECENTLY_FILTERED_USER_GROUPS">
-                <collection />
-              </option>
-              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-                <collection />
-              </option>
-              <option name="COLUMN_ORDER">
-                <list>
-                  <option value="0" />
-                  <option value="1" />
-                  <option value="2" />
-                  <option value="3" />
-                </list>
-              </option>
-            </State>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
           </value>
         </entry>
       </map>
     </option>
   </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
-  </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added catacombs." />
-    <MESSAGE value="renamed some files." />
-    <MESSAGE value="Improved door." />
-    <MESSAGE value="add the laboratory." />
-    <MESSAGE value="All Locations are in!" />
-    <MESSAGE value="Working on the plans." />
-    <MESSAGE value="All plan cards in." />
-    <MESSAGE value="End game cards done and key to glass puzzle." />
-    <MESSAGE value="random encounter and golem cards in." />
-    <MESSAGE value="Added the stained glass puzzle." />
-    <MESSAGE value="Star charts in place." />
     <MESSAGE value="All cards covered." />
     <MESSAGE value="improved filtering." />
     <MESSAGE value="A couple of small layout issues." />
@@ -874,423 +944,17 @@
     <MESSAGE value="More typos fixed." />
     <MESSAGE value="done for the day..." />
     <MESSAGE value="local update" />
-    <option name="LAST_COMMIT_MESSAGE" value="local update" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <option name="time" value="1" />
-    </breakpoint-manager>
-    <watches-manager />
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/card_objects.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4947">
-          <caret line="295" column="18" lean-forward="true" selection-start-line="295" selection-start-column="18" selection-end-line="295" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build_deck.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="52" column="12" lean-forward="true" selection-start-line="52" selection-start-column="12" selection-end-line="52" selection-end-column="12" />
-          <folding>
-            <element signature="e#99#114#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="26" lean-forward="false" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_editor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build_deck.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="37" column="31" lean-forward="true" selection-start-line="37" selection-start-column="31" selection-end-line="37" selection-end-column="31" />
-          <folding>
-            <element signature="e#99#114#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_objects.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2550">
-          <caret line="154" column="24" lean-forward="false" selection-start-line="154" selection-start-column="13" selection-end-line="154" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_editor_main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="1" lean-forward="true" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
-          <folding>
-            <element signature="e#96#120#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="26" lean-forward="false" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_editor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_editor_main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="33" column="59" lean-forward="false" selection-start-line="33" selection-start-column="59" selection-end-line="33" selection-end-column="59" />
-          <folding>
-            <element signature="e#96#120#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build_deck.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="28" column="17" lean-forward="false" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
-          <folding>
-            <element signature="e#99#114#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_objects.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="12" column="40" lean-forward="false" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="26" lean-forward="false" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_editor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_editor_main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="33" column="59" lean-forward="false" selection-start-line="33" selection-start-column="59" selection-end-line="33" selection-end-column="59" />
-          <folding>
-            <element signature="e#96#120#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build_deck.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="28" column="17" lean-forward="false" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
-          <folding>
-            <element signature="e#99#114#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_objects.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="12" column="40" lean-forward="false" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="26" lean-forward="false" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_editor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_editor_main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="33" column="59" lean-forward="false" selection-start-line="33" selection-start-column="59" selection-end-line="33" selection-end-column="59" />
-          <folding>
-            <element signature="e#96#120#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build_deck.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="28" column="17" lean-forward="false" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
-          <folding>
-            <element signature="e#99#114#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_objects.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="40" lean-forward="false" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="26" lean-forward="false" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_editor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build_deck.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="28" column="17" lean-forward="false" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
-          <folding>
-            <element signature="e#99#114#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_objects.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="12" column="40" lean-forward="false" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_editor_main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="33" column="59" lean-forward="false" selection-start-line="33" selection-start-column="59" selection-end-line="33" selection-end-column="59" />
-          <folding>
-            <element signature="e#96#120#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="26" lean-forward="false" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_editor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build_deck.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="28" column="17" lean-forward="false" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
-          <folding>
-            <element signature="e#99#114#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_objects.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="12" column="40" lean-forward="false" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_editor_main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="33" column="59" lean-forward="false" selection-start-line="33" selection-start-column="59" selection-end-line="33" selection-end-column="59" />
-          <folding>
-            <element signature="e#96#120#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="26" lean-forward="false" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_editor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build_deck.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="28" column="17" lean-forward="true" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
-          <folding>
-            <element signature="e#99#114#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_objects.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="12" column="40" lean-forward="false" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_editor_main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding>
-            <element signature="e#96#120#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_editor_res.qrc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_editor_res.py" />
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Untitled.deck" />
-    <entry file="file://$PROJECT_DIR$/LICENSE">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="26" lean-forward="false" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/default.deck" />
-    <entry file="file://$PROJECT_DIR$/card_editor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="27" lean-forward="false" selection-start-line="7" selection-start-column="10" selection-end-line="8" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../heresy_assets/heresy.deck">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75089">
-          <caret line="4420" column="39" lean-forward="false" selection-start-line="4420" selection-start-column="39" selection-end-line="4420" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_editor_main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="829">
-          <caret line="105" column="18" lean-forward="false" selection-start-line="105" selection-start-column="18" selection-end-line="105" selection-end-column="18" />
-          <folding>
-            <element signature="e#96#120#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build_deck.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="593">
-          <caret line="315" column="62" lean-forward="false" selection-start-line="315" selection-start-column="62" selection-end-line="315" selection-end-column="62" />
-          <folding>
-            <element signature="e#99#114#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deck_format.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="538">
-          <caret line="40" column="12" lean-forward="false" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/card_objects.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="499">
-          <caret line="293" column="50" lean-forward="false" selection-start-line="293" selection-start-column="50" selection-end-line="293" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <MESSAGE value="Another rework of the icon reference." />
+    <MESSAGE value="Almost all other changes from first playthrough...." />
+    <MESSAGE value="differentiate the characters a bit more." />
+    <MESSAGE value="hypermarket update and no shield_shields." />
+    <MESSAGE value="random encounter updates." />
+    <MESSAGE value="Changes from Justin play through." />
+    <MESSAGE value="Add item number in the margins." />
+    <MESSAGE value="PDF conversion tool working." />
+    <MESSAGE value="Patches for table top simulator export." />
+    <MESSAGE value="Added decksize element." />
+    <MESSAGE value="Updated for makeplayingcards.com support." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated for makeplayingcards.com support." />
   </component>
 </project>
