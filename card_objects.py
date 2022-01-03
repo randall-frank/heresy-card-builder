@@ -7,10 +7,10 @@
 import base64
 import os
 import os.path
-from PyQt5 import QtXml
-from PyQt5 import QtGui
-from PyQt5 import QtCore
-from PyQt5 import QtWidgets
+from PySide6 import QtXml
+from PySide6 import QtGui
+from PySide6 import QtCore
+from PySide6 import QtWidgets
 
 # these are the core objects that represent a deck of cards to the editor
 

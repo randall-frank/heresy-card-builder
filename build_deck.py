@@ -11,16 +11,16 @@ import os
 import os.path
 import shutil
 import sys
-from PyQt5 import QtWidgets
-from PyQt5 import QtGui
-from PyQt5 import QtCore
+from PySide6 import QtWidgets
+from PySide6 import QtGui
+from PySide6 import QtCore
 
 from build_pdf import generate_pdf
 from build_tts import generate_tts
 
 # Bug: text word wrapping not correct yet
 
-__version__ = "0.8.0.0"
+__version__ = "0.9.0.0"
 
 # http://www.makeplayingcards.com
 # 897x1497=min size with 36pixel safe zone

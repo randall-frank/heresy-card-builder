@@ -4,8 +4,9 @@
 # See LICENSE for details
 #
 
-from PyQt5 import QtCore
-from PyQt5 import QtWidgets
+from datetime import date
+from PySide6 import QtCore
+from PySide6 import QtWidgets
 
 from ui_card_editor_main import Ui_card_editor_main
 import card_objects
@@ -113,10 +114,10 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
     def set_dirty(self, d):
         self._dirty = d
 
-    @QtCore.pyqtSlot()
+    @QtCore.Slot()
     def do_about(self):
         s = "T.I.M.E Stories card editor\n"
-        s += "Copyright (C) 2017 Randall Frank\n"
+        s += f"Copyright (C) 2017-{date.today().year} Randall Frank\n"
         s += "Version: " + self._version
         QtWidgets.QMessageBox.about(self, "Card Editor", s)
 

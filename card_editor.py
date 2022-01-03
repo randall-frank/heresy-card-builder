@@ -6,11 +6,11 @@
 
 import argparse
 import sys
-from PyQt5 import QtWidgets
+from PySide6 import QtWidgets
 from card_editor_main import CardEditorMain
 import platform
 
-__version__ = "0.1.0.0"
+__version__ = "0.3.0.0"
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Edit/process T.I.M.E Stories cards from art assets.')
@@ -30,4 +30,4 @@ if __name__ == '__main__':
     main_win.show()
     if args.cardfile:
         print("Reading {}\n".format(args.cardfile))
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

@@ -323,16 +323,14 @@
       <change afterPath="$PROJECT_DIR$/../heresy_assets/heresy_media/Zombie Brute.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../heresy_assets/heresy_media/paper2.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../heresy_assets/raw_box.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/heresy_src.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/heresy_src.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build_deck.py" beforeDir="false" afterPath="$PROJECT_DIR$/build_deck.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build_pdf.py" beforeDir="false" afterPath="$PROJECT_DIR$/build_pdf.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build_tts.py" beforeDir="false" afterPath="$PROJECT_DIR$/build_tts.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/card_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/card_editor_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_editor_main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_editor_res.qrc" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_res.qrc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/card_objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_objects.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -348,6 +346,9 @@
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -410,6 +411,14 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_COMMON_BRANCH" value="master" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -425,7 +434,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
   </component>
   <component name="RunManager" selected="Python.build_deck">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
@@ -498,6 +507,28 @@
         <option name="ToolBeforeRunTask" enabled="true" actionId="Tool_External Tools_Build UI files" />
       </method>
     </configuration>
+    <configuration name="card_editor_main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="heresy_src" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Python35\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/card_editor_main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="js.build_tools.gulp">
       <node-interpreter>project</node-interpreter>
       <node-options />
@@ -526,7 +557,13 @@
     <list>
       <item itemvalue="Python.build_deck" />
       <item itemvalue="Python.card_editor" />
+      <item itemvalue="Python.card_editor_main" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.card_editor_main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="project-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -544,7 +581,8 @@
       <workItem from="1578238553212" duration="27000" />
       <workItem from="1578238644777" duration="1179000" />
       <workItem from="1610909355004" duration="150000" />
-      <workItem from="1641156413666" duration="574000" />
+      <workItem from="1641156413666" duration="3977000" />
+      <workItem from="1641169641029" duration="156000" />
     </task>
     <task id="LOCAL-00033" summary="Finish out graveyard scene.">
       <created>1503254845206</created>
@@ -956,5 +994,9 @@
     <MESSAGE value="Added decksize element." />
     <MESSAGE value="Updated for makeplayingcards.com support." />
     <option name="LAST_COMMIT_MESSAGE" value="Updated for makeplayingcards.com support." />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/card_builder$card_editor_main.coverage" NAME="card_editor_main Coverage Results" MODIFIED="1641168706733" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/card_builder$build_deck.coverage" NAME="build_deck Coverage Results" MODIFIED="1641168887993" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

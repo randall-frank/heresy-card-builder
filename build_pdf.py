@@ -6,8 +6,8 @@
 
 import os
 import os.path
-from PyQt5 import QtGui
-from PyQt5 import QtCore
+from PySide6 import QtGui
+from PySide6 import QtCore
 
 
 def do_card(p, num, w, h, xoffset, yoffset, top, renderer):
