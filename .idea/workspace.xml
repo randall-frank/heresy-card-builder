@@ -323,15 +323,7 @@
       <change afterPath="$PROJECT_DIR$/../heresy_assets/heresy_media/Zombie Brute.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../heresy_assets/heresy_media/paper2.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../heresy_assets/raw_box.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build_deck.py" beforeDir="false" afterPath="$PROJECT_DIR$/build_deck.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build_pdf.py" beforeDir="false" afterPath="$PROJECT_DIR$/build_pdf.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build_tts.py" beforeDir="false" afterPath="$PROJECT_DIR$/build_tts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card_editor_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card_editor_main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card_editor_res.qrc" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_res.qrc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card_objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_objects.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -583,6 +575,7 @@
       <workItem from="1610909355004" duration="150000" />
       <workItem from="1641156413666" duration="3977000" />
       <workItem from="1641169641029" duration="156000" />
+      <workItem from="1641170022983" duration="216000" />
     </task>
     <task id="LOCAL-00033" summary="Finish out graveyard scene.">
       <created>1503254845206</created>
