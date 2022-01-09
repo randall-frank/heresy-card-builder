@@ -5,10 +5,15 @@
 #
 
 import argparse
-import sys
-from PySide6 import QtWidgets
-from card_editor_main import CardEditorMain
+import logging
 import platform
+import sys
+
+from PySide6 import QtWidgets, QtCore
+
+from card_editor_main import CardEditorMain
+from utilities import qt_message_handler
+
 
 __version__ = "0.3.0.0"
 
@@ -16,8 +21,17 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Edit/process T.I.M.E Stories cards from art assets.')
     parser.add_argument('--version', action='version', version='%(prog)s ' + __version__)
     parser.add_argument('cardfile', nargs='?', default=None, help='The name of a saved project.')
+    parser.add_argument('--verbose', action='store_true', default=False,  help="Enable verbose mode")
+    parser.add_argument('--logfile', default=None,  help="Save console output to the specified file")
     args = parser.parse_args()
+
+    log_level = logging.INFO
+    if args.verbose:
+        log_level = logging.DEBUG
+    logging.basicConfig(filename=args.logfile, level=log_level, format="%(levelname)s: %(message)s")
+
     # bootstrap Qt
+    QtCore.qInstallMessageHandler(qt_message_handler)
     app = QtWidgets.QApplication(sys.argv)
     app.lastWindowClosed.connect(app.quit)
 

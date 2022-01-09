@@ -648,10 +648,10 @@ class Deck(Base):
         blocks = dict(base=self.base, plan=self.plan, items=self.items, misc=self.misc,
                       characters=self.characters, locations=self.locations, deckcards=self.deckcards)
         for tag, v in blocks.items():
-            tag_elem = doc.createElement(tag)  # make an element inside of <cards>
+            tag_elem = doc.createElement(tag)  # make an element inside <cards>
             card_root.appendChild(tag_elem)
             for i in v:
-                i.to_xml(doc, tag_elem)  # write all of the cards into the new element
+                i.to_xml(doc, tag_elem)  # write all the cards into the new element
         return True
 
 
