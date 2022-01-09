@@ -4,6 +4,7 @@
 # See LICENSE for details
 #
 
+import logging
 import os
 import os.path
 from PySide6 import QtGui
@@ -17,7 +18,7 @@ def do_card(p, num, w, h, xoffset, yoffset, top, renderer):
     s = "card_{}_{:03}.png".format(pp, num)
     tmp = os.path.join(renderer.outdir, s)
     face = QtGui.QImage(tmp, "png")
-    print("Reading: {}".format(s))
+    logging.info("Reading: {}".format(s))
     # paste
     src = QtCore.QRectF(0, 0, face.width(), face.height())
     tgt = QtCore.QRectF(xoffset, yoffset, w, h)
@@ -34,7 +35,7 @@ def generate_pdf(renderer):
             num += 1
         else:
             break
-    print("Num files {}".format(num))
+    logging.info("Num files {}".format(num))
 
     # Raw numbers
     w = int(945)
@@ -47,7 +48,7 @@ def generate_pdf(renderer):
     w = renderer.card_size[0]
     h = renderer.card_size[1]
 
-    for pagesize, name in [(QtGui.QPagedPaintDevice.Letter, "Letter"), (QtGui.QPagedPaintDevice.A4, "A4")]:
+    for pagesize, name in [(QtGui.QPageSize.Letter, "Letter"), (QtGui.QPageSize.A4, "A4")]:
         s = "deck_{}.pdf".format(name)
         tmp = os.path.join(renderer.outdir, s)
         writer = QtGui.QPdfWriter(tmp)
@@ -59,7 +60,7 @@ def generate_pdf(renderer):
         painter.begin(writer)
 
         r = painter.viewport()
-        print("{} page rectangle: {} {} {} {}".format(name, r.left(), r.top(), r.width(), r.height()))
+        logging.info("{} page rectangle: {} {} {} {}".format(name, r.left(), r.top(), r.width(), r.height()))
         pw = r.width()
         ph = r.height()
         xspace = (pw - 2*w)/3
@@ -68,7 +69,7 @@ def generate_pdf(renderer):
         done = 0
         pnum = 1
         while done < num:
-            print("Writing page: {}".format(pnum))
+            logging.info("Writing page: {}".format(pnum))
 
             if done+0 < num:
                 do_card(painter, done+0, w, h, xspace, yspace, True, renderer)

@@ -4,6 +4,7 @@
 # See LICENSE for details
 #
 
+import logging
 import os.path
 from PySide6 import QtGui
 from PySide6 import QtCore
@@ -19,7 +20,7 @@ def generate_tts(render):
             num += 1
         else:
             break
-    print("Num files {}".format(num))
+    logging.info("Num files {}".format(num))
 
     w = int(945/2)
     h = int(1535/2)
@@ -55,7 +56,7 @@ def generate_tts(render):
                         s = "card_{}_{:03}.png".format(pp, done)
                         tmp = os.path.join(render.outdir, s)
                         face = QtGui.QImage(tmp, "png")
-                        print("Reading: {}".format(s))
+                        logging.info("Reading: {}".format(s))
                         # scale
                         tmp = face.scaled(w, h, QtCore.Qt.IgnoreAspectRatio, QtCore.Qt.SmoothTransformation)
                         # paste
@@ -68,7 +69,7 @@ def generate_tts(render):
             s = "deck_{}_{}.png".format(pp, tile)
             tmp = os.path.join(render.outdir, s)
             img.save(tmp, "png")
-            print("Saving {}".format(s))
+            logging.info("Saving {}".format(s))
             tile += 1
 
     return

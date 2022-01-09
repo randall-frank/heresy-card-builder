@@ -1,7 +1,7 @@
 
 [Heresy]: http://heresy.mrtrashcan.com
 
-#Heresy Deck Generation Tools
+# Heresy Deck Generation Tools
 Copyright (C) 2017-2022 Randall Frank
 
 These tools were developed for use with the Heresy series of T.I.M.E Stories
@@ -13,7 +13,7 @@ open source license. See LICENSE for additional Copyright information.
 * See the file deck_format.txt for a more detailed description of the deck 
 XML schema and renderable entities details.
 
-###What can they do?
+### What can they do?
 The Heresy, Python-based toolset is capable of laying out and rendering 
 cards in various forms. It is capable of generating individual PNG files 
 for the top and bottom of each card in the deck as well as Letter and A4 
@@ -22,7 +22,7 @@ used by Tabletop Simulator from the same XML source. The tool has the
 ability to generate cards padded out with the bleeding region needed for 
 printing services like makeplayingcards.com.
 
-###How do they work?
+### How do they work?
 The tools work on a 'deck' file, an XML formatted description of a T.I.M.E 
 Stories deck.  A deck contains lists of cards (e.g. Items, plans, characters, 
 etc). Each card contains a set of text or image blocks that can be sized, 
@@ -55,7 +55,7 @@ is rendered and help make sure that moving things around leaves most links
 intact. Image objects can even be embedded (inline) into the text of a text 
 item. In short enough functionality to cover the needs of the Heresy story.
 
-###Quick Example
+### Quick Example
 Suppose one has a file named "hersey.deck", Python 3.8 has been installed in
 C:\Python38 and the source code to the deck tools where checked out to
 D:\git\card_builder\.  One can build the output imagery types using 
@@ -99,8 +99,13 @@ optional arguments:
 
 The most useful options are --outdir, --card, --pdf, and --tabletop
 
-###Notes
+### Notes
 The card builder uses the Qt rendering engine to generate card images.
 If you are using custom TrueType typefaces in your deck, they need to 
 be installed such that the version of Qt used by your Python interpreter
 can access the typeface.
+
+The project is now dependent on Python 3.8 and PySide6.  The project was developed in 
+PyCharm and includes external tools in the IDE configuration to rebuild the .qrc
+and .ui resources into .py files.  Those two files need to be updated before the
+GUI project can be run.

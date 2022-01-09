@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8cfc4c4e-5ad7-4556-a225-5ccb4b4d928e" name="Default" comment="Updated for makeplayingcards.com support.">
+      <change afterPath="$PROJECT_DIR$/card_render.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utilities.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../heresy_assets/.idea/heresy_assets.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../heresy_assets/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../heresy_assets/.idea/misc.xml" afterDir="false" />
@@ -328,9 +330,6 @@
       <change beforePath="$PROJECT_DIR$/build_pdf.py" beforeDir="false" afterPath="$PROJECT_DIR$/build_pdf.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build_tts.py" beforeDir="false" afterPath="$PROJECT_DIR$/build_tts.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/card_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card_editor_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card_editor_main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card_editor_res.qrc" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_res.qrc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/card_objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_objects.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -583,6 +582,8 @@
       <workItem from="1610909355004" duration="150000" />
       <workItem from="1641156413666" duration="3977000" />
       <workItem from="1641169641029" duration="156000" />
+      <workItem from="1641170022983" duration="295000" />
+      <workItem from="1641671932368" duration="6192000" />
     </task>
     <task id="LOCAL-00033" summary="Finish out graveyard scene.">
       <created>1503254845206</created>
