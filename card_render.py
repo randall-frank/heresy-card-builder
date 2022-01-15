@@ -262,7 +262,15 @@ class Renderer(object):
         # typeface and size, convert points to pixels
         dpi = self.card_size[0] / 2.75  # the card is 2.75 inches wide
         # base points on 72dpi
-        font.setPixelSize(style.typesize * (dpi / 72.))
+        pixel_size = style.typesize * (dpi / 72.)
+        # Between Qt5 and Qt6 the default line spacing changed
+        # in Qt5 the leading value is 0, in Qt6 is tends to be
+        # much larger.  So if we see 0, no changes.  If we see
+        # something larger, adjust by a fraction of leading()
+        fm = QtGui.QFontMetrics(font)
+        if fm.leading() > 0.:
+            pixel_size *= (fm.height()/(fm.height() + fm.leading()*0.75))
+        font.setPixelSize(pixel_size)
         font.setBold("bold" in modifiers)
         font.setItalic("italic" in modifiers)
         return font

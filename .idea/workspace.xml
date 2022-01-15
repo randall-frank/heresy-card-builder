@@ -5,332 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8cfc4c4e-5ad7-4556-a225-5ccb4b4d928e" name="Default" comment="Updated for makeplayingcards.com support.">
-      <change afterPath="$PROJECT_DIR$/card_render.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utilities.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/.idea/heresy_assets.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/Masters/box_art2.jpg.xar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/arm_badge_100.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/box_art.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/box_art2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/box_graveyard.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/box_path.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_001.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_002.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_003.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_004.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_005.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_006.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_007.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_008.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_009.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_010.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_011.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_012.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_013.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_014.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_015.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_016.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_017.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_018.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_019.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_020.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_021.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_022.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_023.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_024.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_025.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_026.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_027.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_028.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_029.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_030.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_031.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_032.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_033.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_034.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_035.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_036.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_037.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_038.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_039.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_040.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_041.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_042.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_043.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_044.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_045.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_046.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_047.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_048.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_049.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_050.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_051.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_052.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_053.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_054.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_055.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_056.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_057.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_058.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_059.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_060.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_061.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_062.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_063.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_064.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_065.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_066.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_067.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_068.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_069.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_070.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_071.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_072.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_073.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_074.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_075.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_076.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_077.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_078.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_079.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_080.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_081.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_082.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_083.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_084.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_085.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_086.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_087.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_088.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_089.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_090.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_091.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_092.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_093.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_094.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_095.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_096.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_097.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_098.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_099.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_100.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_101.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_102.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_103.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_104.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_105.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_106.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_107.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_108.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_109.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_110.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_111.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_112.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_113.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_114.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_115.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_116.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_117.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_118.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_119.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_120.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_121.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_122.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_123.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_124.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_125.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_126.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_127.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_128.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_129.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_130.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_131.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_132.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_133.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_134.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_135.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_136.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_137.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_138.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_139.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_140.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_141.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_142.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_143.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_144.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_145.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_bot_146.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_001.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_002.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_003.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_004.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_005.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_006.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_007.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_008.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_009.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_010.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_011.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_012.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_013.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_014.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_015.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_016.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_017.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_018.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_019.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_020.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_021.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_022.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_023.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_024.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_025.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_026.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_027.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_028.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_029.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_030.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_031.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_032.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_033.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_034.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_035.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_036.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_037.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_038.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_039.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_040.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_041.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_042.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_043.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_044.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_045.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_046.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_047.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_048.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_049.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_050.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_051.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_052.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_053.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_054.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_055.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_056.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_057.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_058.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_059.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_060.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_061.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_062.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_063.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_064.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_065.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_066.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_067.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_068.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_069.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_070.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_071.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_072.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_073.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_074.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_075.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_076.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_077.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_078.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_079.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_080.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_081.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_082.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_083.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_084.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_085.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_086.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_087.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_088.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_089.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_090.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_091.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_092.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_093.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_094.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_095.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_096.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_097.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_098.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_099.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_100.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_101.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_102.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_103.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_104.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_105.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_106.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_107.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_108.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_109.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_110.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_111.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_112.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_113.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_114.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_115.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_116.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_117.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_118.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_119.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_120.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_121.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_122.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_123.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_124.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_125.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_126.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_127.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_128.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_129.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_130.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_131.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_132.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_133.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_134.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_135.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_136.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_137.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_138.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_139.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_140.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_141.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_142.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_143.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_144.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_145.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/card_top_146.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/deck_A4.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/deck_Letter.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/deck_bot_0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/deck_bot_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/deck_bot_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/deck_top_0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/deck_top_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/generated_cards/deck_top_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/heresy_box.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/heresy_box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/heresy_media/Zombie Brute.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/heresy_media/paper2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../heresy_assets/raw_box.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build_deck.py" beforeDir="false" afterPath="$PROJECT_DIR$/build_deck.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build_pdf.py" beforeDir="false" afterPath="$PROJECT_DIR$/build_pdf.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build_tts.py" beforeDir="false" afterPath="$PROJECT_DIR$/build_tts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card_objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_objects.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_render.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_render.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deck_format.txt" beforeDir="false" afterPath="$PROJECT_DIR$/deck_format.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -406,9 +83,9 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="ROOT_SYNC" value="SYNC" />
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_COMMON_BRANCH" value="master" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="SYNC" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -433,7 +110,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
   <component name="RunManager" selected="Python.build_deck">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
@@ -583,7 +260,11 @@
       <workItem from="1641156413666" duration="3977000" />
       <workItem from="1641169641029" duration="156000" />
       <workItem from="1641170022983" duration="295000" />
-      <workItem from="1641671932368" duration="6192000" />
+      <workItem from="1641671932368" duration="9807000" />
+      <workItem from="1642037971342" duration="2845000" />
+      <workItem from="1642121770922" duration="615000" />
+      <workItem from="1642185251280" duration="1393000" />
+      <workItem from="1642262429086" duration="8491000" />
     </task>
     <task id="LOCAL-00033" summary="Finish out graveyard scene.">
       <created>1503254845206</created>

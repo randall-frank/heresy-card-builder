@@ -1,43 +1,46 @@
 The deck format is a fairly simple xml schema that describes a deck of
-cards.  Each card has a top and a bottom face.  Each face can have image,
-text or rectangle renderable items that make up the card visuals.
+cards.  Each card has a top and a bottom face.  Each face can have a
+collection of image, text or rectangle renderable items that make up
+the card visuals.
 
 One can generate the cards for a specific deck with the command line:
 
 python.exe card_builder/build_deck.py example.deck
 
-The Python needs to be 3.x and include the PyQt5 module.
+The Python needs to be 3.x and include the PySide6 module.
 
-In addition to cards, the deck includes asset entities.  Asset items are
+In addition to cards, the deck includes 'assets'.  Assets are
 used by renderable items to declare visual styles and imagery sources.
-A File asset refers to a .png or .jpg file on disk.  An Image asset
-refers to a specific region of a File asset.  An image renderable item
-scales, rotates and places an Image asset on a card face.  The other
-asset entity is a Style.  Text and rectangle renderable items refer to
-Style assets to define their color and other rendering properties.
+A 'file' asset refers to a .png or .jpg file on disk.  An 'image' asset
+refers to a specific region of a 'file' asset.  Thus, a single 'file'
+asset can be decomposed into many 'image' assets.  An image renderable
+item scales, rotates and places an 'image' asset on a card face.  The other
+asset entity is a 'style'.  Text and rectangle renderable items refer to
+'style' assets to define their color and other rendering properties.
 
 Note: cards are 825x1425 pixels for a standard Tarot card size
 card (70mmx120mm) @ 300 DPI.
 
 The tool will generate cards at the resolution specified by the <decksize> element and will
-then rescale the cares to 825x1425.  Heresy uses a 945x1535 decksize as this is the size
+then rescale the cards to 825x1425.  Heresy uses a 945x1535 decksize as this is the size
 used by the Space Cowboys SDK imagery.  In retrospect, it should have been laid out at
 825x1425 resolution.
 
-Deck structure outline:
+Deck structure outline (note that in several places element values are specified
+using Python list syntax):
 
 <deck>
     <decksize>[825, 1425]</decksize>
     <assets>
 	    <file filename="somefilename.png" name="sample_file_name"/>  # refer to a png/jpg relative to the .deck location
         <image name="image_asset_name">  # define an image asset
-  		    <file>sample_file_name</file>  # name of a file asset
+  		    <file>sample_file_name.png</file>  # name of a file asset
  			<rectangle>[x0,y0,dx,dy]</rectangle>  # rectangles are always in pixels are x,y,dx,dy
   		    <usage>any</usage>  # currently unused
   	    </image>
 		<style name="style_name">
 			<typeface>Arial</typeface>  # the name of a font typeface (can use :bold, :italic suffixes)
-			<typesize>size</typesize>   # the size of the font in points 1/72 of an inch
+			<typesize>size</typesize>   # the size of the font in points (1/72 of an inch)
 			<fillcolor>[255,255,255,255]</fillcolor>  # R,G,B,A [0-255]
 			<borderthickness>1</borderthickness>  # thickness of border in pixels (0=no border)
 			<bordercolor>[0,0,0,255]</bordercolor>
@@ -74,7 +77,7 @@ Deck structure outline:
 			    ...
 			</bottom>
 		</defaultlocationcard>
-        <deckcards>   # This defines a collection of cards that are not number and do not inherit from any default cards
+        <deckcards>   # This defines a collection of cards that are not numbered and do not inherit from any default cards
             {card}
             ...
             {card}
@@ -97,22 +100,22 @@ Deck structure outline:
             ...
             {card}
 		</characters>
-		<plan>  # the character cards.  Inherit from defaultcard
+		<plan>  # the plan cards.  Inherit from defaultcard
             {card}
             ...
             {card}
 		</plan>
-		<items>  # the character cards.  Inherit from defaultitemcard
+		<items>  # the item cards.  Inherit from defaultitemcard
             {card}
             ...
             {card}
 		</items>
-		<misc>  # the character cards.  Inherit from defaultcard
+		<misc>  # misc cards.  Inherit from defaultcard
             {card}
             ...
             {card}
 		</misc>
-		<locations>  # the character cards.  Inherit from defaultlocationcard
+		<locations>  # the location cards.  Inherit from defaultlocationcard
 			<location>
 				{card}
 				...
@@ -131,11 +134,13 @@ The {card} structure, containing a top and bottom face.  Each face includes a li
 
 <card name="card_name">
 	<top>
+	    # in this block, any number of <text> <rect> and <image> items can be specified
+	    # they will be rendered in the order specified by the <order> numbers
 		<text name="text_renderable_name">
 		    <text>The actual text to render</text>  # see notes below
 			<rotation>angle</rotation>
 			<style>style_asset_name</style>  # set the default style
-			<rectangle>[x,y,dx,dy]</rectangle>
+			<rectangle>[x,y,dx,dy]</rectangle>  # in pixels
 			<order>number</order>
 			<rotation>degrees</rotation>
 		</text>
@@ -148,7 +153,7 @@ The {card} structure, containing a top and bottom face.  Each face includes a li
 		</rect>
 		<image name="image_renderable_name">
 			<image>image_asset_name</image>
-			<rectangle>x y dx dy</rectangle>
+			<rectangle>[x,y,dx,dy]</rectangle>
 			<order>number</order>
 			<rotation>degrees</rotation>
 		</image>
@@ -167,7 +172,7 @@ Some notes on renderables:
    to select the isotropic scaling factor for the image and the -2  value will be set to preserve the ratio selected
    by the other value.
 3) image assets will be scaled to fill the image renderable rectangle
-4) if the height of a text renderable is -1, the height will be selected to hold all of the formatted text
+4) if the height of a text renderable is -1, the height will be selected to hold the formatted text
 5) order values specify the compositing order of elements. lower numbered elements are rendered first.
 
 Text renderable text notes.  The text string can contain macros.  A macro take the form {value} and (if valid)
