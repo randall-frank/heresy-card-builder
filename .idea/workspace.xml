@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="8cfc4c4e-5ad7-4556-a225-5ccb4b4d928e" name="Default" comment="Updated for makeplayingcards.com support.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_editor_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_editor_main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_objects.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/card_render.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_render.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deck_format.txt" beforeDir="false" afterPath="$PROJECT_DIR$/deck_format.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -264,7 +266,11 @@
       <workItem from="1642037971342" duration="2845000" />
       <workItem from="1642121770922" duration="615000" />
       <workItem from="1642185251280" duration="1393000" />
-      <workItem from="1642262429086" duration="8491000" />
+      <workItem from="1642262429086" duration="9191000" />
+      <workItem from="1642379989427" duration="3704000" />
+      <workItem from="1642559699785" duration="5263000" />
+      <workItem from="1643165368622" duration="2549000" />
+      <workItem from="1645062331073" duration="5292000" />
     </task>
     <task id="LOCAL-00033" summary="Finish out graveyard scene.">
       <created>1503254845206</created>

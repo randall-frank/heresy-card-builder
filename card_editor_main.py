@@ -9,7 +9,8 @@ from PySide6 import QtCore
 from PySide6 import QtWidgets
 
 from ui_card_editor_main import Ui_card_editor_main
-import card_objects
+from card_objects import build_empty_deck, Deck, Location
+from card_render import Renderer
 
 
 class CEListItem(QtWidgets.QTreeWidgetItem):
@@ -45,11 +46,21 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         self._render_object = None
         self._current_card = None
         self._current_asset = None
-        self._gs_card = QtWidgets.QGraphicsScene()
-        self.gvCard.setScene(self._gs_card)
         self._gs_asset = QtWidgets.QGraphicsScene()
         self.gvAsset.setScene(self._gs_asset)
+        self._renderer = None
+        self._zoom = 1.0
         self.do_new()
+
+    def do_zoom(self):
+        action = self.sender()
+        if action == self.actionZoomOut:
+            self._zoom *= 0.80
+        elif action == self.actionZoomIn:
+            self._zoom *= 1.20
+        elif action == self.actionZoomReset:
+            self._zoom = 1.0
+        self.update_zoom()
 
     def do_new(self):
         if self._deck and self._dirty:
@@ -57,7 +68,8 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
             btn = QtWidgets.QMessageBox.question(self, "Start a new deck", s)
             if btn != QtWidgets.QMessageBox.Yes:
                 return
-        self._deck = card_objects.build_empty_deck()
+        self._deck = build_empty_deck()
+        self._renderer = Renderer(self._deck, parent=self.wCardView)
         self._deck_filename = None
         self._dirty = False
         self.lblInfo.setText("Deck: Untitled")
@@ -100,16 +112,20 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         if len(tmp[0]) == 0:
             return
         filename = tmp[0]
-        tmp = card_objects.Deck()
+        tmp = Deck()
         if not tmp.load(filename):
             QtWidgets.QMessageBox.critical(self, "Unable to load deck",
                                            "An error occurred while loading the deck")
             return
         self._deck = tmp
+        self._renderer = Renderer(self._deck, parent=self.wCardView)
         self._deck_filename = filename
         self.lblInfo.setText("Deck: " + filename)
         self._dirty = False
         self.deck_update()
+
+    def do_frontface(self, b):
+        self.update_card_render()
 
     def set_dirty(self, d):
         self._dirty = d
@@ -146,23 +162,31 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         tw.clear()
         if self._deck is None:
             return
+        self._deck.renumber_entities()
         tmp = CEListItem(self._deck.default_card, can_move=False, can_rename=False)
         tw.addTopLevelItem(tmp)
-        tmp = QtWidgets.QTreeWidgetItem(["Base"])
+        tmp = QtWidgets.QTreeWidgetItem(["Deck cards"])
         tmp.setFlags(QtCore.Qt.ItemIsEnabled)
         tw.addTopLevelItem(tmp)
-        tmp = QtWidgets.QTreeWidgetItem(["Items"])
+        for i in self._deck.deckcards:
+            CEListItem(i, parent=tmp, can_move=True, can_rename=True)
+        tmp = QtWidgets.QTreeWidgetItem(["Base Cards"])
+        tmp.setFlags(QtCore.Qt.ItemIsEnabled)
+        tw.addTopLevelItem(tmp)
+        for i in self._deck.base:
+            CEListItem(i, parent=tmp, can_move=True, can_rename=True)
+        tmp = QtWidgets.QTreeWidgetItem(["Item Cards"])
         tmp.setFlags(QtCore.Qt.ItemIsEnabled)
         tw.addTopLevelItem(tmp)
         CEListItem(self._deck.default_item_card, parent=tmp, can_move=False, can_rename=False)
         for i in self._deck.items:
             CEListItem(i, parent=tmp, can_move=True, can_rename=True)
-        tmp = QtWidgets.QTreeWidgetItem(["Plan"])
+        tmp = QtWidgets.QTreeWidgetItem(["Plan Cards"])
         tmp.setFlags(QtCore.Qt.ItemIsEnabled)
         tw.addTopLevelItem(tmp)
         for p in self._deck.plan:
             CEListItem(p, parent=tmp, can_move=True, can_rename=True)
-        tmp = QtWidgets.QTreeWidgetItem(["Misc"])
+        tmp = QtWidgets.QTreeWidgetItem(["Misc Cards"])
         tmp.setFlags(QtCore.Qt.ItemIsEnabled)
         tw.addTopLevelItem(tmp)
         for c in self._deck.misc:
@@ -247,9 +271,19 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
                 break
 
     def update_card_render(self):
-        self._gs_card.clear()
-        if self._current_card is None:
+        if self._renderer is None:
             return
+        face = "bot"
+        if self.actionFrontFace.isChecked():
+            face = "top"
+        self._renderer.build_card_face_scene(self._current_card, face)
+        self.update_zoom()
+
+    def update_zoom(self):
+        if self._renderer is None:
+            return
+        self._renderer.view.resetTransform()
+        self._renderer.view.scale(self._zoom, self._zoom)
 
     def current_card_changed(self, new, dummy):
         if isinstance(new, CEListItem):

@@ -10,7 +10,9 @@ import os
 
 from PySide6 import QtCore, QtGui, QtWidgets
 
-import card_objects
+from card_objects import Deck, Card, Face, Location
+from card_objects import RectRender, TextRender, ImageRender, Renderable
+from card_objects import Style
 
 # http://www.makeplayingcards.com
 # 897x1497=min size with 36pixel safe zone
@@ -18,24 +20,41 @@ import card_objects
 
 
 class Renderer(object):
-    def __init__(self, the_deck, output_dir):
+    def __init__(self, the_deck: Deck, output_dir: str = "", parent: QtWidgets.QWidget = None):
         self.deck = the_deck
         self.outdir = output_dir
         self.scene = QtWidgets.QGraphicsScene()
-        self.view = QtWidgets.QGraphicsView()
+        self.view = QtWidgets.QGraphicsView(parent)
         self.view.setScene(self.scene)
         self.card_size = the_deck.get_card_size()
         self.pad_size = 0
         self.view.setSceneRect(0, 0, self.card_size[0], self.card_size[1])
         self.scene.setSceneRect(self.view.sceneRect())
-        self.image = QtGui.QImage(self.scene.sceneRect().size().toSize(), QtGui.QImage.Format_RGBA8888)
-        self.painter = QtGui.QPainter(self.image)
-        self.cur_location = None
-        self.cur_card = None
+        self.image = None
+        self.painter = None
+        if parent is None:
+            self.image = QtGui.QImage(self.scene.sceneRect().size().toSize(), QtGui.QImage.Format_RGBA8888)
+            self.painter = QtGui.QPainter(self.image)
+        else:
+            # clear the old layout (if any)
+            layout = parent.layout()
+            if layout:
+                for i in reversed(range(layout.count())):
+                    remove = layout.itemAt(i).widget()
+                    # remove it from the layout list
+                    layout.removeWidget(remove)
+                    # remove it from the gui
+                    remove.setParent(None)
+                parent.setLayout(None)
+            else:
+                layout = QtWidgets.QVBoxLayout()
+                parent.setLayout(layout)
+            layout.addWidget(self.view)
+            self.view.show()
         self.output_card_number = 0
         self.target_card = None
 
-    def pad_image(self, img):
+    def pad_image(self, img: QtGui.QImage) -> QtGui.QImage:
         if self.pad_size == 0:
             return img
         w = img.width()
@@ -80,7 +99,7 @@ class Renderer(object):
         p.end()
         return out
 
-    def render(self, face, number):
+    def render(self, face: str, number: int):
         self.image.fill(0)
         self.scene.render(self.painter)
         pathname = os.path.join(self.outdir, "card_{}_{:03}.png".format(face, number))
@@ -93,7 +112,7 @@ class Renderer(object):
             img = self.pad_image(self.image)
         img.save(pathname)
 
-    def replace_macros(self, text):
+    def replace_macros(self, cur_card: Card, text: str):
         # {XY:name} - ':name' is optional and defaults to 'current'
         # X - c=card, i=item, l=location
         # Y - N=global number, n=local number, s=string name,  A=global letter, a=local letter
@@ -111,26 +130,26 @@ class Renderer(object):
                 if key == 'n':
                     replacement = "\n"
                 else:
-                    current = self.cur_card
+                    current = cur_card
                     opt = macro[2]
                     if opt in 'NnsAa':
                         # get the referenced object
                         offset = macro.find(":")
                         # the "current" object
                         if offset == -1:
-                            current = self.cur_card
+                            current = cur_card
                             if key == 'l':
-                                current = self.cur_location
+                                current = cur_card.location
                         # by name lookup
                         else:
                             name = macro[offset+1:-1]
                             if len(name):
                                 if key == 'l':
-                                    current = self.deck.find_location(name, default=self.cur_card)
+                                    current = self.deck.find_location(name, default=cur_card)
                                 elif key == 'i':
-                                    current = self.deck.find_item(name, default=self.cur_card)
+                                    current = self.deck.find_item(name, default=cur_card)
                                 else:
-                                    current = self.deck.find_card(name, default=self.cur_card)
+                                    current = self.deck.find_card(name, default=cur_card)
                         if current is not None:
                             # we have a target card
                             if opt == 'N':
@@ -146,7 +165,7 @@ class Renderer(object):
                 text = text[:start] + replacement + text[start+end+1:]
         return text
 
-    def build_text_document(self, text, base_style, width):
+    def build_text_document(self, the_card: Card, text: str, base_style: Style, width: int):
         doc = QtGui.QTextDocument()
         font = self.build_font(base_style)
         doc.setDefaultFont(font)
@@ -162,7 +181,7 @@ class Renderer(object):
         text_option.setWrapMode(QtGui.QTextOption.WordWrap)
         doc.setDefaultTextOption(text_option)
         cursor = QtGui.QTextCursor(doc)
-        text = self.replace_macros(text)
+        text = self.replace_macros(the_card, text)
         # Break the text into blocks as styles change
         # {s:style_name} - pick another style
         text_format = self.build_text_format(base_style)
@@ -240,7 +259,7 @@ class Renderer(object):
             cursor.insertText(text, text_format)
         return doc
 
-    def build_text_format(self, style):
+    def build_text_format(self, style: Style):
         tf = QtGui.QTextCharFormat()
         font = self.build_font(style)
         tf.setFont(font)
@@ -251,7 +270,7 @@ class Renderer(object):
         tf.setForeground(QtGui.QBrush(color))
         return tf
 
-    def build_font(self, style):
+    def build_font(self, style: Style):
         name = style.typeface
         modifiers = ""
         pos = name.find(':')
@@ -275,17 +294,17 @@ class Renderer(object):
         font.setItalic("italic" in modifiers)
         return font
 
-    def make_gfx_items(self, r):
+    def make_gfx_items(self, the_card: Card, r: Renderable):
         objs = list()
         # return a list of QGraphicsItem objects in order top to bottom
-        if isinstance(r, card_objects.TextRender) or isinstance(r, card_objects.RectRender):
+        if isinstance(r, TextRender) or isinstance(r, RectRender):
             width = r.rectangle[2]
             height = r.rectangle[3]
             base_style = self.deck.find_style(r.style)
-            if isinstance(r, card_objects.TextRender):
+            if isinstance(r, TextRender):
                 # actual text item
                 obj = QtWidgets.QGraphicsTextItem()
-                doc = self.build_text_document(r.text, base_style, r.rectangle[2])
+                doc = self.build_text_document(the_card, r.text, base_style, r.rectangle[2])
                 # some defaults
                 obj.setDefaultTextColor(QtGui.QColor(base_style.textcolor[0],
                                                      base_style.textcolor[1],
@@ -305,7 +324,7 @@ class Renderer(object):
                     offsets = [[-1, -1], [-1, 1], [1, -1], [1, 1], [0, 1], [0, -1], [1, 0], [-1, 0]]
                     tmp = copy.deepcopy(base_style.textcolor)
                     base_style.textcolor = base_style.bordercolor
-                    doc = self.build_text_document(r.text, base_style, r.rectangle[2])
+                    doc = self.build_text_document(the_card, r.text, base_style, r.rectangle[2])
                     for pair in offsets:
                         obj = QtWidgets.QGraphicsTextItem()
                         obj.setDefaultTextColor(QtGui.QColor(base_style.textcolor[0],
@@ -350,7 +369,7 @@ class Renderer(object):
             obj.setPen(pen)
             obj.setRotation(r.rotation)
             objs.append(obj)
-        elif isinstance(r, card_objects.ImageRender):
+        elif isinstance(r, ImageRender):
             image = self.deck.find_image(r.image)
             if image is not None:
                 sub_image = image.get_image(self.deck)
@@ -384,8 +403,25 @@ class Renderer(object):
                     objs.append(obj)
         return objs
 
-    def render_face(self, face, background, top_bottom, number):
+    def build_card_face_scene(self, the_card: Card, top_bottom: str):
+        # reset the scene
         self.scene.clear()
+        if the_card is None:
+            return
+        if isinstance(the_card, Location):
+            return
+        # find the background face
+        the_background = the_card.background
+        background_face = None
+        if the_background is not None:
+            if top_bottom == "top":
+                background_face = the_background.top_face
+            else:
+                background_face = the_background.bot_face
+        # Which face
+        face = the_card.bot_face
+        if top_bottom == "top":
+            face = the_card.top_face
         # light blue background
         base = QtWidgets.QGraphicsRectItem(0, 0, self.card_size[0], self.card_size[1])
         base.setBrush(QtGui.QBrush(QtGui.QColor("#E0E0FF")))
@@ -394,36 +430,30 @@ class Renderer(object):
         # generate the QGraphicsItems from the face and the background
         for renderable in face.renderables:
             z = float(renderable.order)
-            gfx_items = self.make_gfx_items(renderable)
+            gfx_items = self.make_gfx_items(the_card, renderable)
             for gfx_item in gfx_items:
                 gfx_item.setZValue(z)
                 z -= 0.01
                 self.scene.addItem(gfx_item)
-        if background is not None:
-            for renderable in background.renderables:
+        if background_face is not None:
+            for renderable in background_face.renderables:
                 z = float(renderable.order)
-                gfx_items = self.make_gfx_items(renderable)
+                gfx_items = self.make_gfx_items(the_card, renderable)
                 for gfx_item in gfx_items:
                     gfx_item.setZValue(z)
                     z -= 0.01
                     self.scene.addItem(gfx_item)
-        # render them to a file
-        self.render(top_bottom, number)
 
-    def render_card(self, the_card, the_background):
+    def render_card_to_disk(self, the_card: Card):
         if (self.target_card is None) or (self.target_card == self.output_card_number):
-            self.cur_card = the_card
             logging.info("Rendering card number {}: {}".format(self.output_card_number, the_card.name))
-            face = None
-            if the_background is not None:
-                face = the_background.top_face
-            self.render_face(the_card.top_face, face, "top", self.output_card_number)
-            if the_background is not None:
-                face = the_background.bot_face
-            self.render_face(the_card.bot_face, face, "bot", self.output_card_number)
+            self.build_card_face_scene(the_card, "top")
+            self.render("top", self.output_card_number)  # render the scene to a file
+            self.build_card_face_scene(the_card, "bot")
+            self.render("bot", self.output_card_number)  # render the scene to a file
         self.output_card_number += 1
 
-    def render_deck(self, target_card=None):
+    def render_deck(self, target_card: int = None):
         self.output_card_number = 0
         self.target_card = target_card
         # Walk all of the cards, rendering them to images
@@ -432,28 +462,26 @@ class Renderer(object):
         self.deck.renumber_entities()
         # deckcards
         for card in self.deck.deckcards:
-            self.render_card(card, None)
+            self.render_card_to_disk(card)
         # base
         for card in self.deck.base:
-            self.render_card(card, self.deck.default_card)
+            self.render_card_to_disk(card)
         # items
         for card in self.deck.items:
-            self.render_card(card, self.deck.default_item_card)
+            self.render_card_to_disk(card)
         # plan
         for card in self.deck.plan:
-            self.render_card(card, self.deck.default_card)
+            self.render_card_to_disk(card)
         # misc
         for card in self.deck.misc:
-            self.render_card(card, self.deck.default_card)
+            self.render_card_to_disk(card)
         # characters
         for card in self.deck.characters:
-            self.render_card(card, self.deck.default_card)
+            self.render_card_to_disk(card)
         # reference card
-        self.render_card(self.deck.icon_reference, self.deck.default_card)
+        self.render_card_to_disk(self.deck.icon_reference)
         # locations
         for location in self.deck.locations:
             logging.info("Rendering location {}".format(location.name))
-            self.cur_location = location
             for card in location.cards:
-                self.render_card(card, self.deck.default_location_card)
-            self.cur_location = None
+                self.render_card_to_disk(card)
