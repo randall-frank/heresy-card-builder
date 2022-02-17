@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>793</width>
-    <height>534</height>
+    <width>893</width>
+    <height>649</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <normaloff>:/images/icon</normaloff>:/images/icon</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_3">
+   <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,10">
     <item>
      <widget class="QLabel" name="lblInfo">
       <property name="text">
@@ -27,7 +27,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QGraphicsView" name="gvCard"/>
+     <widget class="QWidget" name="wCardView" native="true"/>
     </item>
    </layout>
   </widget>
@@ -36,8 +36,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>793</width>
-     <height>22</height>
+     <width>893</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -57,7 +57,23 @@
     </property>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <widget class="QMenu" name="menuCard_zoom">
+     <property name="title">
+      <string>Card zoom</string>
+     </property>
+     <addaction name="actionZoomIn"/>
+     <addaction name="actionZoomReset"/>
+     <addaction name="actionZoomOut"/>
+    </widget>
+    <addaction name="actionFrontFace"/>
+    <addaction name="menuCard_zoom"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuView"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -234,6 +250,82 @@
     <string>Save deck as...</string>
    </property>
   </action>
+  <action name="actionFrontFace">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Front face</string>
+   </property>
+  </action>
+  <action name="actionZoomIn">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Zoom in</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl++</string>
+   </property>
+  </action>
+  <action name="actionZoomReset">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Reset zoom</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+=</string>
+   </property>
+  </action>
+  <action name="actionZoomOut">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Zoom out</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+-</string>
+   </property>
+  </action>
+  <action name="action100">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>100%</string>
+   </property>
+  </action>
+  <action name="action125">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>125%</string>
+   </property>
+  </action>
+  <action name="action150">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>150%</string>
+   </property>
+  </action>
+  <action name="action175">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>175%</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="card_editor_res.qrc"/>
@@ -342,8 +434,8 @@
    <slot>current_asset_changed(QTreeWidgetItem*,QTreeWidgetItem*)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>530</x>
-     <y>169</y>
+     <x>883</x>
+     <y>190</y>
     </hint>
     <hint type="destinationlabel">
      <x>434</x>
@@ -367,6 +459,70 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionFrontFace</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_frontface(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>396</x>
+     <y>266</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionZoomIn</sender>
+   <signal>triggered()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_zoom()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>446</x>
+     <y>324</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionZoomReset</sender>
+   <signal>triggered()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_zoom()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>446</x>
+     <y>324</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionZoomOut</sender>
+   <signal>triggered()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_zoom()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>446</x>
+     <y>324</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>do_about()</slot>
@@ -376,5 +532,7 @@
   <slot>do_saveas()</slot>
   <slot>current_asset_changed(QTreeWidgetItem*,QTreeWidgetItem*)</slot>
   <slot>current_card_changed(QTreeWidgetItem*,QTreeWidgetItem*)</slot>
+  <slot>do_frontface(bool)</slot>
+  <slot>do_zoom()</slot>
  </slots>
 </ui>

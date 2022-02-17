@@ -104,7 +104,7 @@ class ImageRender(Renderable):
         return "%d,%d - %d,%d" % tuple(self.rectangle)
 
     @classmethod
-    def from_element(cls, elem):
+    def from_element(cls, elem, deck):
         obj = ImageRender()
         obj.load_attrib_string(elem, "image")
         obj.load_attrib_obj(elem, "rectangle")
@@ -132,7 +132,7 @@ class TextRender(Renderable):
         return "%d,%d - %d,%d" % tuple(self.rectangle)
 
     @classmethod
-    def from_element(cls, elem):
+    def from_element(cls, elem, deck):
         obj = TextRender()
         obj.load_attrib_string(elem, "text")
         obj.load_attrib_string(elem, "style")
@@ -162,7 +162,7 @@ class RectRender(Renderable):
         return "%d,%d - %d,%d" % tuple(self.rectangle)
 
     @classmethod
-    def from_element(cls, elem):
+    def from_element(cls, elem, deck):
         obj = RectRender()
         obj.load_attrib_string(elem, "style")
         obj.load_attrib_int(elem, "rotation")
@@ -186,7 +186,7 @@ class Face(Base):
         self.renderables = list()   # a face is an array of Renderable instances
 
     @classmethod
-    def from_element(cls, elem, is_top):
+    def from_element(cls, elem, deck, is_top):
         name = "top"
         if not is_top:
             name = "bottom"
@@ -198,11 +198,11 @@ class Face(Base):
         while not tmp.isNull():
             tag = str(tmp.tagName())
             if tag.endswith('image'):
-                tmp_obj = ImageRender.from_element(tmp)
+                tmp_obj = ImageRender.from_element(tmp, deck)
             elif tag.endswith('text'):
-                tmp_obj = TextRender.from_element(tmp)
+                tmp_obj = TextRender.from_element(tmp, deck)
             elif tag.endswith('rect'):
-                tmp_obj = RectRender.from_element(tmp)
+                tmp_obj = RectRender.from_element(tmp, deck)
             else:
                 tmp_obj = None
             if tmp_obj is not None:
@@ -223,17 +223,19 @@ class Card(Base):
         self.bot_face = Face('bottom')
         self.card_number = 0
         self.local_card_number = 0
+        self.location = None    # for location cards, the parent location
+        self.background = None  # the background card for this card
 
     @classmethod
-    def from_element(cls, elem):
+    def from_element(cls, elem, deck):
         name = elem.attribute("name", "Unnamed Card")
         obj = Card(str(name))
         tmp = elem.firstChildElement("top")
         if not tmp.isNull():
-            obj.top_face = Face.from_element(tmp, True)
+            obj.top_face = Face.from_element(tmp, deck, True)
         tmp = elem.firstChildElement("bottom")
         if not tmp.isNull():
-            obj.bot_face = Face.from_element(tmp, False)
+            obj.bot_face = Face.from_element(tmp, deck, False)
         return obj
 
     def to_element(self, doc, elem):
@@ -250,12 +252,12 @@ class Location(Base):
         self.local_card_number = 0
 
     @classmethod
-    def from_element(cls, elem):
+    def from_element(cls, elem, deck):
         name = elem.attribute("name", "Unnamed Location")
         obj = Location(str(name))
         tmp = elem.firstChildElement("card")
         while not tmp.isNull():
-            tmp_card = Card.from_element(tmp)
+            tmp_card = Card.from_element(tmp, deck)
             if tmp_card is not None:
                 obj.cards.append(tmp_card)
             tmp = tmp.nextSiblingElement('card')
@@ -281,7 +283,7 @@ class Style(Base):
         self.boundary_offset = 0
 
     @classmethod
-    def from_element(cls, elem):
+    def from_element(cls, elem, deck):
         name = elem.attribute("name", "Unnamed Image")
         obj = Style(str(name))
         obj.load_attrib_string(elem, "typeface", "Arial")
@@ -334,7 +336,7 @@ class Image(Base):
         return "%d,%d - %d,%d" % tuple(self.rectangle)
 
     @classmethod
-    def from_element(cls, elem):
+    def from_element(cls, elem, deck):
         name = elem.attribute("name", "Unnamed Image")
         obj = Image(str(name))
         obj.load_attrib_string(elem, "file")
@@ -374,7 +376,7 @@ class File(Base):
         return [self.image.width(), self.image.height()]
 
     @classmethod
-    def from_element(cls, elem):
+    def from_element(cls, elem, deck):
         QtWidgets.QApplication.processEvents()
         name = elem.attribute("name", "Unnamed File")
         filename = elem.attribute("filename", None)
@@ -384,7 +386,8 @@ class File(Base):
         try:
             tmp = elem.text()  # get unicode string
             if len(tmp) == 0:
-                if not obj.image.load(filename, name):
+                pathname = os.path.join(deck.deck_dirname, filename)
+                if not obj.image.load(pathname, name):
                     print("Warning, failed to load file: {}".format(filename))
                     return None
             else:
@@ -437,9 +440,11 @@ class Deck(Base):
         self.characters = list()  # of Cards
         self.icon_reference = Card("Icon Reference", xml_tag='iconreference')
         self.locations = list()  # of Locations
-        self.card_size = [825, 1425]       #[945, 1535]
+        self.card_size = [825, 1425]       # [945, 1535]
         # 2.75" * 300dpi = 825
         # 4.75" * 300dpi = 1425
+        self.deck_filename = None
+        self.deck_dirname = None
 
     def get_card_size(self):
         return self.card_size
@@ -488,10 +493,14 @@ class Deck(Base):
         return default
 
     def renumber_entities(self):
+        # set up the card numbering and fill in the background and location
+        # card fields.
         local_count = 1
         for card in self.deckcards:
             card.card_number = 1
             card.local_card_number = local_count
+            card.background = None
+            card.location = None
             local_count += 1
         global_count = 1
         # card blocks
@@ -500,11 +509,17 @@ class Deck(Base):
             for card in chunk:
                 card.card_number = global_count
                 card.local_card_number = local_count
+                card.background = self.default_card
+                if chunk == self.items:
+                    card.background = self.default_item_card
+                card.location = None
                 global_count += 1
                 local_count += 1
         # reference card
         self.icon_reference.card_number = global_count
         self.icon_reference.local_card_number = local_count
+        self.icon_reference.background = self.default_card
+        self.icon_reference.location = None
         global_count += 1
         local_count += 1
         # locations
@@ -517,6 +532,8 @@ class Deck(Base):
             for card in location.cards:
                 card.card_number = global_count
                 card.local_card_number = local_count
+                card.background = self.default_location_card
+                card.location = location
                 global_count += 1
                 local_count += 1
 
@@ -546,6 +563,8 @@ class Deck(Base):
         except:
             QtWidgets.QApplication.restoreOverrideCursor()
             return False
+        self.deck_filename = filename
+        self.deck_dirname = os.path.dirname(filename)
         doc = QtXml.QDomDocument()
         ok, msg, line, col = doc.setContent(xml)
         if not ok:
@@ -580,7 +599,7 @@ class Deck(Base):
         for tag, v in work.items():
             tmp = root.firstChildElement(tag)
             if not tmp.isNull():
-                tmp_obj = v[0].from_element(tmp)
+                tmp_obj = v[0].from_element(tmp, self)
                 if tmp_obj is not None:
                     tmp_obj.set_xml_name(tag)
                     self.__setattr__(v[1], tmp_obj)
@@ -601,7 +620,7 @@ class Deck(Base):
                 self.__setattr__(v[1], list())
                 tmp = tmp_root.firstChildElement(v[2])
                 while not tmp.isNull():
-                    tmp_obj = v[0].from_element(tmp)
+                    tmp_obj = v[0].from_element(tmp, self)
                     if tmp_obj is not None:
                         self.__getattribute__(v[1]).append(tmp_obj)
                     tmp = tmp.nextSiblingElement(v[2])
@@ -614,7 +633,7 @@ class Deck(Base):
         for tag, v in work.items():
             tmp = root.firstChildElement(tag)
             while not tmp.isNull():
-                tmp_obj = v[0].from_element(tmp)
+                tmp_obj = v[0].from_element(tmp, self)
                 if tmp_obj is not None:
                     v[1].append(tmp_obj)
                 tmp = tmp.nextSiblingElement(tag)
