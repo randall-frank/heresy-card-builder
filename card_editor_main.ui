@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>893</width>
-    <height>649</height>
+    <width>868</width>
+    <height>608</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,7 +36,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>893</width>
+     <width>868</width>
      <height>21</height>
     </rect>
    </property>
@@ -85,7 +85,7 @@
     <number>1</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents">
-    <layout class="QVBoxLayout" name="verticalLayout_5">
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QSplitter" name="splitter_2">
        <property name="orientation">
@@ -124,6 +124,7 @@
          </property>
         </column>
        </widget>
+       <widget class="QListWidget" name="lwGfxItems"/>
        <widget class="QStackedWidget" name="swCardProps">
         <widget class="QWidget" name="pgunknown"/>
         <widget class="QWidget" name="page_4"/>
@@ -434,8 +435,8 @@
    <slot>current_asset_changed(QTreeWidgetItem*,QTreeWidgetItem*)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>883</x>
-     <y>190</y>
+     <x>858</x>
+     <y>211</y>
     </hint>
     <hint type="destinationlabel">
      <x>434</x>
@@ -523,6 +524,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>lwGfxItems</sender>
+   <signal>currentRowChanged(int)</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>current_card_renderable_changed(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>240</x>
+     <y>400</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>271</x>
+     <y>409</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>do_about()</slot>
@@ -534,5 +551,6 @@
   <slot>current_card_changed(QTreeWidgetItem*,QTreeWidgetItem*)</slot>
   <slot>do_frontface(bool)</slot>
   <slot>do_zoom()</slot>
+  <slot>current_card_renderable_changed(int)</slot>
  </slots>
 </ui>
