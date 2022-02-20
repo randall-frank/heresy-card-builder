@@ -294,7 +294,7 @@ class Renderer(object):
         font.setItalic("italic" in modifiers)
         return font
 
-    def make_gfx_items(self, the_card: Card, r: Renderable):
+    def make_gfx_items(self, the_card: Card, r: Renderable, selectable: bool):
         objs = list()
         # return a list of QGraphicsItem objects in order top to bottom
         if isinstance(r, TextRender) or isinstance(r, RectRender):
@@ -304,7 +304,7 @@ class Renderer(object):
             if isinstance(r, TextRender):
                 # actual text item
                 obj = QtWidgets.QGraphicsTextItem()
-                obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, True)
+                obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, selectable)
                 obj.setData(0, r)
                 obj.setData(1, the_card)
                 doc = self.build_text_document(the_card, r.text, base_style, r.rectangle[2])
@@ -350,7 +350,7 @@ class Renderer(object):
             width = r.rectangle[2] + 2*base_style.boundary_offset
             height += 2*base_style.boundary_offset
             obj = QtWidgets.QGraphicsRectItem(left, top, width, height)
-            obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, True)
+            obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, selectable)
             obj.setData(0, r)
             obj.setData(1, the_card)
             obj.setTransformOriginPoint(QtCore.QPointF(left, top))
@@ -384,7 +384,7 @@ class Renderer(object):
                 else:
                     pixmap = QtGui.QPixmap.fromImage(sub_image)
                     obj = QtWidgets.QGraphicsPixmapItem(pixmap)
-                    obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, True)
+                    obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, selectable)
                     obj.setData(0, r)
                     obj.setData(1, the_card)
                     obj.setX(r.rectangle[0])    # x,y,dx,dy
@@ -442,23 +442,21 @@ class Renderer(object):
             renderable.gfx_list = list()
             render_list.append(renderable)
             z = float(renderable.order)
-            gfx_items = self.make_gfx_items(the_card, renderable)
+            gfx_items = self.make_gfx_items(the_card, renderable, True)
             for gfx_item in gfx_items:
                 gfx_item.setZValue(z)
                 z -= 0.01
                 self.scene.addItem(gfx_item)
                 renderable.gfx_list.append(gfx_item)
         if background_face is not None:
+            # Do not add background render items to the return list
             for renderable in background_face.renderables:
-                renderable.gfx_list = list()
-                render_list.append(renderable)
                 z = float(renderable.order)
-                gfx_items = self.make_gfx_items(the_card, renderable)
+                gfx_items = self.make_gfx_items(the_card, renderable, False)
                 for gfx_item in gfx_items:
                     gfx_item.setZValue(z)
                     z -= 0.01
                     self.scene.addItem(gfx_item)
-                    renderable.gfx_list.append(gfx_item)
         return render_list
 
     def render_card_to_disk(self, the_card: Card):

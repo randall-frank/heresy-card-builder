@@ -10,12 +10,12 @@ from PySide6 import QtWidgets
 from PySide6 import QtGui
 
 from ui_card_editor_main import Ui_card_editor_main
-from card_objects import build_empty_deck, Deck, Location
-from card_render import Renderer
+from card_objects import build_empty_deck, Deck, Location, Renderable
+from card_render import Renderer, ImageRender, TextRender, RectRender
 
 
 class CERenderableItem(QtWidgets.QListWidgetItem):
-    def __init__(self, renderable):
+    def __init__(self, renderable: Renderable):
         super().__init__()
         self.renderable = renderable
         self.setText(renderable.name)
@@ -54,6 +54,7 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         self._render_object = None
         self._current_card = None
         self._current_asset = None
+        self._current_renderable = None
         self._gs_asset = QtWidgets.QGraphicsScene()
         self.gvAsset.setScene(self._gs_asset)
         self._changing_selection = False
@@ -162,7 +163,6 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         self.update_asset_props()
         self.update_asset_render()
         self.update_cardlist()
-        self.update_card_props()
         self.update_card_render()
 
     def update_cardlist(self):
@@ -259,28 +259,44 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         if self._current_asset is None:
             return
 
+    def set_current_renderable_target(self, renderable: Renderable):
+        self._current_renderable = renderable
+        self.update_current_renderable_props()
+
     def current_card_renderable_changed(self, row: int):
+        # there has been a change in the renderable selection via list widget
+        if self._changing_selection:
+            return
         item = self.lwGfxItems.item(row)
         if item is None:
+            self.set_current_renderable_target(None)
             return
         renderable = item.renderable
         self._changing_selection = True
         self._renderer.scene.clearSelection()
         renderable.gfx_list[0].setSelected(True)
         self._changing_selection = False
+        self.set_current_renderable_target(renderable)
 
     def do_gfx_item_selection_changed(self):
+        # there has been a change in renderable selection in the gfx area
         if self._changing_selection:
             return
+        new_current_item = None
         items = self._renderer.scene.selectedItems()
         if len(items):
             renderable = items[0].data(0)
             for i in range(self.lwGfxItems.count()):
                 gui_item = self.lwGfxItems.item(i)
                 if gui_item.renderable == renderable:
-                    self.lwGfxItems.setCurrentItem(gui_item)
+                    new_current_item = gui_item
+        self._changing_selection = True
+        self.lwGfxItems.setCurrentItem(new_current_item)
+        if new_current_item is None:
+            self.set_current_renderable_target(None)
         else:
-            self.lwGfxItems.setCurrentRow(-1)
+            self.set_current_renderable_target(new_current_item.renderable)
+        self._changing_selection = False
 
     def current_asset_changed(self, new: CEListItem, dummy):
         if isinstance(new, CEListItem):
@@ -291,15 +307,54 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         self.update_asset_props()
         self.update_asset_render()
 
-    def update_card_props(self):
-        if self._current_card is None:
-            self.swCardProps.setCurrentIndex(0)
-            return
-        tag = self._current_card.get_xml_name()
-        for i in range(self.swCardProps.count()):
-            if self.swCardProps.widget(i).objectName() == 'pg' + tag:
-                self.swCardProps.setCurrentIndex(i)
+    def update_current_renderable_props(self):
+        name = "none"
+        if self._current_renderable:
+            name = self._current_renderable.get_xml_name()
+        for i in range(self.swGfxItemProps.count()):
+            if self.swGfxItemProps.widget(i).objectName() == 'pg_' + name:
+                self.swGfxItemProps.setCurrentIndex(i)
                 break
+        if name == "none":
+            return
+        # Update the page widgets
+        rect = self._current_renderable.rectangle
+        rot = self._current_renderable.rotation
+        if isinstance(self._current_renderable, ImageRender):
+            self.leImageX.setText(str(rect[0]))
+            self.leImageY.setText(str(rect[1]))
+            self.leImageW.setText(str(rect[2]))
+            self.leImageH.setText(str(rect[3]))
+            self.leImageR.setText(str(rot))
+            image = self._current_renderable.image
+            self.cbImageImage.clear()
+            for asset in self._deck.images:
+                self.cbImageImage.addItem(asset.name, asset.name)
+            self.cbImageImage.setCurrentIndex(self.cbImageImage.findData(image))
+        elif isinstance(self._current_renderable, RectRender):
+            self.leRectX.setText(str(rect[0]))
+            self.leRectY.setText(str(rect[1]))
+            self.leRectW.setText(str(rect[2]))
+            self.leRectH.setText(str(rect[3]))
+            self.leRectR.setText(str(rot))
+            style = self._current_renderable.style
+            self.cbRectStyle.clear()
+            for asset in self._deck.styles:
+                self.cbRectStyle.addItem(asset.name, asset.name)
+            self.cbRectStyle.setCurrentIndex(self.cbRectStyle.findData(style))
+        elif isinstance(self._current_renderable, TextRender):
+            self.leTextX.setText(str(rect[0]))
+            self.leTextY.setText(str(rect[1]))
+            self.leTextW.setText(str(rect[2]))
+            self.leTextH.setText(str(rect[3]))
+            self.leTextR.setText(str(rot))
+            text = self._current_renderable.text
+            self.leTextText.setPlainText(text)
+            style = self._current_renderable.style
+            self.cbTextStyle.clear()
+            for asset in self._deck.styles:
+                self.cbTextStyle.addItem(asset.name, asset.name)
+            self.cbTextStyle.setCurrentIndex(self.cbTextStyle.findData(style))
 
     def update_card_render(self):
         if self._renderer is None:
@@ -313,6 +368,7 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
             item = CERenderableItem(renderable)
             self.lwGfxItems.addItem(item)
         self.update_zoom()
+        self.set_current_renderable_target(None)
 
     def update_zoom(self):
         if self._renderer is None:
@@ -326,5 +382,4 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         else:
             obj = None
         self._current_card = obj
-        self.update_card_props()
         self.update_card_render()
