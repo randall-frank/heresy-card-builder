@@ -304,6 +304,9 @@ class Renderer(object):
             if isinstance(r, TextRender):
                 # actual text item
                 obj = QtWidgets.QGraphicsTextItem()
+                obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, True)
+                obj.setData(0, r)
+                obj.setData(1, the_card)
                 doc = self.build_text_document(the_card, r.text, base_style, r.rectangle[2])
                 # some defaults
                 obj.setDefaultTextColor(QtGui.QColor(base_style.textcolor[0],
@@ -347,6 +350,9 @@ class Renderer(object):
             width = r.rectangle[2] + 2*base_style.boundary_offset
             height += 2*base_style.boundary_offset
             obj = QtWidgets.QGraphicsRectItem(left, top, width, height)
+            obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, True)
+            obj.setData(0, r)
+            obj.setData(1, the_card)
             obj.setTransformOriginPoint(QtCore.QPointF(left, top))
             color = QtGui.QColor(base_style.fillcolor[0],
                                  base_style.fillcolor[1],
@@ -378,6 +384,9 @@ class Renderer(object):
                 else:
                     pixmap = QtGui.QPixmap.fromImage(sub_image)
                     obj = QtWidgets.QGraphicsPixmapItem(pixmap)
+                    obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, True)
+                    obj.setData(0, r)
+                    obj.setData(1, the_card)
                     obj.setX(r.rectangle[0])    # x,y,dx,dy
                     obj.setY(r.rectangle[1])
                     transform = QtGui.QTransform()
@@ -403,13 +412,13 @@ class Renderer(object):
                     objs.append(obj)
         return objs
 
-    def build_card_face_scene(self, the_card: Card, top_bottom: str):
+    def build_card_face_scene(self, the_card: Card, top_bottom: str) -> list:
         # reset the scene
         self.scene.clear()
         if the_card is None:
-            return
+            return list()
         if isinstance(the_card, Location):
-            return
+            return list()
         # find the background face
         the_background = the_card.background
         background_face = None
@@ -428,21 +437,29 @@ class Renderer(object):
         base.setZValue(-1000)
         self.scene.addItem(base)
         # generate the QGraphicsItems from the face and the background
+        render_list = list()
         for renderable in face.renderables:
+            renderable.gfx_list = list()
+            render_list.append(renderable)
             z = float(renderable.order)
             gfx_items = self.make_gfx_items(the_card, renderable)
             for gfx_item in gfx_items:
                 gfx_item.setZValue(z)
                 z -= 0.01
                 self.scene.addItem(gfx_item)
+                renderable.gfx_list.append(gfx_item)
         if background_face is not None:
             for renderable in background_face.renderables:
+                renderable.gfx_list = list()
+                render_list.append(renderable)
                 z = float(renderable.order)
                 gfx_items = self.make_gfx_items(the_card, renderable)
                 for gfx_item in gfx_items:
                     gfx_item.setZValue(z)
                     z -= 0.01
                     self.scene.addItem(gfx_item)
+                    renderable.gfx_list.append(gfx_item)
+        return render_list
 
     def render_card_to_disk(self, the_card: Card):
         if (self.target_card is None) or (self.target_card == self.output_card_number):

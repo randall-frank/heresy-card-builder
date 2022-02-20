@@ -7,15 +7,23 @@
 from datetime import date
 from PySide6 import QtCore
 from PySide6 import QtWidgets
+from PySide6 import QtGui
 
 from ui_card_editor_main import Ui_card_editor_main
 from card_objects import build_empty_deck, Deck, Location
 from card_render import Renderer
 
 
+class CERenderableItem(QtWidgets.QListWidgetItem):
+    def __init__(self, renderable):
+        super().__init__()
+        self.renderable = renderable
+        self.setText(renderable.name)
+
+
 class CEListItem(QtWidgets.QTreeWidgetItem):
     def __init__(self, obj, parent=None, can_move=True, can_rename=True, can_select=True):
-        super(CEListItem, self).__init__()
+        super().__init__()
         self._obj = obj
         self.setText(0, obj.name)
         flags = QtCore.Qt.ItemIsEnabled
@@ -41,13 +49,14 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         self._version = version
         self._dirty = False
         self._deck = None
-        self._deck_filename = None
+        self._deck_filename = ''
         self._property_object = None
         self._render_object = None
         self._current_card = None
         self._current_asset = None
         self._gs_asset = QtWidgets.QGraphicsScene()
         self.gvAsset.setScene(self._gs_asset)
+        self._changing_selection = False
         self._renderer = None
         self._zoom = 1.0
         self.do_new()
@@ -68,11 +77,33 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
             btn = QtWidgets.QMessageBox.question(self, "Start a new deck", s)
             if btn != QtWidgets.QMessageBox.Yes:
                 return
-        self._deck = build_empty_deck()
+        self.deck_loaded(build_empty_deck(), '')
+
+    def do_load(self):
+        if self._deck and self._dirty:
+            s = "There are unsaved changes, are you sure you want to load a new deck?"
+            btn = QtWidgets.QMessageBox.question(self, "Load a new deck", s)
+            if btn != QtWidgets.QMessageBox.Yes:
+                return
+        tmp = QtWidgets.QFileDialog.getOpenFileName(self, "Load deck", "",
+                                                    "Card deck (*.deck);;All files (*)")
+        if len(tmp[0]) == 0:
+            return
+        filename = tmp[0]
+        tmp = Deck()
+        if not tmp.load(filename):
+            QtWidgets.QMessageBox.critical(self, "Unable to load deck",
+                                           "An error occurred while loading the deck")
+            return
+        self.deck_loaded(tmp, filename)
+
+    def deck_loaded(self, deck: Deck, filename: str):
+        self._deck = deck
         self._renderer = Renderer(self._deck, parent=self.wCardView)
-        self._deck_filename = None
+        self._renderer.scene.selectionChanged.connect(self.do_gfx_item_selection_changed)
+        self._deck_filename = filename
         self._dirty = False
-        self.lblInfo.setText("Deck: Untitled")
+        self.lblInfo.setText("Deck: " + filename)
         self.deck_update()
 
     def do_saveas(self):
@@ -92,7 +123,7 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
     def do_save(self):
         if self._deck is None:
             return
-        if self._deck_filename is None:
+        if not self._deck_filename:
             self.do_saveas()
             return
         if not self._deck.save(self._deck_filename):
@@ -101,30 +132,7 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
             return
         self._dirty = False
 
-    def do_load(self):
-        if self._deck and self._dirty:
-            s = "There are unsaved changes, are you sure you want to load a new deck?"
-            btn = QtWidgets.QMessageBox.question(self, "Load a new deck", s)
-            if btn != QtWidgets.QMessageBox.Yes:
-                return
-        tmp = QtWidgets.QFileDialog.getOpenFileName(self, "Save deck as", "",
-                                                    "Card deck (*.deck);;All files (*)")
-        if len(tmp[0]) == 0:
-            return
-        filename = tmp[0]
-        tmp = Deck()
-        if not tmp.load(filename):
-            QtWidgets.QMessageBox.critical(self, "Unable to load deck",
-                                           "An error occurred while loading the deck")
-            return
-        self._deck = tmp
-        self._renderer = Renderer(self._deck, parent=self.wCardView)
-        self._deck_filename = filename
-        self.lblInfo.setText("Deck: " + filename)
-        self._dirty = False
-        self.deck_update()
-
-    def do_frontface(self, b):
+    def do_frontface(self, b: bool):
         self.update_card_render()
 
     def set_dirty(self, d):
@@ -137,7 +145,7 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         s += "Version: " + self._version
         QtWidgets.QMessageBox.about(self, "Card Editor", s)
 
-    def closeEvent(self, event):
+    def closeEvent(self, event: QtGui.QCloseEvent):
         if self._dirty:
             # prompt user
             s = "There are unsaved changes, are you sure you want to quit?"
@@ -251,7 +259,30 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         if self._current_asset is None:
             return
 
-    def current_asset_changed(self, new, dummy):
+    def current_card_renderable_changed(self, row: int):
+        item = self.lwGfxItems.item(row)
+        if item is None:
+            return
+        renderable = item.renderable
+        self._changing_selection = True
+        self._renderer.scene.clearSelection()
+        renderable.gfx_list[0].setSelected(True)
+        self._changing_selection = False
+
+    def do_gfx_item_selection_changed(self):
+        if self._changing_selection:
+            return
+        items = self._renderer.scene.selectedItems()
+        if len(items):
+            renderable = items[0].data(0)
+            for i in range(self.lwGfxItems.count()):
+                gui_item = self.lwGfxItems.item(i)
+                if gui_item.renderable == renderable:
+                    self.lwGfxItems.setCurrentItem(gui_item)
+        else:
+            self.lwGfxItems.setCurrentRow(-1)
+
+    def current_asset_changed(self, new: CEListItem, dummy):
         if isinstance(new, CEListItem):
             obj = new.get_obj()
         else:
@@ -276,7 +307,11 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         face = "bot"
         if self.actionFrontFace.isChecked():
             face = "top"
-        self._renderer.build_card_face_scene(self._current_card, face)
+        render_list = self._renderer.build_card_face_scene(self._current_card, face)
+        self.lwGfxItems.clear()
+        for renderable in render_list:
+            item = CERenderableItem(renderable)
+            self.lwGfxItems.addItem(item)
         self.update_zoom()
 
     def update_zoom(self):
@@ -285,7 +320,7 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         self._renderer.view.resetTransform()
         self._renderer.view.scale(self._zoom, self._zoom)
 
-    def current_card_changed(self, new, dummy):
+    def current_card_changed(self, new: CEListItem, dummy):
         if isinstance(new, CEListItem):
             obj = new.get_obj()
         else:

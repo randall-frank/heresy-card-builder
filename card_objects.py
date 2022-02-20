@@ -88,6 +88,8 @@ class Renderable(Base):
         self.order = 0  # Z depth...
         self.rotation = 0
         self.rectangle = [0, 0, -1, -1]
+        self.gfx_list = list()   # the list of QGraphicsItem objects that make up this instance
+        self.name = "unknown"
 
     def render_object(self):
         return
@@ -97,6 +99,7 @@ class ImageRender(Renderable):
     def __init__(self, name="image"):
         super(ImageRender, self).__init__(name, 'render_image')
         self.image = ""
+        self.name = "Image"
 
     def get_column_info(self, col):
         if col != 1:
@@ -125,6 +128,7 @@ class TextRender(Renderable):
         super(TextRender, self).__init__(name, 'render_text')
         self.style = "default"
         self.text = ""
+        self.name = "Text Box"
 
     def get_column_info(self, col):
         if col != 1:
@@ -155,6 +159,7 @@ class RectRender(Renderable):
         super(RectRender, self).__init__(name, 'render_rect')
         self.style = "default"
         self.rectangle = [10, 10, 110, 110]
+        self.name = "Rectangle"
 
     def get_column_info(self, col):
         if col != 1:
