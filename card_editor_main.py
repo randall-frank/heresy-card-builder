@@ -55,11 +55,23 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         self._current_card = None
         self._current_asset = None
         self._current_renderable = None
-        self._gs_asset = QtWidgets.QGraphicsScene()
-        self.gvAsset.setScene(self._gs_asset)
         self._changing_selection = False
         self._renderer = None
         self._zoom = 1.0
+
+        self.cbStyleLinestyle.clear()
+        self.cbStyleLinestyle.addItem("Solid", "solid")
+        self.cbStyleLinestyle.addItem("Dash", "dash")
+        self.cbStyleLinestyle.addItem("Dot", "dot")
+        self.cbStyleLinestyle.addItem("Dash Dot", "dashdot")
+        self.cbStyleLinestyle.addItem("Halo outline", "halo")
+
+        self.cbStyleJustification.clear()
+        self.cbStyleJustification.addItem("Full", "full")
+        self.cbStyleJustification.addItem("Left", "left")
+        self.cbStyleJustification.addItem("Right", "right")
+        self.cbStyleJustification.addItem("Center", "center")
+
         self.do_new()
 
     def do_zoom(self):
@@ -159,9 +171,9 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
     def deck_update(self):
         self._current_asset = None
         self._current_card = None
+        self.swAssetProps.setCurrentIndex(0)
         self.update_assetlist()
         self.update_asset_props()
-        self.update_asset_render()
         self.update_cardlist()
         self.update_card_render()
 
@@ -247,17 +259,53 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
                 self.swAssetProps.setCurrentIndex(i)
                 break
         if tag == 'file':
-            self.lblFilename.setText(self._current_asset.name)
-            self.lblSize.setText(self._current_asset.get_column_info(1))
+            self.lblFileName.setText(self._current_asset.name)
+            self.lblFileFilename.setText(self._current_asset.filename)
+            self.lblFileSize.setText(self._current_asset.get_column_info(1))
+            img = self.resize_image(self._current_asset.image, 200)
+            self.lblFileImage.setPixmap(QtGui.QPixmap.fromImage(img))
         elif tag == 'image':
-            pass
+            self.lblImgAssetName.setText(self._current_asset.name)
+            self.lblImgAssetFile.setText(self._current_asset.file)
+            self.leImgAssetX.setText(str(self._current_asset.rectangle[0]))
+            self.leImgAssetY.setText(str(self._current_asset.rectangle[1]))
+            self.leImgAssetW.setText(str(self._current_asset.rectangle[2]))
+            self.leImgAssetH.setText(str(self._current_asset.rectangle[3]))
+            img = self._current_asset.get_image(self._deck)
+            img = self.resize_image(img, 200)
+            self.lbImgAssetImage.setPixmap(QtGui.QPixmap.fromImage(img))
         elif tag == 'style':
-            pass
+            self.lblStyleName.setText(self._current_asset.name)
+            self.lblStyleTypeface.setText(self._current_asset.typeface)
 
-    def update_asset_render(self):
-        self._gs_asset.clear()
-        if self._current_asset is None:
-            return
+            tmp = self._current_asset.linestyle
+            self.cbStyleLinestyle.setCurrentIndex(self.cbStyleLinestyle.findData(tmp))
+            tmp = self._current_asset.justification
+            self.cbStyleJustification.setCurrentIndex(self.cbStyleJustification.findData(tmp))
+
+            img = self.build_color_swatch(self._current_asset.fillcolor)
+            self.lblStyleFillcolor.setPixmap(QtGui.QPixmap.fromImage(img))
+            img = self.build_color_swatch(self._current_asset.bordercolor)
+            self.lblStyleBordercolor.setPixmap(QtGui.QPixmap.fromImage(img))
+            img = self.build_color_swatch(self._current_asset.textcolor)
+            self.lblStyleTextcolor.setPixmap(QtGui.QPixmap.fromImage(img))
+
+            self.sbStyleSize.setValue(self._current_asset.typesize)
+            self.sbStyleBorderthickness.setValue(self._current_asset.borderthickness)
+            self.sbStyleBoundaryoffset.setValue(self._current_asset.boundary_offset)
+
+    @staticmethod
+    def resize_image(image, width):
+        if (image.width() < width) and (image.height() < width):
+            return image.scaled(image.width(), image.height())
+        return image.scaled(width, width, QtCore.Qt.KeepAspectRatio)
+
+    @staticmethod
+    def build_color_swatch(rgb):
+        img = QtGui.QImage(20, 20, QtGui.QImage.Format_RGB888)
+        color = QtGui.QColor(rgb[0], rgb[1], rgb[2])
+        img.fill(color)
+        return img
 
     def set_current_renderable_target(self, renderable: Renderable):
         self._current_renderable = renderable
@@ -305,7 +353,6 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
             obj = None
         self._current_asset = obj
         self.update_asset_props()
-        self.update_asset_render()
 
     def update_current_renderable_props(self):
         name = "none"

@@ -361,9 +361,9 @@ class File(Base):
         super(File, self).__init__(name, 'file')
         self.image = QtGui.QImage()
         self.filename = ""
-        self.store_inline = True
+        self.store_inline = False
 
-    def load_file(self, filename, name=None, store_as_resource=True):
+    def load_file(self, filename, name=None, store_as_resource=False):
         self.image.load(filename)
         self.filename = filename
         self.store_inline = store_as_resource
@@ -386,6 +386,8 @@ class File(Base):
         name = elem.attribute("name", "Unnamed File")
         filename = elem.attribute("filename", None)
         obj = File(name)
+        if filename:
+            obj.filename = filename
         # two cases: text is the file content or text is empty
         # in the latter case, try to read the 'name' as a file
         try:
