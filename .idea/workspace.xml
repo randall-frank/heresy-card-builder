@@ -8,7 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/card_editor_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/card_editor_main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card_objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_objects.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_render.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_render.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -274,7 +274,12 @@
       <workItem from="1645302146583" duration="9908000" />
       <workItem from="1645378358252" duration="6513000" />
       <workItem from="1645403609566" duration="4333000" />
-      <workItem from="1645584156006" duration="4597000" />
+      <workItem from="1645584156006" duration="4688000" />
+      <workItem from="1645665095987" duration="1241000" />
+      <workItem from="1646706831901" duration="5154000" />
+      <workItem from="1646714156563" duration="162000" />
+      <workItem from="1646792330051" duration="8371000" />
+      <workItem from="1646873945396" duration="6363000" />
     </task>
     <task id="LOCAL-00033" summary="Finish out graveyard scene.">
       <created>1503254845206</created>

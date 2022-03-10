@@ -294,6 +294,28 @@ class Renderer(object):
         font.setItalic("italic" in modifiers)
         return font
 
+    def update_gfx_items(self, r: Renderable):
+        # TODO
+        print("RJF: Updating renderable")
+        x = r.rectangle[0]
+        y = r.rectangle[1]
+        width = r.rectangle[2]
+        height = r.rectangle[3]
+        rot = r.rotation
+        if isinstance(r, TextRender) or isinstance(r, RectRender):
+            base_style = self.deck.find_style(r.style)
+            if isinstance(r, TextRender):
+                for obj in r.gfx_list[0:-1]:
+                    print("TextRender", obj)
+            obj = r.gfx_list[-1]
+            print("RectRender", obj)
+        elif isinstance(r, ImageRender):
+            image = self.deck.find_image(r.image)
+            if image is not None:
+                sub_image = image.get_image(self.deck)
+                obj = r.gfx_list[0]
+                print("ImageRender", obj)
+
     def make_gfx_items(self, the_card: Card, r: Renderable, selectable: bool):
         objs = list()
         # return a list of QGraphicsItem objects in order top to bottom

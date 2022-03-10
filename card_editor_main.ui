@@ -298,7 +298,7 @@
            </layout>
           </item>
           <item>
-           <widget class="QPlainTextEdit" name="leTextText"/>
+           <widget class="SpellTextEdit" name="leTextText"/>
           </item>
          </layout>
         </widget>
@@ -1003,6 +1003,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SpellTextEdit</class>
+   <extends>QPlainTextEdit</extends>
+   <header>spelltextedit</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="card_editor_res.qrc"/>
  </resources>
@@ -1110,8 +1117,8 @@
    <slot>current_asset_changed(QTreeWidgetItem*,QTreeWidgetItem*)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>858</x>
-     <y>211</y>
+     <x>1346</x>
+     <y>232</y>
     </hint>
     <hint type="destinationlabel">
      <x>434</x>
@@ -1215,6 +1222,310 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>leRectX</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_rect_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>521</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>357</x>
+     <y>840</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leRectY</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_rect_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>304</x>
+     <y>540</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>361</x>
+     <y>635</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leRectW</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_rect_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>165</x>
+     <y>566</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>366</x>
+     <y>588</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leRectH</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_rect_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>304</x>
+     <y>566</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>365</x>
+     <y>550</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leRectR</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_rect_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>165</x>
+     <y>592</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>365</x>
+     <y>703</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbRectStyle</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_rect_update_int(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>117</x>
+     <y>620</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>364</x>
+     <y>677</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leImageX</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_image_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>178</x>
+     <y>532</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>358</x>
+     <y>506</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leImageY</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_image_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>301</x>
+     <y>527</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>359</x>
+     <y>470</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leImageH</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_image_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>329</x>
+     <y>559</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>365</x>
+     <y>625</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leImageW</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_image_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>152</x>
+     <y>555</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>366</x>
+     <y>575</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leImageR</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_image_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>140</x>
+     <y>580</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>669</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbImageImage</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_image_update_int(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>101</x>
+     <y>617</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>740</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leTextY</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_text_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>304</x>
+     <y>540</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>367</x>
+     <y>537</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leTextX</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_text_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>108</x>
+     <y>521</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>364</x>
+     <y>613</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leTextH</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_text_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>304</x>
+     <y>566</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>360</x>
+     <y>665</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leTextW</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_text_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>165</x>
+     <y>566</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>369</x>
+     <y>489</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leTextR</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_text_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>165</x>
+     <y>592</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>361</x>
+     <y>733</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leTextText</sender>
+   <signal>textChanged()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_text_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>77</x>
+     <y>657</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>359</x>
+     <y>827</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbTextStyle</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_text_update_int(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>117</x>
+     <y>620</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>365</x>
+     <y>782</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>do_about()</slot>
@@ -1227,5 +1538,11 @@
   <slot>do_frontface(bool)</slot>
   <slot>do_zoom()</slot>
   <slot>current_card_renderable_changed(int)</slot>
+  <slot>do_rect_update()</slot>
+  <slot>do_rect_update_int(int)</slot>
+  <slot>do_image_update()</slot>
+  <slot>do_image_update_int(int)</slot>
+  <slot>do_text_update()</slot>
+  <slot>do_text_update_int(int)</slot>
  </slots>
 </ui>

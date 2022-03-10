@@ -13,6 +13,21 @@ from ui_card_editor_main import Ui_card_editor_main
 from card_objects import build_empty_deck, Deck, Location, Renderable
 from card_render import Renderer, ImageRender, TextRender, RectRender
 
+try:
+    # python -m pip install pyspellchecker
+    # https://nachtimwald.com/2009/08/22/qplaintextedit-with-in-line-spell-check/
+    from spellchecker import SpellChecker
+except ModuleNotFoundError:
+    class SpellChecker:
+        def unknown(self, words: list) -> set:
+            return set()
+
+        def correction(self, word: str) -> str:
+            return word
+
+        def candidates(self, word: str) -> list:
+            return [word]
+
 
 class CERenderableItem(QtWidgets.QListWidgetItem):
     def __init__(self, renderable: Renderable):
@@ -58,6 +73,7 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         self._changing_selection = False
         self._renderer = None
         self._zoom = 1.0
+        self._speller = SpellChecker()
 
         self.cbStyleLinestyle.clear()
         self.cbStyleLinestyle.addItem("Solid", "solid")
@@ -307,8 +323,15 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         img.fill(color)
         return img
 
-    def set_current_renderable_target(self, renderable: Renderable):
+    def set_current_renderable_target(self, renderable: Renderable, selection_only: bool = False):
         self._current_renderable = renderable
+        if self._current_renderable:
+            self._changing_selection = True
+            self._renderer.scene.clearSelection()
+            renderable.gfx_list[0].setSelected(True)
+            self._changing_selection = False
+        if selection_only:
+            return
         self.update_current_renderable_props()
 
     def current_card_renderable_changed(self, row: int):
@@ -320,10 +343,6 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
             self.set_current_renderable_target(None)
             return
         renderable = item.renderable
-        self._changing_selection = True
-        self._renderer.scene.clearSelection()
-        renderable.gfx_list[0].setSelected(True)
-        self._changing_selection = False
         self.set_current_renderable_target(renderable)
 
     def do_gfx_item_selection_changed(self):
@@ -368,40 +387,122 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         rect = self._current_renderable.rectangle
         rot = self._current_renderable.rotation
         if isinstance(self._current_renderable, ImageRender):
-            self.leImageX.setText(str(rect[0]))
-            self.leImageY.setText(str(rect[1]))
-            self.leImageW.setText(str(rect[2]))
-            self.leImageH.setText(str(rect[3]))
-            self.leImageR.setText(str(rot))
+            self.set_text(self.leImageX, str(rect[0]))
+            self.set_text(self.leImageY, str(rect[1]))
+            self.set_text(self.leImageW, str(rect[2]))
+            self.set_text(self.leImageH, str(rect[3]))
+            self.set_text(self.leImageR, str(rot))
             image = self._current_renderable.image
-            self.cbImageImage.clear()
-            for asset in self._deck.images:
-                self.cbImageImage.addItem(asset.name, asset.name)
-            self.cbImageImage.setCurrentIndex(self.cbImageImage.findData(image))
+            self.init_combo(self.cbImageImage, image, self._deck.images)
+
         elif isinstance(self._current_renderable, RectRender):
-            self.leRectX.setText(str(rect[0]))
-            self.leRectY.setText(str(rect[1]))
-            self.leRectW.setText(str(rect[2]))
-            self.leRectH.setText(str(rect[3]))
-            self.leRectR.setText(str(rot))
+            self.set_text(self.leRectX, str(rect[0]))
+            self.set_text(self.leRectY, str(rect[1]))
+            self.set_text(self.leRectW, str(rect[2]))
+            self.set_text(self.leRectH, str(rect[3]))
+            self.set_text(self.leRectR, str(rot))
             style = self._current_renderable.style
-            self.cbRectStyle.clear()
-            for asset in self._deck.styles:
-                self.cbRectStyle.addItem(asset.name, asset.name)
-            self.cbRectStyle.setCurrentIndex(self.cbRectStyle.findData(style))
+            self.init_combo(self.cbRectStyle, style, self._deck.styles)
+
         elif isinstance(self._current_renderable, TextRender):
-            self.leTextX.setText(str(rect[0]))
-            self.leTextY.setText(str(rect[1]))
-            self.leTextW.setText(str(rect[2]))
-            self.leTextH.setText(str(rect[3]))
-            self.leTextR.setText(str(rot))
+            self.set_text(self.leTextX, str(rect[0]))
+            self.set_text(self.leTextY, str(rect[1]))
+            self.set_text(self.leTextW, str(rect[2]))
+            self.set_text(self.leTextH, str(rect[3]))
+            self.set_text(self.leTextR, str(rot))
             text = self._current_renderable.text
-            self.leTextText.setPlainText(text)
+            self.set_plaintext(self.leTextText, text)
             style = self._current_renderable.style
-            self.cbTextStyle.clear()
-            for asset in self._deck.styles:
-                self.cbTextStyle.addItem(asset.name, asset.name)
-            self.cbTextStyle.setCurrentIndex(self.cbTextStyle.findData(style))
+            self.init_combo(self.cbTextStyle, style, self._deck.styles)
+
+    @staticmethod
+    def set_plaintext(w: QtWidgets.QPlainTextEdit, s: str):
+        tmp = w.blockSignals(True)
+        w.setPlainText(s)
+        w.blockSignals(tmp)
+
+    @staticmethod
+    def set_text(w: QtWidgets.QLineEdit, s: str):
+        tmp = w.blockSignals(True)
+        w.setText(s)
+        w.blockSignals(tmp)
+
+    @staticmethod
+    def init_combo(w: QtWidgets.QComboBox, value: str, assets: list):
+        tmp = w.blockSignals(True)
+        w.clear()
+        for asset in assets:
+            w.addItem(asset.name, asset.name)
+        w.setCurrentIndex(w.findData(value))
+        w.blockSignals(tmp)
+
+    @staticmethod
+    def get_int(s: str, default: int = 0):
+        try:
+            i = int(s)
+        except ValueError:
+            i = default
+        return i
+
+    def get_rect_rot(self, x: QtWidgets.QLineEdit, y: QtWidgets.QLineEdit,
+                     w: QtWidgets.QLineEdit, h: QtWidgets.QLineEdit, r: QtWidgets.QLineEdit):
+        rect = [self.get_int(x.text()), self.get_int(y.text()),
+                self.get_int(w.text()), self.get_int(h.text())]
+        rot = self.get_int(r.text())
+        return rect, rot
+
+    @staticmethod
+    def get_style(s: QtWidgets.QComboBox):
+        idx = s.currentIndex()
+        return s.itemData(idx)
+
+    @staticmethod
+    def get_image(s: QtWidgets.QComboBox):
+        idx = s.currentIndex()
+        return s.itemData(idx)
+
+    def do_rect_update(self):
+        renderable = self._current_renderable
+        if renderable is None:
+            return
+        rect, rot = self.get_rect_rot(self.leRectX, self.leRectY, self.leRectW, self.leRectH, self.leRectR)
+        style = self.get_style(self.cbRectStyle)
+        renderable.style = style
+        renderable.rectangle = rect
+        renderable.rotation = rot
+        self._renderer.update_gfx_items(renderable)
+
+    def do_image_update(self):
+        renderable = self._current_renderable
+        if renderable is None:
+            return
+        rect, rot = self.get_rect_rot(self.leImageX, self.leImageY, self.leImageW, self.leImageH, self.leImageR)
+        image = self.get_image(self.cbImageImage)
+        renderable.image = image
+        renderable.rectangle = rect
+        renderable.rotation = rot
+        self._renderer.update_gfx_items(renderable)
+
+    def do_text_update(self):
+        renderable = self._current_renderable
+        if renderable is None:
+            return
+        rect, rot = self.get_rect_rot(self.leTextX, self.leTextY, self.leTextW, self.leTextH, self.leTextR)
+        style = self.get_style(self.cbTextStyle)
+        renderable.style = style
+        renderable.rectangle = rect
+        renderable.rotation = rot
+        renderable.text = self.leTextText.toPlainText()
+        self._renderer.update_gfx_items(renderable)
+
+    def do_rect_update_int(self, _):
+        self.do_rect_update()
+
+    def do_image_update_int(self, _):
+        self.do_image_update()
+
+    def do_text_update_int(self, _):
+        self.do_text_update()
 
     def update_card_render(self):
         if self._renderer is None:
