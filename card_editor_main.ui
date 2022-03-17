@@ -127,7 +127,7 @@
        <widget class="QListWidget" name="lwGfxItems"/>
        <widget class="QStackedWidget" name="swGfxItemProps">
         <property name="currentIndex">
-         <number>2</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="pg_none"/>
         <widget class="QWidget" name="pg_render_image">
@@ -446,7 +446,7 @@
        </widget>
        <widget class="QStackedWidget" name="swAssetProps">
         <property name="currentIndex">
-         <number>3</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="pgnone"/>
         <widget class="QWidget" name="pgimage">
@@ -1010,6 +1010,39 @@
    <header>spelltextedit</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>cbStyleLinestyle</tabstop>
+  <tabstop>cbStyleJustification</tabstop>
+  <tabstop>sbStyleBoundaryoffset</tabstop>
+  <tabstop>leImageH</tabstop>
+  <tabstop>leImageR</tabstop>
+  <tabstop>cbImageImage</tabstop>
+  <tabstop>leTextX</tabstop>
+  <tabstop>leTextY</tabstop>
+  <tabstop>leTextW</tabstop>
+  <tabstop>leTextH</tabstop>
+  <tabstop>leTextR</tabstop>
+  <tabstop>cbTextStyle</tabstop>
+  <tabstop>leTextText</tabstop>
+  <tabstop>leRectX</tabstop>
+  <tabstop>leRectY</tabstop>
+  <tabstop>leRectW</tabstop>
+  <tabstop>leRectH</tabstop>
+  <tabstop>leRectR</tabstop>
+  <tabstop>cbRectStyle</tabstop>
+  <tabstop>twAssets</tabstop>
+  <tabstop>twCards</tabstop>
+  <tabstop>lwGfxItems</tabstop>
+  <tabstop>leImageX</tabstop>
+  <tabstop>leImageY</tabstop>
+  <tabstop>leImageW</tabstop>
+  <tabstop>leImgAssetX</tabstop>
+  <tabstop>leImgAssetY</tabstop>
+  <tabstop>leImgAssetW</tabstop>
+  <tabstop>leImgAssetH</tabstop>
+  <tabstop>sbStyleSize</tabstop>
+  <tabstop>sbStyleBorderthickness</tabstop>
+ </tabstops>
  <resources>
   <include location="card_editor_res.qrc"/>
  </resources>

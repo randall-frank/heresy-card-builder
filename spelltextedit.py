@@ -1,23 +1,19 @@
 import sys
 import re
 
-from PySide6.QtCore import Qt, Signal, Slot
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QSyntaxHighlighter, QTextCharFormat
 from PySide6.QtGui import QContextMenuEvent, QTextCursor, QAction
 from PySide6.QtWidgets import QMenu, QPlainTextEdit, QWidget
 from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout
 from typing import List
 
-
-class SimpleAction(QAction):
-    actionTriggered = Signal(str)
-
-    def __init__(self, *args):
-        super().__init__(*args)
-        self.triggered.connect(self.emitTriggered)
-
-    def emitTriggered(self) -> None:
-        self.actionTriggered.emit(self.text())
+has_spell_checker = False
+try:
+    from spellchecker import SpellChecker
+    has_spell_checker = True
+except ModuleNotFoundError:
+    pass
 
 
 class SpellCheckHighlighter(QSyntaxHighlighter):
@@ -28,11 +24,11 @@ class SpellCheckHighlighter(QSyntaxHighlighter):
         self._spell = None
         self._misspelledFormat = None
 
-    def setSpeller(self, speller: object) -> None:
+    def set_speller(self, speller: SpellChecker) -> None:
         self._spell = speller
         
     def highlightBlock(self, text: str) -> None:
-        if not hasattr(self, "_spell"):
+        if self._spell is None:
             return
 
         self._misspelledFormat = QTextCharFormat()
@@ -41,20 +37,19 @@ class SpellCheckHighlighter(QSyntaxHighlighter):
 
         for word_object in self.wordRegEx.finditer(text):
             if self._spell.unknown([word_object.group()]):
-                self.setFormat(word_object.start(), word_object.end() - word_object.start(), self._misspelledFormat)
+                self.setFormat(word_object.start(), word_object.end() - word_object.start(),
+                               self._misspelledFormat)
 
 
 class SpellTextEdit(QPlainTextEdit):
     def __init__(self, *args):
         super().__init__(*args)
-        try:
-            from spellchecker import SpellChecker
+        self._highlighter = None
+        self._spell = None
+        if has_spell_checker:
             self._spell = SpellChecker()
             self._highlighter = SpellCheckHighlighter(self.document())
-            self._highlighter.setSpeller(self._spell)
-        except ModuleNotFoundError:
-            self._highlighter = None
-            self._spell = None
+            self._highlighter.set_speller(self._spell)
         self._contextMenuCursor = None
         self._contextMenu = None
 
@@ -63,57 +58,59 @@ class SpellTextEdit(QPlainTextEdit):
         if self._spell:
             self._contextMenuCursor = self.cursorForPosition(event.pos())
             self._contextMenuCursor.select(QTextCursor.WordUnderCursor)
-            wordToCheck = self._contextMenuCursor.selectedText()
-            if wordToCheck:
-                if self._spell.unknown([wordToCheck]):
+            word = self._contextMenuCursor.selectedText()
+            if word:
+                if self._spell.unknown([word]):
                     self._contextMenu.addSeparator()
-                    candidates = list(self._spell.candidates(wordToCheck))
-                    suggest = self._spell.correction(wordToCheck)
+                    candidates = list(self._spell.candidates(word))
+                    suggest = self._spell.correction(word)
                     candidates.insert(0, candidates.pop(candidates.index(suggest)))
-                    self._contextMenu.addMenu(self.createSuggestionsMenu(wordToCheck, candidates))
+                    self._contextMenu.addMenu(self.create_suggestions_menu(word, candidates))
         self._contextMenu.exec(event.globalPos())
 
-    def createSuggestionsMenu(self, word: str, suggestions: List[str]) -> QMenu:
-        suggestionsMenu = QMenu(f"Replace '{word}' with", self)
+    def create_suggestions_menu(self, word: str, suggestions: List[str]) -> QMenu:
+        menu = QMenu(f"Replace '{word}' with", self)
         for word in suggestions:
-            action = SimpleAction(word, self._contextMenu)
-            action.actionTriggered.connect(self.correctWord)
-            suggestionsMenu.addAction(action)
-        return suggestionsMenu
+            action = QAction(word, self._contextMenu)
+            action.triggered.connect(self.correct_word)
+            menu.addAction(action)
+        return menu
 
-    @Slot(str)
-    def correctWord(self, word: str):
-        textCursor = self._contextMenuCursor
-        textCursor.beginEditBlock()
-        textCursor.removeSelectedText()
-        textCursor.insertText(word)
-        textCursor.endEditBlock()
+    def correct_word(self) -> None:
+        word = self.sender().text()
+        cursor = self._contextMenuCursor
+        cursor.beginEditBlock()
+        cursor.removeSelectedText()
+        cursor.insertText(word)
+        cursor.endEditBlock()
 
 
-class Ui_MainWindow(QMainWindow):
+class TestMainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setupUi()
+        self._centralWidget = None
+        self._layout = None
+        self.setup_ui()
 
-    def setupUi(self):
+    def setup_ui(self):
         self.resize(500, 500)
         self.setWindowTitle("Example app")
 
-        self.centralWidget = QWidget(self)
-        self.setCentralWidget(self.centralWidget)
+        self._centralWidget = QWidget(self)
+        self.setCentralWidget(self._centralWidget)
 
-        self.layout = QVBoxLayout(self.centralWidget)
-        self.centralWidget.setLayout(self.layout)
+        self._layout = QVBoxLayout(self._centralWidget)
+        self._centralWidget.setLayout(self._layout)
 
-        self.textEdit1 = SpellTextEdit(self.centralWidget)
-        self.layout.addWidget(self.textEdit1)
+        text_edit1 = SpellTextEdit(self._centralWidget)
+        self._layout.addWidget(text_edit1)
 
-        self.textEdit2 = SpellTextEdit(self.centralWidget)
-        self.layout.addWidget(self.textEdit2)
+        text_edit2 = SpellTextEdit(self._centralWidget)
+        self._layout.addWidget(text_edit2)
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = Ui_MainWindow()
+    window = TestMainWindow()
     window.show()
     sys.exit(app.exec())

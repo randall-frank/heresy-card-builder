@@ -7,6 +7,7 @@
 import copy
 import logging
 import os
+from typing import Optional, List
 
 from PySide6 import QtCore, QtGui, QtWidgets
 
@@ -295,26 +296,14 @@ class Renderer(object):
         return font
 
     def update_gfx_items(self, r: Renderable):
-        # TODO
-        print("RJF: Updating renderable")
-        x = r.rectangle[0]
-        y = r.rectangle[1]
-        width = r.rectangle[2]
         height = r.rectangle[3]
-        rot = r.rotation
         if isinstance(r, TextRender) or isinstance(r, RectRender):
-            base_style = self.deck.find_style(r.style)
             if isinstance(r, TextRender):
-                for obj in r.gfx_list[0:-1]:
-                    print("TextRender", obj)
+                height = self.update_text_gfx_obj(r, r.gfx_list[0], r.gfx_list[1:-1])
             obj = r.gfx_list[-1]
-            print("RectRender", obj)
+            self.update_rect_gfx_obj(r, obj, height=height)
         elif isinstance(r, ImageRender):
-            image = self.deck.find_image(r.image)
-            if image is not None:
-                sub_image = image.get_image(self.deck)
-                obj = r.gfx_list[0]
-                print("ImageRender", obj)
+            self.update_image_gfx_obj(r, r.gfx_list[0])
 
     def make_gfx_items(self, the_card: Card, r: Renderable, selectable: bool):
         objs = list()
@@ -324,115 +313,137 @@ class Renderer(object):
             height = r.rectangle[3]
             base_style = self.deck.find_style(r.style)
             if isinstance(r, TextRender):
-                # actual text item
                 obj = QtWidgets.QGraphicsTextItem()
                 obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, selectable)
                 obj.setData(0, r)
                 obj.setData(1, the_card)
-                doc = self.build_text_document(the_card, r.text, base_style, r.rectangle[2])
-                # some defaults
-                obj.setDefaultTextColor(QtGui.QColor(base_style.textcolor[0],
-                                                     base_style.textcolor[1],
-                                                     base_style.textcolor[2],
-                                                     base_style.textcolor[3]))
-                obj.setDocument(doc)
-                obj.setTextWidth(r.rectangle[2])
-                obj.setX(r.rectangle[0])    # x,y,dx,dy
-                obj.setY(r.rectangle[1])
-                # compute the bounding box and snag the height for the backdrop...
-                height = int(obj.boundingRect().height())
-                width = int(obj.boundingRect().width())
-                obj.setRotation(r.rotation)
                 objs.append(obj)
-                # handle the 'halo' effect
+                halo = []
                 if base_style.linestyle == 'halo':
-                    offsets = [[-1, -1], [-1, 1], [1, -1], [1, 1], [0, 1], [0, -1], [1, 0], [-1, 0]]
-                    tmp = copy.deepcopy(base_style.textcolor)
-                    base_style.textcolor = base_style.bordercolor
-                    doc = self.build_text_document(the_card, r.text, base_style, r.rectangle[2])
-                    for pair in offsets:
+                    for i in range(8):
                         obj = QtWidgets.QGraphicsTextItem()
-                        obj.setDefaultTextColor(QtGui.QColor(base_style.textcolor[0],
-                                                             base_style.textcolor[1],
-                                                             base_style.textcolor[2],
-                                                             base_style.textcolor[3]))
-                        obj.setDocument(doc)
-                        obj.setTextWidth(r.rectangle[2])
-                        obj.setX(r.rectangle[0] + pair[0]*3)    # x,y,dx,dy
-                        obj.setY(r.rectangle[1] + pair[1]*3)
-                        obj.setRotation(r.rotation)
+                        halo.append(obj)
                         objs.append(obj)
-                    base_style.textcolor = tmp
+                height = self.update_text_gfx_obj(r, obj, halo)
+
             # backdrop
-            if r.rectangle[3] > 0:
-                height = r.rectangle[3]
-            # "outset" the rectangle by the boundary_offset
-            left = r.rectangle[0] - base_style.boundary_offset
-            top = r.rectangle[1] - base_style.boundary_offset
-            width = r.rectangle[2] + 2*base_style.boundary_offset
-            height += 2*base_style.boundary_offset
-            obj = QtWidgets.QGraphicsRectItem(left, top, width, height)
+            obj = QtWidgets.QGraphicsRectItem()
             obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, selectable)
             obj.setData(0, r)
             obj.setData(1, the_card)
-            obj.setTransformOriginPoint(QtCore.QPointF(left, top))
-            color = QtGui.QColor(base_style.fillcolor[0],
-                                 base_style.fillcolor[1],
-                                 base_style.fillcolor[2],
-                                 base_style.fillcolor[3])
-            obj.setBrush(QtGui.QBrush(color))
-            pen = QtGui.QPen()
-            tmp = copy.deepcopy(base_style.bordercolor)
-            if (base_style.borderthickness == 0) or (base_style.linestyle == 'halo'):
-                tmp[3] = 0
-            color = QtGui.QColor(tmp[0], tmp[1], tmp[2], tmp[3])
-            pen.setColor(color)
-            pen.setWidth(base_style.borderthickness)
-            if base_style.linestyle == 'dash':
-                pen.setStyle(QtCore.Qt.DashLine)
-            elif base_style.linestyle == 'dot':
-                pen.setStyle(QtCore.Qt.DotLine)
-            elif base_style.linestyle == 'dashdot':
-                pen.setStyle(QtCore.Qt.DashDotLine)
-            obj.setPen(pen)
-            obj.setRotation(r.rotation)
+            self.update_rect_gfx_obj(r, obj, height=height)
             objs.append(obj)
         elif isinstance(r, ImageRender):
-            image = self.deck.find_image(r.image)
-            if image is not None:
-                sub_image = image.get_image(self.deck)
-                if sub_image is None:
-                    logging.error("Unable to find the reference file {} for image {}".format(image.file, r.image))
-                else:
-                    pixmap = QtGui.QPixmap.fromImage(sub_image)
-                    obj = QtWidgets.QGraphicsPixmapItem(pixmap)
-                    obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, selectable)
-                    obj.setData(0, r)
-                    obj.setData(1, the_card)
-                    obj.setX(r.rectangle[0])    # x,y,dx,dy
-                    obj.setY(r.rectangle[1])
-                    transform = QtGui.QTransform()
-                    transform.rotate(r.rotation)
-                    w = r.rectangle[2]
-                    h = r.rectangle[3]
-                    if w == -1:
-                        w = sub_image.width()
-                    if h == -1:
-                        h = sub_image.height()
-                    if w == -2:
-                        w = sub_image.width()
-                        if h > 0:
-                            w = float(h)/float(sub_image.height()) * float(w)
-                    if h == -2:
-                        h = sub_image.height()
-                        if w > 0:
-                            h = float(w)/float(sub_image.width()) * float(h)
-                    sx = float(w)/float(sub_image.width())
-                    sy = float(h)/float(sub_image.height())
-                    transform.scale(sx, sy)
-                    obj.setTransform(transform, False)
-                    objs.append(obj)
+            obj = QtWidgets.QGraphicsPixmapItem()
+            obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, selectable)
+            obj.setData(0, r)
+            obj.setData(1, the_card)
+            self.update_image_gfx_obj(r, obj)
+            objs.append(obj)
         return objs
+
+    def update_text_gfx_obj(self, r: Renderable, obj: QtWidgets.QGraphicsRectItem,
+                            halo: List[QtWidgets.QGraphicsRectItem]):
+        base_style = self.deck.find_style(r.style)
+        doc = self.build_text_document(obj.data(1), r.text, base_style, r.rectangle[2])
+        # some defaults
+        obj.setDefaultTextColor(QtGui.QColor(base_style.textcolor[0],
+                                             base_style.textcolor[1],
+                                             base_style.textcolor[2],
+                                             base_style.textcolor[3]))
+        obj.setDocument(doc)
+        obj.setTextWidth(r.rectangle[2])
+        obj.setX(r.rectangle[0])    # x,y,dx,dy
+        obj.setY(r.rectangle[1])
+
+        # compute the bounding box and snag the height for the backdrop...
+        height = int(obj.boundingRect().height())
+        width = int(obj.boundingRect().width())
+        obj.setRotation(r.rotation)
+        # handle the 'halo' effect
+        if base_style.linestyle == 'halo':
+            offsets = [[-1, -1], [-1, 1], [1, -1], [1, 1], [0, 1], [0, -1], [1, 0], [-1, 0]]
+            tmp = copy.deepcopy(base_style.textcolor)
+            base_style.textcolor = base_style.bordercolor
+            for i in range(8):
+                halo[i].setDefaultTextColor(QtGui.QColor(base_style.textcolor[0],
+                                                         base_style.textcolor[1],
+                                                         base_style.textcolor[2],
+                                                         base_style.textcolor[3]))
+                halo[i].setDocument(doc)
+                halo[i].setTextWidth(r.rectangle[2])
+                halo[i].setX(r.rectangle[0] + offsets[i][0]*3)    # x,y,dx,dy
+                halo[i].setY(r.rectangle[1] + offsets[i][1]*3)
+                halo[i].setRotation(r.rotation)
+            base_style.textcolor = tmp
+        return height
+
+    def update_rect_gfx_obj(self, r: Renderable, obj: QtWidgets.QGraphicsRectItem, height: Optional[int] = None):
+        base_style = self.deck.find_style(r.style)
+        # backdrop
+        if r.rectangle[3] > 0:
+            height = r.rectangle[3]
+        # "outset" the rectangle by the boundary_offset
+        left = r.rectangle[0] - base_style.boundary_offset
+        top = r.rectangle[1] - base_style.boundary_offset
+        width = r.rectangle[2] + 2*base_style.boundary_offset
+        height += 2*base_style.boundary_offset
+        obj.setRect(left, top, width, height)
+        obj.setTransformOriginPoint(QtCore.QPointF(left, top))
+        color = QtGui.QColor(base_style.fillcolor[0],
+                             base_style.fillcolor[1],
+                             base_style.fillcolor[2],
+                             base_style.fillcolor[3])
+        obj.setBrush(QtGui.QBrush(color))
+        pen = QtGui.QPen()
+        tmp = copy.deepcopy(base_style.bordercolor)
+        if (base_style.borderthickness == 0) or (base_style.linestyle == 'halo'):
+            tmp[3] = 0
+        color = QtGui.QColor(tmp[0], tmp[1], tmp[2], tmp[3])
+        pen.setColor(color)
+        pen.setWidth(base_style.borderthickness)
+        if base_style.linestyle == 'dash':
+            pen.setStyle(QtCore.Qt.DashLine)
+        elif base_style.linestyle == 'dot':
+            pen.setStyle(QtCore.Qt.DotLine)
+        elif base_style.linestyle == 'dashdot':
+            pen.setStyle(QtCore.Qt.DashDotLine)
+        obj.setPen(pen)
+        obj.setRotation(r.rotation)
+
+    def update_image_gfx_obj(self, r: Renderable, obj: QtWidgets.QGraphicsPixmapItem):
+        image = self.deck.find_image(r.image)
+        if image is not None:
+            sub_image = image.get_image(self.deck)
+            if sub_image is None:
+                logging.error("Unable to find the reference file {} for image {}".format(image.file, r.image))
+            else:
+                pixmap = QtGui.QPixmap.fromImage(sub_image)
+                obj.setPixmap(pixmap)
+                obj.setX(r.rectangle[0])    # x,y,dx,dy
+                obj.setY(r.rectangle[1])
+                transform = QtGui.QTransform()
+                transform.rotate(r.rotation)
+                w = r.rectangle[2]
+                h = r.rectangle[3]
+                if w == -1:
+                    w = sub_image.width()
+                if h == -1:
+                    h = sub_image.height()
+                if w == -2:
+                    w = sub_image.width()
+                    if h > 0:
+                        w = float(h)/float(sub_image.height()) * float(w)
+                if h == -2:
+                    h = sub_image.height()
+                    if w > 0:
+                        h = float(w)/float(sub_image.width()) * float(h)
+                sx = float(w)/float(sub_image.width())
+                sy = float(h)/float(sub_image.height())
+                transform.scale(sx, sy)
+                obj.setTransform(transform, False)
+        else:
+            logging.error("Unable to find the reference image {}".format(r.image))
 
     def build_card_face_scene(self, the_card: Card, top_bottom: str) -> list:
         # reset the scene
