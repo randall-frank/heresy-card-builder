@@ -9,10 +9,11 @@ from PySide6 import QtCore
 from PySide6 import QtWidgets
 from PySide6 import QtGui
 
-from ui_card_editor_main import Ui_card_editor_main
 from card_objects import build_empty_deck, Deck, Location, Renderable
 from card_render import Renderer, ImageRender, TextRender, RectRender
 from asset_gui import AssetGui, CEListItem
+
+from typing import Optional, List, Tuple
 
 # TODO:
 # create/delete/reorder cards
@@ -30,24 +31,23 @@ class CERenderableItem(QtWidgets.QListWidgetItem):
         self.setText(renderable.name)
 
 
-class CardEditorMain(QtWidgets.QMainWindow, AssetGui, Ui_card_editor_main):
+class CardEditorMain(AssetGui):
     def __init__(self, version, parent=None):
-        QtWidgets.QMainWindow.__init__(self, parent)
-        self.setupUi(self)
-        AssetGui.__init__(self)
-        self._version = version
-        self._dirty = False
-        self._deck = None
-        self._deck_filename = ''
+        super(CardEditorMain, self).__init__(parent)
+        self._version: str = version
+        self._dirty: bool = False
+        self._deck_filename: str = ''
         self._property_object = None
         self._render_object = None
         self._current_card = None
         self._current_renderable = None
         self._changing_selection = False
         self._renderer = None
-        self._zoom = 1.0
-
+        self._zoom: float = 1.0
         self.do_new()
+
+    def set_card_dirty(self):
+        self.update_card_render()
 
     def do_zoom(self):
         action = self.sender()
@@ -123,7 +123,7 @@ class CardEditorMain(QtWidgets.QMainWindow, AssetGui, Ui_card_editor_main):
     def do_frontface(self, b: bool):
         self.update_card_render()
 
-    def set_dirty(self, d):
+    def set_dirty(self, d: bool):
         self._dirty = d
 
     @QtCore.Slot()
@@ -202,7 +202,7 @@ class CardEditorMain(QtWidgets.QMainWindow, AssetGui, Ui_card_editor_main):
             for c in l.cards:
                 CEListItem(c, parent=loc, can_move=True, can_rename=True)
 
-    def set_current_renderable_target(self, renderable: Renderable, selection_only: bool = False):
+    def set_current_renderable_target(self, renderable: Optional[Renderable], selection_only: bool = False):
         self._current_renderable = renderable
         if self._current_renderable:
             self._changing_selection = True
@@ -244,7 +244,7 @@ class CardEditorMain(QtWidgets.QMainWindow, AssetGui, Ui_card_editor_main):
             self.set_current_renderable_target(new_current_item.renderable)
         self._changing_selection = False
 
-    def current_asset_changed(self, new: CEListItem, dummy):
+    def current_asset_changed(self, new: CEListItem, _):
         if isinstance(new, CEListItem):
             obj = new.get_obj()
         else:
@@ -316,37 +316,12 @@ class CardEditorMain(QtWidgets.QMainWindow, AssetGui, Ui_card_editor_main):
         w.setCurrentIndex(w.findData(value))
         w.blockSignals(tmp)
 
-    @staticmethod
-    def get_int(s: str, default: int = 0):
-        try:
-            i = int(s)
-        except ValueError:
-            i = default
-        return i
-
-    def get_rect_rot(self, x: QtWidgets.QLineEdit, y: QtWidgets.QLineEdit,
-                     w: QtWidgets.QLineEdit, h: QtWidgets.QLineEdit, r: QtWidgets.QDoubleSpinBox):
-        rect = [self.get_int(x.text()), self.get_int(y.text()),
-                self.get_int(w.text()), self.get_int(h.text())]
-        rot = int(r.value())
-        return rect, rot
-
-    @staticmethod
-    def get_style(s: QtWidgets.QComboBox):
-        idx = s.currentIndex()
-        return s.itemData(idx)
-
-    @staticmethod
-    def get_image(s: QtWidgets.QComboBox):
-        idx = s.currentIndex()
-        return s.itemData(idx)
-
     def do_rect_update(self):
         renderable = self._current_renderable
         if renderable is None:
             return
         rect, rot = self.get_rect_rot(self.leRectX, self.leRectY, self.leRectW, self.leRectH, self.dsRectR)
-        style = self.get_style(self.cbRectStyle)
+        style = self.get_cb_data(self.cbRectStyle)
         renderable.style = style
         renderable.rectangle = rect
         renderable.rotation = rot
@@ -357,7 +332,7 @@ class CardEditorMain(QtWidgets.QMainWindow, AssetGui, Ui_card_editor_main):
         if renderable is None:
             return
         rect, rot = self.get_rect_rot(self.leImageX, self.leImageY, self.leImageW, self.leImageH, self.dsImageR)
-        image = self.get_image(self.cbImageImage)
+        image = self.get_cb_data(self.cbImageImage)
         renderable.image = image
         renderable.rectangle = rect
         renderable.rotation = rot
@@ -368,7 +343,7 @@ class CardEditorMain(QtWidgets.QMainWindow, AssetGui, Ui_card_editor_main):
         if renderable is None:
             return
         rect, rot = self.get_rect_rot(self.leTextX, self.leTextY, self.leTextW, self.leTextH, self.dsTextR)
-        style = self.get_style(self.cbTextStyle)
+        style = self.get_cb_data(self.cbTextStyle)
         renderable.style = style
         renderable.rectangle = rect
         renderable.rotation = rot
@@ -413,7 +388,7 @@ class CardEditorMain(QtWidgets.QMainWindow, AssetGui, Ui_card_editor_main):
         self._renderer.view.resetTransform()
         self._renderer.view.scale(self._zoom, self._zoom)
 
-    def current_card_changed(self, new: CEListItem, dummy):
+    def current_card_changed(self, new: CEListItem, _):
         if isinstance(new, CEListItem):
             obj = new.get_obj()
         else:

@@ -485,7 +485,7 @@
        </widget>
        <widget class="QStackedWidget" name="swAssetProps">
         <property name="currentIndex">
-         <number>3</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="pgnone"/>
         <widget class="QWidget" name="pgimage">
@@ -628,35 +628,25 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="lblStyleTypeface">
-            <property name="text">
-             <string>TextLabel</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton">
-            <property name="text">
-             <string>Select font...</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <layout class="QHBoxLayout" name="horizontalLayout_4">
             <item>
              <widget class="QLabel" name="label_18">
               <property name="text">
-               <string>Point size</string>
+               <string>Family:</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="sbStyleSize">
-              <property name="minimum">
-               <number>1</number>
+             <widget class="QLabel" name="lblStyleTypeface">
+              <property name="text">
+               <string>TextLabel</string>
               </property>
-              <property name="maximum">
-               <number>200</number>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="lblStyleSize">
+              <property name="text">
+               <string>Point size</string>
               </property>
              </widget>
             </item>
@@ -674,6 +664,13 @@
              </spacer>
             </item>
            </layout>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>Select typeface and size...</string>
+            </property>
+           </widget>
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -1097,7 +1094,6 @@
   <tabstop>leImgAssetY</tabstop>
   <tabstop>leImgAssetW</tabstop>
   <tabstop>leImgAssetH</tabstop>
-  <tabstop>sbStyleSize</tabstop>
   <tabstop>sbStyleBorderthickness</tabstop>
  </tabstops>
  <resources>
@@ -1335,7 +1331,7 @@
    <slot>do_rect_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>98</x>
+     <x>99</x>
      <y>506</y>
     </hint>
     <hint type="destinationlabel">
@@ -1367,7 +1363,7 @@
    <slot>do_rect_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>98</x>
+     <x>99</x>
      <y>509</y>
     </hint>
     <hint type="destinationlabel">
@@ -1479,8 +1475,8 @@
    <slot>do_text_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>285</x>
-     <y>521</y>
+     <x>99</x>
+     <y>506</y>
     </hint>
     <hint type="destinationlabel">
      <x>367</x>
@@ -1495,8 +1491,8 @@
    <slot>do_text_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>88</x>
-     <y>521</y>
+     <x>70</x>
+     <y>506</y>
     </hint>
     <hint type="destinationlabel">
      <x>364</x>
@@ -1511,8 +1507,8 @@
    <slot>do_text_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>285</x>
-     <y>547</y>
+     <x>99</x>
+     <y>509</y>
     </hint>
     <hint type="destinationlabel">
      <x>360</x>
@@ -1527,8 +1523,8 @@
    <slot>do_text_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>88</x>
-     <y>547</y>
+     <x>70</x>
+     <y>509</y>
     </hint>
     <hint type="destinationlabel">
      <x>369</x>
@@ -1543,8 +1539,8 @@
    <slot>do_text_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>86</x>
-     <y>628</y>
+     <x>95</x>
+     <y>515</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1560,7 +1556,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>92</x>
-     <y>601</y>
+     <y>511</y>
     </hint>
     <hint type="destinationlabel">
      <x>365</x>
@@ -1575,8 +1571,8 @@
    <slot>do_text_update_double(double)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>84</x>
-     <y>587</y>
+     <x>70</x>
+     <y>511</y>
     </hint>
     <hint type="destinationlabel">
      <x>422</x>
@@ -1607,8 +1603,8 @@
    <slot>do_rect_update_double(double)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>108</x>
-     <y>521</y>
+     <x>70</x>
+     <y>511</y>
     </hint>
     <hint type="destinationlabel">
      <x>677</x>
@@ -1623,8 +1619,8 @@
    <slot>do_as_image_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1121</x>
-     <y>372</y>
+     <x>1070</x>
+     <y>378</y>
     </hint>
     <hint type="destinationlabel">
      <x>995</x>
@@ -1639,8 +1635,8 @@
    <slot>do_as_image_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1098</x>
-     <y>397</y>
+     <x>1070</x>
+     <y>382</y>
     </hint>
     <hint type="destinationlabel">
      <x>996</x>
@@ -1655,8 +1651,8 @@
    <slot>do_as_image_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1233</x>
-     <y>372</y>
+     <x>1098</x>
+     <y>378</y>
     </hint>
     <hint type="destinationlabel">
      <x>992</x>
@@ -1671,28 +1667,12 @@
    <slot>do_as_image_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1265</x>
-     <y>398</y>
+     <x>1098</x>
+     <y>382</y>
     </hint>
     <hint type="destinationlabel">
      <x>987</x>
      <y>303</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>sbStyleSize</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>card_editor_main</receiver>
-   <slot>do_as_style_update_int(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>1082</x>
-     <y>602</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>993</x>
-     <y>580</y>
     </hint>
    </hints>
   </connection>
@@ -1703,8 +1683,8 @@
    <slot>do_as_style_update_int(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1112</x>
-     <y>661</y>
+     <x>1140</x>
+     <y>499</y>
     </hint>
     <hint type="destinationlabel">
      <x>993</x>
@@ -1719,8 +1699,8 @@
    <slot>do_as_style_update_int(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1090</x>
-     <y>740</y>
+     <x>1134</x>
+     <y>589</y>
     </hint>
     <hint type="destinationlabel">
      <x>994</x>
@@ -1735,8 +1715,8 @@
    <slot>do_as_style_update_int(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1097</x>
-     <y>768</y>
+     <x>1138</x>
+     <y>617</y>
     </hint>
     <hint type="destinationlabel">
      <x>995</x>
@@ -1746,13 +1726,13 @@
   </connection>
   <connection>
    <sender>sbStyleBoundaryoffset</sender>
-   <signal>editingFinished()</signal>
+   <signal>valueChanged(int)</signal>
    <receiver>card_editor_main</receiver>
-   <slot>do_as_style_update()</slot>
+   <slot>do_as_style_update_int(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1113</x>
-     <y>798</y>
+     <x>1139</x>
+     <y>645</y>
     </hint>
     <hint type="destinationlabel">
      <x>992</x>
@@ -1767,8 +1747,8 @@
    <slot>do_as_style_fillcolor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1074</x>
-     <y>630</y>
+     <x>1094</x>
+     <y>471</y>
     </hint>
     <hint type="destinationlabel">
      <x>992</x>
@@ -1783,8 +1763,8 @@
    <slot>do_as_style_bordercolor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1085</x>
-     <y>692</y>
+     <x>1114</x>
+     <y>530</y>
     </hint>
     <hint type="destinationlabel">
      <x>993</x>
@@ -1799,8 +1779,8 @@
    <slot>do_as_style_textcolor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1082</x>
-     <y>722</y>
+     <x>1104</x>
+     <y>561</y>
     </hint>
     <hint type="destinationlabel">
      <x>993</x>
@@ -1815,8 +1795,8 @@
    <slot>do_as_style_font()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1038</x>
-     <y>565</y>
+     <x>1337</x>
+     <y>441</y>
     </hint>
     <hint type="destinationlabel">
      <x>990</x>
