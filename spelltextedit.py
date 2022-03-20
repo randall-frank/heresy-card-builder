@@ -10,6 +10,7 @@ from typing import List
 
 has_spell_checker = False
 try:
+    # python -m pip install pyspellchecker
     from spellchecker import SpellChecker
     has_spell_checker = True
 except ModuleNotFoundError:
@@ -70,7 +71,8 @@ class SpellTextEdit(QPlainTextEdit):
 
     def create_suggestions_menu(self, word: str, suggestions: List[str]) -> QMenu:
         menu = QMenu(f"Replace '{word}' with", self)
-        for word in suggestions:
+        # max of 10 suggestions
+        for word in suggestions[:10]:
             action = QAction(word, self._contextMenu)
             action.triggered.connect(self.correct_word)
             menu.addAction(action)

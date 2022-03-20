@@ -12,21 +12,15 @@ from PySide6 import QtGui
 from ui_card_editor_main import Ui_card_editor_main
 from card_objects import build_empty_deck, Deck, Location, Renderable
 from card_render import Renderer, ImageRender, TextRender, RectRender
+from asset_gui import AssetGui, CEListItem
 
-try:
-    # python -m pip install pyspellchecker
-    # https://nachtimwald.com/2009/08/22/qplaintextedit-with-in-line-spell-check/
-    from spellchecker import SpellChecker
-except ModuleNotFoundError:
-    class SpellChecker:
-        def unknown(self, words: list) -> set:
-            return set()
-
-        def correction(self, word: str) -> str:
-            return word
-
-        def candidates(self, word: str) -> list:
-            return [word]
+# TODO:
+# create/delete/reorder cards
+# create/delete/reorder assets
+# edit assets: image, file, style
+# text edit insert assets
+# text edit insert macro
+# verification functions
 
 
 class CERenderableItem(QtWidgets.QListWidgetItem):
@@ -36,31 +30,11 @@ class CERenderableItem(QtWidgets.QListWidgetItem):
         self.setText(renderable.name)
 
 
-class CEListItem(QtWidgets.QTreeWidgetItem):
-    def __init__(self, obj, parent=None, can_move=True, can_rename=True, can_select=True):
-        super().__init__()
-        self._obj = obj
-        self.setText(0, obj.name)
-        flags = QtCore.Qt.ItemIsEnabled
-        if can_select:
-            flags |= QtCore.Qt.ItemIsSelectable
-        if can_rename:
-            flags |= QtCore.Qt.ItemIsEditable
-        if can_move:
-            flags |= QtCore.Qt.ItemIsDropEnabled
-            flags |= QtCore.Qt.ItemIsDragEnabled
-        self.setFlags(flags)
-        if parent:
-            parent.addChild(self)
-
-    def get_obj(self):
-        return self._obj
-
-
-class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
+class CardEditorMain(QtWidgets.QMainWindow, AssetGui, Ui_card_editor_main):
     def __init__(self, version, parent=None):
-        super(CardEditorMain, self).__init__(parent)
+        QtWidgets.QMainWindow.__init__(self, parent)
         self.setupUi(self)
+        AssetGui.__init__(self)
         self._version = version
         self._dirty = False
         self._deck = None
@@ -68,25 +42,10 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         self._property_object = None
         self._render_object = None
         self._current_card = None
-        self._current_asset = None
         self._current_renderable = None
         self._changing_selection = False
         self._renderer = None
         self._zoom = 1.0
-        self._speller = SpellChecker()
-
-        self.cbStyleLinestyle.clear()
-        self.cbStyleLinestyle.addItem("Solid", "solid")
-        self.cbStyleLinestyle.addItem("Dash", "dash")
-        self.cbStyleLinestyle.addItem("Dot", "dot")
-        self.cbStyleLinestyle.addItem("Dash Dot", "dashdot")
-        self.cbStyleLinestyle.addItem("Halo outline", "halo")
-
-        self.cbStyleJustification.clear()
-        self.cbStyleJustification.addItem("Full", "full")
-        self.cbStyleJustification.addItem("Left", "left")
-        self.cbStyleJustification.addItem("Right", "right")
-        self.cbStyleJustification.addItem("Center", "center")
 
         self.do_new()
 
@@ -243,86 +202,6 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
             for c in l.cards:
                 CEListItem(c, parent=loc, can_move=True, can_rename=True)
 
-    def update_assetlist(self):
-        tw = self.twAssets
-        tw.clear()
-        if self._deck is None:
-            return
-        tmp = QtWidgets.QTreeWidgetItem(["Files"])
-        tmp.setFlags(QtCore.Qt.ItemIsEnabled)
-        tw.addTopLevelItem(tmp)
-        for f in self._deck.files:
-            CEListItem(f, parent=tmp, can_move=True, can_rename=True)
-        tmp = QtWidgets.QTreeWidgetItem(["Images"])
-        tmp.setFlags(QtCore.Qt.ItemIsEnabled)
-        tw.addTopLevelItem(tmp)
-        for i in self._deck.images:
-            CEListItem(i, parent=tmp, can_move=True, can_rename=True)
-        tmp = QtWidgets.QTreeWidgetItem(["Styles"])
-        tmp.setFlags(QtCore.Qt.ItemIsEnabled)
-        tw.addTopLevelItem(tmp)
-        for s in self._deck.styles:
-            CEListItem(s, parent=tmp, can_move=True, can_rename=True)
-
-    def update_asset_props(self):
-        # Files, Images, Styles
-        if self._current_asset is None:
-            self.swAssetProps.setCurrentIndex(0)
-            return
-        tag = self._current_asset.get_xml_name()
-        for i in range(self.swAssetProps.count()):
-            if self.swAssetProps.widget(i).objectName() == 'pg' + tag:
-                self.swAssetProps.setCurrentIndex(i)
-                break
-        if tag == 'file':
-            self.lblFileName.setText(self._current_asset.name)
-            self.lblFileFilename.setText(self._current_asset.filename)
-            self.lblFileSize.setText(self._current_asset.get_column_info(1))
-            img = self.resize_image(self._current_asset.image, 200)
-            self.lblFileImage.setPixmap(QtGui.QPixmap.fromImage(img))
-        elif tag == 'image':
-            self.lblImgAssetName.setText(self._current_asset.name)
-            self.lblImgAssetFile.setText(self._current_asset.file)
-            self.leImgAssetX.setText(str(self._current_asset.rectangle[0]))
-            self.leImgAssetY.setText(str(self._current_asset.rectangle[1]))
-            self.leImgAssetW.setText(str(self._current_asset.rectangle[2]))
-            self.leImgAssetH.setText(str(self._current_asset.rectangle[3]))
-            img = self._current_asset.get_image(self._deck)
-            img = self.resize_image(img, 200)
-            self.lbImgAssetImage.setPixmap(QtGui.QPixmap.fromImage(img))
-        elif tag == 'style':
-            self.lblStyleName.setText(self._current_asset.name)
-            self.lblStyleTypeface.setText(self._current_asset.typeface)
-
-            tmp = self._current_asset.linestyle
-            self.cbStyleLinestyle.setCurrentIndex(self.cbStyleLinestyle.findData(tmp))
-            tmp = self._current_asset.justification
-            self.cbStyleJustification.setCurrentIndex(self.cbStyleJustification.findData(tmp))
-
-            img = self.build_color_swatch(self._current_asset.fillcolor)
-            self.lblStyleFillcolor.setPixmap(QtGui.QPixmap.fromImage(img))
-            img = self.build_color_swatch(self._current_asset.bordercolor)
-            self.lblStyleBordercolor.setPixmap(QtGui.QPixmap.fromImage(img))
-            img = self.build_color_swatch(self._current_asset.textcolor)
-            self.lblStyleTextcolor.setPixmap(QtGui.QPixmap.fromImage(img))
-
-            self.sbStyleSize.setValue(self._current_asset.typesize)
-            self.sbStyleBorderthickness.setValue(self._current_asset.borderthickness)
-            self.sbStyleBoundaryoffset.setValue(self._current_asset.boundary_offset)
-
-    @staticmethod
-    def resize_image(image, width):
-        if (image.width() < width) and (image.height() < width):
-            return image.scaled(image.width(), image.height())
-        return image.scaled(width, width, QtCore.Qt.KeepAspectRatio)
-
-    @staticmethod
-    def build_color_swatch(rgb):
-        img = QtGui.QImage(20, 20, QtGui.QImage.Format_RGB888)
-        color = QtGui.QColor(rgb[0], rgb[1], rgb[2])
-        img.fill(color)
-        return img
-
     def set_current_renderable_target(self, renderable: Renderable, selection_only: bool = False):
         self._current_renderable = renderable
         if self._current_renderable:
@@ -391,48 +270,49 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
             self.set_text(self.leImageY, str(rect[1]))
             self.set_text(self.leImageW, str(rect[2]))
             self.set_text(self.leImageH, str(rect[3]))
-            self.set_text(self.leImageR, str(rot))
+            self.set_value(self.dsImageR, rot)
             image = self._current_renderable.image
-            self.init_combo(self.cbImageImage, image, self._deck.images)
+            self.init_combo(self.cbImageImage, image, 'images')
 
         elif isinstance(self._current_renderable, RectRender):
             self.set_text(self.leRectX, str(rect[0]))
             self.set_text(self.leRectY, str(rect[1]))
             self.set_text(self.leRectW, str(rect[2]))
             self.set_text(self.leRectH, str(rect[3]))
-            self.set_text(self.leRectR, str(rot))
+            self.set_value(self.dsRectR, rot)
             style = self._current_renderable.style
-            self.init_combo(self.cbRectStyle, style, self._deck.styles)
+            self.init_combo(self.cbRectStyle, style, 'styles')
 
         elif isinstance(self._current_renderable, TextRender):
             self.set_text(self.leTextX, str(rect[0]))
             self.set_text(self.leTextY, str(rect[1]))
             self.set_text(self.leTextW, str(rect[2]))
             self.set_text(self.leTextH, str(rect[3]))
-            self.set_text(self.leTextR, str(rot))
+            self.set_value(self.dsTextR, rot)
             text = self._current_renderable.text
             self.set_plaintext(self.leTextText, text)
             style = self._current_renderable.style
-            self.init_combo(self.cbTextStyle, style, self._deck.styles)
+            self.init_combo(self.cbTextStyle, style, 'styles')
 
-    @staticmethod
-    def set_plaintext(w: QtWidgets.QPlainTextEdit, s: str):
-        tmp = w.blockSignals(True)
-        w.setPlainText(s)
-        w.blockSignals(tmp)
-
-    @staticmethod
-    def set_text(w: QtWidgets.QLineEdit, s: str):
-        tmp = w.blockSignals(True)
-        w.setText(s)
-        w.blockSignals(tmp)
-
-    @staticmethod
-    def init_combo(w: QtWidgets.QComboBox, value: str, assets: list):
+    def init_combo(self, w: QtWidgets.QComboBox, value: str, assets: str):
         tmp = w.blockSignals(True)
         w.clear()
-        for asset in assets:
-            w.addItem(asset.name, asset.name)
+        if assets == 'images':
+            for image in self._deck.images:
+                icon = QtGui.QIcon(image.get_pixmap(self._deck))
+                w.addItem(icon, image.name, image.name)
+        elif assets == 'styles':
+            for style in self._deck.styles:
+                w.addItem(style.name, style.name)
+                idx = w.count() - 1
+                font = QtGui.QFont(style.typeface)
+                w.setItemData(idx, font, QtCore.Qt.FontRole)
+                back = QtGui.QBrush(QtGui.QColor(*style.fillcolor))
+                w.setItemData(idx, back, QtCore.Qt.BackgroundRole)
+                front = QtGui.QBrush(QtGui.QColor(*style.textcolor))
+                w.setItemData(idx, front, QtCore.Qt.ForegroundRole)
+                align = self.get_alignment(style.justification)
+                w.setItemData(idx, align, QtCore.Qt.TextAlignmentRole)
         w.setCurrentIndex(w.findData(value))
         w.blockSignals(tmp)
 
@@ -445,10 +325,10 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         return i
 
     def get_rect_rot(self, x: QtWidgets.QLineEdit, y: QtWidgets.QLineEdit,
-                     w: QtWidgets.QLineEdit, h: QtWidgets.QLineEdit, r: QtWidgets.QLineEdit):
+                     w: QtWidgets.QLineEdit, h: QtWidgets.QLineEdit, r: QtWidgets.QDoubleSpinBox):
         rect = [self.get_int(x.text()), self.get_int(y.text()),
                 self.get_int(w.text()), self.get_int(h.text())]
-        rot = self.get_int(r.text())
+        rot = int(r.value())
         return rect, rot
 
     @staticmethod
@@ -465,7 +345,7 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         renderable = self._current_renderable
         if renderable is None:
             return
-        rect, rot = self.get_rect_rot(self.leRectX, self.leRectY, self.leRectW, self.leRectH, self.leRectR)
+        rect, rot = self.get_rect_rot(self.leRectX, self.leRectY, self.leRectW, self.leRectH, self.dsRectR)
         style = self.get_style(self.cbRectStyle)
         renderable.style = style
         renderable.rectangle = rect
@@ -476,7 +356,7 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         renderable = self._current_renderable
         if renderable is None:
             return
-        rect, rot = self.get_rect_rot(self.leImageX, self.leImageY, self.leImageW, self.leImageH, self.leImageR)
+        rect, rot = self.get_rect_rot(self.leImageX, self.leImageY, self.leImageW, self.leImageH, self.dsImageR)
         image = self.get_image(self.cbImageImage)
         renderable.image = image
         renderable.rectangle = rect
@@ -487,7 +367,7 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         renderable = self._current_renderable
         if renderable is None:
             return
-        rect, rot = self.get_rect_rot(self.leTextX, self.leTextY, self.leTextW, self.leTextH, self.leTextR)
+        rect, rot = self.get_rect_rot(self.leTextX, self.leTextY, self.leTextW, self.leTextH, self.dsTextR)
         style = self.get_style(self.cbTextStyle)
         renderable.style = style
         renderable.rectangle = rect
@@ -502,6 +382,15 @@ class CardEditorMain(QtWidgets.QMainWindow, Ui_card_editor_main):
         self.do_image_update()
 
     def do_text_update_int(self, _):
+        self.do_text_update()
+
+    def do_rect_update_double(self, _):
+        self.do_rect_update()
+
+    def do_image_update_double(self, _):
+        self.do_image_update()
+
+    def do_text_update_double(self, _):
         self.do_text_update()
 
     def update_card_render(self):

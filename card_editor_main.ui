@@ -127,7 +127,7 @@
        <widget class="QListWidget" name="lwGfxItems"/>
        <widget class="QStackedWidget" name="swGfxItemProps">
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="pg_none"/>
         <widget class="QWidget" name="pg_render_image">
@@ -141,8 +141,12 @@
           </item>
           <item>
            <layout class="QGridLayout" name="gridLayout">
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="leImageR"/>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>Size</string>
+              </property>
+             </widget>
             </item>
             <item row="0" column="0">
              <widget class="QLabel" name="label">
@@ -151,17 +155,10 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_5">
-              <property name="text">
-               <string>Size</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="2">
+            <item row="1" column="3">
              <widget class="QLineEdit" name="leImageH"/>
             </item>
-            <item row="0" column="2">
+            <item row="0" column="3">
              <widget class="QLineEdit" name="leImageY"/>
             </item>
             <item row="2" column="0">
@@ -171,11 +168,27 @@
               </property>
              </widget>
             </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="leImageX"/>
+            </item>
             <item row="1" column="1">
              <widget class="QLineEdit" name="leImageW"/>
             </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="leImageX"/>
+            <item row="2" column="1">
+             <widget class="QDoubleSpinBox" name="dsImageR">
+              <property name="suffix">
+               <string> deg</string>
+              </property>
+              <property name="decimals">
+               <number>0</number>
+              </property>
+              <property name="maximum">
+               <double>360.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>10.000000000000000</double>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -232,15 +245,15 @@
           </item>
           <item>
            <layout class="QGridLayout" name="gridLayout_2">
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="leTextR"/>
-            </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_8">
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_10">
               <property name="text">
-               <string>Location</string>
+               <string>Rotation</string>
               </property>
              </widget>
+            </item>
+            <item row="1" column="3">
+             <widget class="QLineEdit" name="leTextH"/>
             </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_9">
@@ -249,24 +262,37 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="2">
-             <widget class="QLineEdit" name="leTextH"/>
-            </item>
-            <item row="0" column="2">
-             <widget class="QLineEdit" name="leTextY"/>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_10">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_8">
               <property name="text">
-               <string>Rotation</string>
+               <string>Location</string>
               </property>
              </widget>
+            </item>
+            <item row="0" column="3">
+             <widget class="QLineEdit" name="leTextY"/>
             </item>
             <item row="1" column="1">
              <widget class="QLineEdit" name="leTextW"/>
             </item>
             <item row="0" column="1">
              <widget class="QLineEdit" name="leTextX"/>
+            </item>
+            <item row="2" column="1">
+             <widget class="QDoubleSpinBox" name="dsTextR">
+              <property name="suffix">
+               <string> deg</string>
+              </property>
+              <property name="decimals">
+               <number>0</number>
+              </property>
+              <property name="maximum">
+               <double>360.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>10.000000000000000</double>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -313,13 +339,23 @@
           </item>
           <item>
            <layout class="QGridLayout" name="gridLayout_3">
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="leRectR"/>
-            </item>
             <item row="0" column="0">
              <widget class="QLabel" name="label_11">
               <property name="text">
                <string>Location</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="3">
+             <widget class="QLineEdit" name="leRectH"/>
+            </item>
+            <item row="0" column="3">
+             <widget class="QLineEdit" name="leRectY"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_13">
+              <property name="text">
+               <string>Rotation</string>
               </property>
              </widget>
             </item>
@@ -330,24 +366,27 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="2">
-             <widget class="QLineEdit" name="leRectH"/>
-            </item>
-            <item row="0" column="2">
-             <widget class="QLineEdit" name="leRectY"/>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_13">
-              <property name="text">
-               <string>Rotation</string>
-              </property>
-             </widget>
-            </item>
             <item row="1" column="1">
              <widget class="QLineEdit" name="leRectW"/>
             </item>
             <item row="0" column="1">
              <widget class="QLineEdit" name="leRectX"/>
+            </item>
+            <item row="2" column="1">
+             <widget class="QDoubleSpinBox" name="dsRectR">
+              <property name="suffix">
+               <string> deg</string>
+              </property>
+              <property name="decimals">
+               <number>0</number>
+              </property>
+              <property name="maximum">
+               <double>360.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>10.000000000000000</double>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -446,7 +485,7 @@
        </widget>
        <widget class="QStackedWidget" name="swAssetProps">
         <property name="currentIndex">
-         <number>2</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="pgnone"/>
         <widget class="QWidget" name="pgimage">
@@ -502,6 +541,20 @@
             </property>
             <property name="scaledContents">
              <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_21">
+            <property name="text">
+             <string>Source file:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lbImgAssetFile">
+            <property name="text">
+             <string>TextLabel</string>
             </property>
            </widget>
           </item>
@@ -582,6 +635,13 @@
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>Select font...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <layout class="QHBoxLayout" name="horizontalLayout_4">
             <item>
              <widget class="QLabel" name="label_18">
@@ -625,9 +685,9 @@
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="lblStyleFillcolor">
+             <widget class="QPushButton" name="pbStyleFillcolor">
               <property name="text">
-               <string>TextLabel</string>
+               <string/>
               </property>
              </widget>
             </item>
@@ -690,9 +750,9 @@
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="lblStyleBordercolor">
+             <widget class="QPushButton" name="pbStyleBordercolor">
               <property name="text">
-               <string>TextLabel</string>
+               <string/>
               </property>
              </widget>
             </item>
@@ -721,9 +781,9 @@
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="lblStyleTextcolor">
+             <widget class="QPushButton" name="pbStyleTextcolor">
               <property name="text">
-               <string>TextLabel</string>
+               <string/>
               </property>
              </widget>
             </item>
@@ -879,8 +939,8 @@
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>20</width>
-              <height>134</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
@@ -1015,20 +1075,17 @@
   <tabstop>cbStyleJustification</tabstop>
   <tabstop>sbStyleBoundaryoffset</tabstop>
   <tabstop>leImageH</tabstop>
-  <tabstop>leImageR</tabstop>
   <tabstop>cbImageImage</tabstop>
   <tabstop>leTextX</tabstop>
   <tabstop>leTextY</tabstop>
   <tabstop>leTextW</tabstop>
   <tabstop>leTextH</tabstop>
-  <tabstop>leTextR</tabstop>
   <tabstop>cbTextStyle</tabstop>
   <tabstop>leTextText</tabstop>
   <tabstop>leRectX</tabstop>
   <tabstop>leRectY</tabstop>
   <tabstop>leRectW</tabstop>
   <tabstop>leRectH</tabstop>
-  <tabstop>leRectR</tabstop>
   <tabstop>cbRectStyle</tabstop>
   <tabstop>twAssets</tabstop>
   <tabstop>twCards</tabstop>
@@ -1262,8 +1319,8 @@
    <slot>do_rect_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>85</x>
-     <y>521</y>
+     <x>70</x>
+     <y>506</y>
     </hint>
     <hint type="destinationlabel">
      <x>357</x>
@@ -1278,8 +1335,8 @@
    <slot>do_rect_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>304</x>
-     <y>540</y>
+     <x>98</x>
+     <y>506</y>
     </hint>
     <hint type="destinationlabel">
      <x>361</x>
@@ -1294,8 +1351,8 @@
    <slot>do_rect_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>165</x>
-     <y>566</y>
+     <x>70</x>
+     <y>509</y>
     </hint>
     <hint type="destinationlabel">
      <x>366</x>
@@ -1310,28 +1367,12 @@
    <slot>do_rect_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>304</x>
-     <y>566</y>
+     <x>98</x>
+     <y>509</y>
     </hint>
     <hint type="destinationlabel">
      <x>365</x>
      <y>550</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>leRectR</sender>
-   <signal>editingFinished()</signal>
-   <receiver>card_editor_main</receiver>
-   <slot>do_rect_update()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>165</x>
-     <y>592</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>365</x>
-     <y>703</y>
     </hint>
    </hints>
   </connection>
@@ -1342,8 +1383,8 @@
    <slot>do_rect_update_int(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>117</x>
-     <y>620</y>
+     <x>92</x>
+     <y>511</y>
     </hint>
     <hint type="destinationlabel">
      <x>364</x>
@@ -1358,8 +1399,8 @@
    <slot>do_image_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>178</x>
-     <y>532</y>
+     <x>108</x>
+     <y>521</y>
     </hint>
     <hint type="destinationlabel">
      <x>358</x>
@@ -1374,8 +1415,8 @@
    <slot>do_image_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>301</x>
-     <y>527</y>
+     <x>304</x>
+     <y>540</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1390,8 +1431,8 @@
    <slot>do_image_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>329</x>
-     <y>559</y>
+     <x>304</x>
+     <y>566</y>
     </hint>
     <hint type="destinationlabel">
      <x>365</x>
@@ -1406,28 +1447,12 @@
    <slot>do_image_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>152</x>
-     <y>555</y>
+     <x>165</x>
+     <y>566</y>
     </hint>
     <hint type="destinationlabel">
      <x>366</x>
      <y>575</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>leImageR</sender>
-   <signal>editingFinished()</signal>
-   <receiver>card_editor_main</receiver>
-   <slot>do_image_update()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>140</x>
-     <y>580</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>363</x>
-     <y>669</y>
     </hint>
    </hints>
   </connection>
@@ -1438,8 +1463,8 @@
    <slot>do_image_update_int(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>101</x>
-     <y>617</y>
+     <x>152</x>
+     <y>620</y>
     </hint>
     <hint type="destinationlabel">
      <x>363</x>
@@ -1454,8 +1479,8 @@
    <slot>do_text_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>304</x>
-     <y>540</y>
+     <x>285</x>
+     <y>521</y>
     </hint>
     <hint type="destinationlabel">
      <x>367</x>
@@ -1470,7 +1495,7 @@
    <slot>do_text_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>108</x>
+     <x>88</x>
      <y>521</y>
     </hint>
     <hint type="destinationlabel">
@@ -1486,8 +1511,8 @@
    <slot>do_text_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>304</x>
-     <y>566</y>
+     <x>285</x>
+     <y>547</y>
     </hint>
     <hint type="destinationlabel">
      <x>360</x>
@@ -1502,28 +1527,12 @@
    <slot>do_text_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>165</x>
-     <y>566</y>
+     <x>88</x>
+     <y>547</y>
     </hint>
     <hint type="destinationlabel">
      <x>369</x>
      <y>489</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>leTextR</sender>
-   <signal>editingFinished()</signal>
-   <receiver>card_editor_main</receiver>
-   <slot>do_text_update()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>165</x>
-     <y>592</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>361</x>
-     <y>733</y>
     </hint>
    </hints>
   </connection>
@@ -1534,8 +1543,8 @@
    <slot>do_text_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>77</x>
-     <y>657</y>
+     <x>86</x>
+     <y>628</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1550,12 +1559,268 @@
    <slot>do_text_update_int(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>117</x>
-     <y>620</y>
+     <x>92</x>
+     <y>601</y>
     </hint>
     <hint type="destinationlabel">
      <x>365</x>
      <y>782</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dsTextR</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_text_update_double(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>84</x>
+     <y>587</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>422</x>
+     <y>691</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dsImageR</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_image_update_double(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>165</x>
+     <y>592</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>366</x>
+     <y>870</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dsRectR</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_rect_update_double(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>108</x>
+     <y>521</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>677</x>
+     <y>449</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leImgAssetX</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_as_image_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1121</x>
+     <y>372</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>995</x>
+     <y>378</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leImgAssetW</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_as_image_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1098</x>
+     <y>397</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>996</x>
+     <y>421</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leImgAssetY</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_as_image_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1233</x>
+     <y>372</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>992</x>
+     <y>334</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leImgAssetH</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_as_image_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1265</x>
+     <y>398</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>987</x>
+     <y>303</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbStyleSize</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_as_style_update_int(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1082</x>
+     <y>602</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>993</x>
+     <y>580</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbStyleBorderthickness</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_as_style_update_int(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1112</x>
+     <y>661</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>993</x>
+     <y>638</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbStyleLinestyle</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_as_style_update_int(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1090</x>
+     <y>740</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>994</x>
+     <y>715</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbStyleJustification</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_as_style_update_int(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1097</x>
+     <y>768</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>995</x>
+     <y>761</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbStyleBoundaryoffset</sender>
+   <signal>editingFinished()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_as_style_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1113</x>
+     <y>798</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>992</x>
+     <y>821</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pbStyleFillcolor</sender>
+   <signal>clicked()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_as_style_fillcolor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1074</x>
+     <y>630</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>992</x>
+     <y>527</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pbStyleBordercolor</sender>
+   <signal>clicked()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_as_style_bordercolor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1085</x>
+     <y>692</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>993</x>
+     <y>681</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pbStyleTextcolor</sender>
+   <signal>clicked()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_as_style_textcolor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1082</x>
+     <y>722</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>993</x>
+     <y>749</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_as_style_font()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1038</x>
+     <y>565</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>990</x>
+     <y>478</y>
     </hint>
    </hints>
   </connection>
@@ -1577,5 +1842,17 @@
   <slot>do_image_update_int(int)</slot>
   <slot>do_text_update()</slot>
   <slot>do_text_update_int(int)</slot>
+  <slot>do_text_update_double(double)</slot>
+  <slot>do_rect_update_double(double)</slot>
+  <slot>do_image_update_double(double)</slot>
+  <slot>do_style_fontselect()</slot>
+  <slot>do_as_file_update()</slot>
+  <slot>do_as_style_update()</slot>
+  <slot>do_as_style_update_int(int)</slot>
+  <slot>do_as_image_update()</slot>
+  <slot>do_as_style_fillcolor()</slot>
+  <slot>do_as_style_textcolor()</slot>
+  <slot>do_as_style_bordercolor()</slot>
+  <slot>do_as_style_font()</slot>
  </slots>
 </ui>

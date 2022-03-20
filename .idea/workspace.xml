@@ -6,8 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="8cfc4c4e-5ad7-4556-a225-5ccb4b4d928e" name="Default" comment="Updated for makeplayingcards.com support.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_editor_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/card_editor_main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card_render.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_render.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_objects.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spelltextedit.py" beforeDir="false" afterPath="$PROJECT_DIR$/spelltextedit.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -281,7 +282,9 @@
       <workItem from="1646792330051" duration="8371000" />
       <workItem from="1646873945396" duration="6563000" />
       <workItem from="1646929001138" duration="4309000" />
-      <workItem from="1647477935013" duration="4822000" />
+      <workItem from="1647477935013" duration="6072000" />
+      <workItem from="1647544400693" duration="1626000" />
+      <workItem from="1647714277329" duration="15310000" />
     </task>
     <task id="LOCAL-00033" summary="Finish out graveyard scene.">
       <created>1503254845206</created>

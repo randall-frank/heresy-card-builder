@@ -11,6 +11,7 @@ from PySide6 import QtXml
 from PySide6 import QtGui
 from PySide6 import QtCore
 from PySide6 import QtWidgets
+from typing import  List
 
 # these are the core objects that represent a deck of cards to the editor
 
@@ -316,14 +317,38 @@ class Style(Base):
 
 
 class Image(Base):
-    def __init__(self, name):
+    def __init__(self, name: str):
         super(Image, self).__init__(name, 'image')
         self.file = ''
         self.rectangle = [0, 0, -1, -1]  # x,y,dx,dy
         self.usage = 'any'
 
-    def get_image(self, deck):
+    def get_file(self, deck: "Deck") -> "File":
+        return deck.find_file(self.file)
+
+    def get_file_image(self, deck: "Deck", mask=False) -> QtGui.QImage:
         f = deck.find_file(self.file)
+        if f is None:
+            return None
+        img = f.get_image()
+        if not mask:
+            return img
+        r = self.rectangle
+        s = f.size()
+        if r[2] == -1:
+            r[2] = s[0]
+        if r[3] == -1:
+            r[3] = s[1]
+        img = img.convertToFormat(QtGui.QImage.Format_ARGB32)
+        painter = QtGui.QPainter()
+        painter.begin(img)
+        rect = QtCore.QRect(r[0], r[1], r[2], r[3])
+        painter.fillRect(rect, QtGui.QBrush(QtGui.QColor(128, 128, 255, 128)))
+        painter.end()
+        return img
+
+    def get_image(self, deck: "Deck") -> QtGui.QImage:
+        f = self.get_file(deck)
         if f is None:
             return None
         w = self.rectangle[2]
@@ -335,7 +360,11 @@ class Image(Base):
         img = f.image.copy(self.rectangle[0], self.rectangle[1], w, h)  # QImage
         return img
 
-    def get_column_info(self, col):
+    def get_pixmap(self, deck) -> QtGui.QPixmap:
+        image = self.get_image(deck)
+        return QtGui.QPixmap.fromImage(image)
+
+    def get_column_info(self, col) -> str:
         if col != 1:
             return super(Image, self).get_column_info(col)
         return "%d,%d - %d,%d" % tuple(self.rectangle)
@@ -371,6 +400,9 @@ class File(Base):
             self.name = name
         else:
             self.name = filename
+
+    def get_image(self):
+        return self.image
 
     def get_column_info(self, col):
         if col != 1:
@@ -453,40 +485,40 @@ class Deck(Base):
         self.deck_filename = None
         self.deck_dirname = None
 
-    def get_card_size(self):
+    def get_card_size(self) -> List[int]:
         return self.card_size
 
-    def find_file(self, name, default=None):
+    def find_file(self, name: str, default=None) -> File:
         for f in self.files:
             if f.name == name:
                 return f
         return default
 
-    def find_image(self, name, default=None):
+    def find_image(self, name: str, default=None) -> Image:
         for i in self.images:
             if i.name == name:
                 return i
         return default
 
-    def find_style(self, name, default=Style("default")):
+    def find_style(self, name: str, default=Style("default")) -> Style:
         for s in self.styles:
             if s.name == name:
                 return s
         return default
 
-    def find_item(self, name, default=None):
+    def find_item(self, name: str, default=None) -> Card:
         for i in self.items:
             if i.name == name:
                 return i
         return default
 
-    def find_location(self, name, default=None):
+    def find_location(self, name: str, default=None) -> Location:
         for l in self.locations:
             if l.name == name:
                 return l
         return default
 
-    def find_card(self, name, default=None):
+    def find_card(self, name: str, default=None) -> Card:
         for chunk in [self.base, self.items, self.plan, self.misc, self.characters, self.deckcards]:
             for card in chunk:
                 if card.name == name:
@@ -544,7 +576,7 @@ class Deck(Base):
                 global_count += 1
                 local_count += 1
 
-    def save(self, filename):
+    def save(self, filename: str) -> bool:
         QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
         doc = QtXml.QDomDocument()
         # build the DOM
@@ -561,7 +593,7 @@ class Deck(Base):
         QtWidgets.QApplication.restoreOverrideCursor()
         return success
 
-    def load(self, filename):
+    def load(self, filename: str) -> bool:
         QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
         try:
             fp = open(filename, "rb")
