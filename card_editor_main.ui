@@ -91,7 +91,10 @@
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
-       <widget class="QTreeWidget" name="twCards">
+       <widget class="CardTreeWidget" name="twCards">
+        <property name="contextMenuPolicy">
+         <enum>Qt::CustomContextMenu</enum>
+        </property>
         <property name="dragEnabled">
          <bool>true</bool>
         </property>
@@ -127,7 +130,7 @@
        <widget class="QListWidget" name="lwGfxItems"/>
        <widget class="QStackedWidget" name="swGfxItemProps">
         <property name="currentIndex">
-         <number>1</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="pg_none"/>
         <widget class="QWidget" name="pg_render_image">
@@ -452,7 +455,10 @@
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
-       <widget class="QTreeWidget" name="twAssets">
+       <widget class="AssetTreeWidget" name="twAssets">
+        <property name="contextMenuPolicy">
+         <enum>Qt::CustomContextMenu</enum>
+        </property>
         <property name="acceptDrops">
          <bool>false</bool>
         </property>
@@ -1066,6 +1072,16 @@
    <extends>QPlainTextEdit</extends>
    <header>spelltextedit</header>
   </customwidget>
+  <customwidget>
+   <class>CardTreeWidget</class>
+   <extends>QTreeWidget</extends>
+   <header>view_widgets</header>
+  </customwidget>
+  <customwidget>
+   <class>AssetTreeWidget</class>
+   <extends>QTreeWidget</extends>
+   <header>view_widgets</header>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>cbStyleLinestyle</tabstop>
@@ -1539,7 +1555,7 @@
    <slot>do_text_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>95</x>
+     <x>99</x>
      <y>515</y>
     </hint>
     <hint type="destinationlabel">
@@ -1619,8 +1635,8 @@
    <slot>do_as_image_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1070</x>
-     <y>378</y>
+     <x>1197</x>
+     <y>442</y>
     </hint>
     <hint type="destinationlabel">
      <x>995</x>
@@ -1635,8 +1651,8 @@
    <slot>do_as_image_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1070</x>
-     <y>382</y>
+     <x>1197</x>
+     <y>468</y>
     </hint>
     <hint type="destinationlabel">
      <x>996</x>
@@ -1651,8 +1667,8 @@
    <slot>do_as_image_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1098</x>
-     <y>378</y>
+     <x>1336</x>
+     <y>442</y>
     </hint>
     <hint type="destinationlabel">
      <x>992</x>
@@ -1667,8 +1683,8 @@
    <slot>do_as_image_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1098</x>
-     <y>382</y>
+     <x>1336</x>
+     <y>468</y>
     </hint>
     <hint type="destinationlabel">
      <x>987</x>
@@ -1683,8 +1699,8 @@
    <slot>do_as_style_update_int(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1140</x>
-     <y>499</y>
+     <x>1092</x>
+     <y>392</y>
     </hint>
     <hint type="destinationlabel">
      <x>993</x>
@@ -1699,8 +1715,8 @@
    <slot>do_as_style_update_int(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1134</x>
-     <y>589</y>
+     <x>1092</x>
+     <y>398</y>
     </hint>
     <hint type="destinationlabel">
      <x>994</x>
@@ -1715,8 +1731,8 @@
    <slot>do_as_style_update_int(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1138</x>
-     <y>617</y>
+     <x>1092</x>
+     <y>400</y>
     </hint>
     <hint type="destinationlabel">
      <x>995</x>
@@ -1731,8 +1747,8 @@
    <slot>do_as_style_update_int(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1139</x>
-     <y>645</y>
+     <x>1092</x>
+     <y>402</y>
     </hint>
     <hint type="destinationlabel">
      <x>992</x>
@@ -1747,8 +1763,8 @@
    <slot>do_as_style_fillcolor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1094</x>
-     <y>471</y>
+     <x>1092</x>
+     <y>390</y>
     </hint>
     <hint type="destinationlabel">
      <x>992</x>
@@ -1763,8 +1779,8 @@
    <slot>do_as_style_bordercolor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1114</x>
-     <y>530</y>
+     <x>1092</x>
+     <y>394</y>
     </hint>
     <hint type="destinationlabel">
      <x>993</x>
@@ -1779,8 +1795,8 @@
    <slot>do_as_style_textcolor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1104</x>
-     <y>561</y>
+     <x>1092</x>
+     <y>396</y>
     </hint>
     <hint type="destinationlabel">
      <x>993</x>
@@ -1795,8 +1811,8 @@
    <slot>do_as_style_font()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1337</x>
-     <y>441</y>
+     <x>1099</x>
+     <y>387</y>
     </hint>
     <hint type="destinationlabel">
      <x>990</x>

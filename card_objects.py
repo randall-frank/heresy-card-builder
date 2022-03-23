@@ -21,6 +21,9 @@ class Base(object):
         self.name = name
         self.xml_tag = xml_tag
 
+    def __str__(self):
+        return f"Core object: '{self.name}'  class: {self.__class__}"
+
     def get_column_info(self, col):
         return ""
 

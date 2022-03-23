@@ -11,7 +11,8 @@ from PySide6 import QtGui
 
 from card_objects import build_empty_deck, Deck, Location, Renderable
 from card_render import Renderer, ImageRender, TextRender, RectRender
-from asset_gui import AssetGui, CEListItem
+from asset_gui import AssetGui
+from view_widgets import CETreeWidgetItem
 
 from typing import Optional, List, Tuple
 
@@ -45,6 +46,8 @@ class CardEditorMain(AssetGui):
         self._renderer = None
         self._zoom: float = 1.0
         self.do_new()
+
+        # self.lwGfxItems.
 
     def set_card_dirty(self):
         self.update_card_render()
@@ -158,49 +161,50 @@ class CardEditorMain(AssetGui):
         if self._deck is None:
             return
         self._deck.renumber_entities()
-        tmp = CEListItem(self._deck.default_card, can_move=False, can_rename=False)
+        static_flags = QtCore.Qt.ItemIsEnabled
+        tmp = CETreeWidgetItem(self._deck.default_card, can_move=False, can_rename=False)
         tw.addTopLevelItem(tmp)
         tmp = QtWidgets.QTreeWidgetItem(["Deck cards"])
-        tmp.setFlags(QtCore.Qt.ItemIsEnabled)
+        tmp.setFlags(static_flags)
         tw.addTopLevelItem(tmp)
         for i in self._deck.deckcards:
-            CEListItem(i, parent=tmp, can_move=True, can_rename=True)
+            CETreeWidgetItem(i, parent=tmp)
         tmp = QtWidgets.QTreeWidgetItem(["Base Cards"])
-        tmp.setFlags(QtCore.Qt.ItemIsEnabled)
+        tmp.setFlags(static_flags)
         tw.addTopLevelItem(tmp)
         for i in self._deck.base:
-            CEListItem(i, parent=tmp, can_move=True, can_rename=True)
+            CETreeWidgetItem(i, parent=tmp)
         tmp = QtWidgets.QTreeWidgetItem(["Item Cards"])
-        tmp.setFlags(QtCore.Qt.ItemIsEnabled)
+        tmp.setFlags(static_flags)
         tw.addTopLevelItem(tmp)
-        CEListItem(self._deck.default_item_card, parent=tmp, can_move=False, can_rename=False)
+        CETreeWidgetItem(self._deck.default_item_card, parent=tmp, can_move=False, can_rename=False)
         for i in self._deck.items:
-            CEListItem(i, parent=tmp, can_move=True, can_rename=True)
+            CETreeWidgetItem(i, parent=tmp)
         tmp = QtWidgets.QTreeWidgetItem(["Plan Cards"])
-        tmp.setFlags(QtCore.Qt.ItemIsEnabled)
+        tmp.setFlags(static_flags)
         tw.addTopLevelItem(tmp)
         for p in self._deck.plan:
-            CEListItem(p, parent=tmp, can_move=True, can_rename=True)
+            CETreeWidgetItem(p, parent=tmp)
         tmp = QtWidgets.QTreeWidgetItem(["Misc Cards"])
-        tmp.setFlags(QtCore.Qt.ItemIsEnabled)
+        tmp.setFlags(static_flags)
         tw.addTopLevelItem(tmp)
         for c in self._deck.misc:
-            CEListItem(c, parent=tmp, can_move=True, can_rename=True)
+            CETreeWidgetItem(c, parent=tmp)
         tmp = QtWidgets.QTreeWidgetItem(["Characters"])
-        tmp.setFlags(QtCore.Qt.ItemIsEnabled)
+        tmp.setFlags(static_flags)
         tw.addTopLevelItem(tmp)
         for c in self._deck.characters:
-            CEListItem(c, parent=tmp, can_move=True, can_rename=True)
-        tmp = CEListItem(self._deck.icon_reference, can_move=False, can_rename=False)
+            CETreeWidgetItem(c, parent=tmp)
+        tmp = CETreeWidgetItem(self._deck.icon_reference, can_move=False, can_rename=False)
         tw.addTopLevelItem(tmp)
         tmp = QtWidgets.QTreeWidgetItem(["Locations"])
-        tmp.setFlags(QtCore.Qt.ItemIsEnabled)
+        tmp.setFlags(static_flags)
         tw.addTopLevelItem(tmp)
-        CEListItem(self._deck.default_location_card, parent=tmp, can_move=False, can_rename=False)
+        CETreeWidgetItem(self._deck.default_location_card, parent=tmp, can_move=False, can_rename=False)
         for l in self._deck.locations:
-            loc = CEListItem(l, parent=tmp, can_move=True, can_rename=True)
+            loc = CETreeWidgetItem(l, parent=tmp)
             for c in l.cards:
-                CEListItem(c, parent=loc, can_move=True, can_rename=True)
+                CETreeWidgetItem(c, parent=loc)
 
     def set_current_renderable_target(self, renderable: Optional[Renderable], selection_only: bool = False):
         self._current_renderable = renderable
@@ -244,8 +248,8 @@ class CardEditorMain(AssetGui):
             self.set_current_renderable_target(new_current_item.renderable)
         self._changing_selection = False
 
-    def current_asset_changed(self, new: CEListItem, _):
-        if isinstance(new, CEListItem):
+    def current_asset_changed(self, new: CETreeWidgetItem, _):
+        if isinstance(new, CETreeWidgetItem):
             obj = new.get_obj()
         else:
             obj = None
@@ -388,8 +392,8 @@ class CardEditorMain(AssetGui):
         self._renderer.view.resetTransform()
         self._renderer.view.scale(self._zoom, self._zoom)
 
-    def current_card_changed(self, new: CEListItem, _):
-        if isinstance(new, CEListItem):
+    def current_card_changed(self, new: CETreeWidgetItem, _):
+        if isinstance(new, CETreeWidgetItem):
             obj = new.get_obj()
         else:
             obj = None

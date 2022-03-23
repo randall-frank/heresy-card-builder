@@ -9,6 +9,7 @@
       <change beforePath="$PROJECT_DIR$/asset_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/asset_gui.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/card_editor_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/card_editor_main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_objects.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -285,7 +286,8 @@
       <workItem from="1647544400693" duration="1626000" />
       <workItem from="1647714277329" duration="15588000" />
       <workItem from="1647740483348" duration="516000" />
-      <workItem from="1647784552286" duration="7012000" />
+      <workItem from="1647784552286" duration="7291000" />
+      <workItem from="1648000864754" duration="5653000" />
     </task>
     <task id="LOCAL-00033" summary="Finish out graveyard scene.">
       <created>1503254845206</created>

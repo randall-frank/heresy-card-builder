@@ -9,29 +9,9 @@ from PySide6 import QtGui
 
 from card_objects import Deck, File, Image, Style
 from ui_card_editor_main import Ui_card_editor_main
+from view_widgets import CETreeWidgetItem
 
 from typing import List, Tuple, Optional, Union
-
-
-class CEListItem(QtWidgets.QTreeWidgetItem):
-    def __init__(self, obj, parent=None, can_move=True, can_rename=True, can_select=True):
-        super().__init__()
-        self._obj = obj
-        self.setText(0, obj.name)
-        flags = QtCore.Qt.ItemIsEnabled
-        if can_select:
-            flags |= QtCore.Qt.ItemIsSelectable
-        if can_rename:
-            flags |= QtCore.Qt.ItemIsEditable
-        if can_move:
-            flags |= QtCore.Qt.ItemIsDropEnabled
-            flags |= QtCore.Qt.ItemIsDragEnabled
-        self.setFlags(flags)
-        if parent:
-            parent.addChild(self)
-
-    def get_obj(self):
-        return self._obj
 
 
 class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
@@ -162,17 +142,17 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
         tmp.setFlags(QtCore.Qt.ItemIsEnabled)
         tw.addTopLevelItem(tmp)
         for f in self._deck.files:
-            CEListItem(f, parent=tmp, can_move=True, can_rename=True)
+            CETreeWidgetItem(f, parent=tmp)
         tmp = QtWidgets.QTreeWidgetItem(["Images"])
         tmp.setFlags(QtCore.Qt.ItemIsEnabled)
         tw.addTopLevelItem(tmp)
         for i in self._deck.images:
-            CEListItem(i, parent=tmp, can_move=True, can_rename=True)
+            CETreeWidgetItem(i, parent=tmp)
         tmp = QtWidgets.QTreeWidgetItem(["Styles"])
         tmp.setFlags(QtCore.Qt.ItemIsEnabled)
         tw.addTopLevelItem(tmp)
         for s in self._deck.styles:
-            CEListItem(s, parent=tmp, can_move=True, can_rename=True)
+            CETreeWidgetItem(s, parent=tmp, can_rename=not (s.name == "default"))
 
     def update_asset_props(self):
         # Files, Images, Styles
