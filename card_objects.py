@@ -395,14 +395,37 @@ class File(Base):
         self.filename = ""
         self.store_inline = False
 
-    def load_file(self, filename, name=None, store_as_resource=False):
-        self.image.load(filename)
-        self.filename = filename
-        self.store_inline = store_as_resource
-        if name is not None:
-            self.name = name
-        else:
-            self.name = filename
+    def get_full_pathname(self, deck: "Deck") -> str:
+        if self.filename.startswith(':'):
+            return self.filename
+        pathname = self.filename
+        tmp = QtCore.QFileInfo(pathname)
+        if tmp.isRelative():
+            pathname = os.path.join(deck.deck_dirname, self.filename)
+        return pathname
+
+    def load_file(self, deck: "Deck", filename: str):
+        try:
+            if filename.startswith(':'):
+                self.image.load(filename)
+                self.filename = filename
+            else:
+                pathname = filename
+                tmp = QtCore.QFileInfo(pathname)
+                if tmp.isRelative():
+                    pathname = os.path.join(deck.deck_dirname, filename)
+                tmp = QtCore.QFileInfo(pathname)
+                pathname = tmp.canonicalFilePath()
+                self.image.load(pathname)
+                # try to remove desk.deck_dirname from the pathname
+                tmp = QtCore.QFileInfo(deck.deck_dirname)
+                deck_dirname = tmp.canonicalFilePath()
+                if pathname.startswith(deck_dirname):
+                    pathname = pathname[len(deck_dirname)+1:]
+                self.filename = pathname
+        except:
+            return False
+        return True
 
     def get_image(self):
         return self.image
@@ -428,9 +451,8 @@ class File(Base):
         try:
             tmp = elem.text()  # get unicode string
             if len(tmp) == 0:
-                pathname = os.path.join(deck.deck_dirname, filename)
-                if not obj.image.load(pathname, name):
-                    print("Warning, failed to load file: {}".format(filename))
+                if not obj.load_file(deck, filename):
+                    print(f"Warning, failed to load file: {filename}")
                     return None
             else:
                 tmp = bytes(tmp, "UTF-8")  # convert to ASCII 8bit bytes
@@ -723,7 +745,7 @@ def build_empty_deck(media_dirs=None):
         d = QtCore.QDir(":/default_files")
         for name in d.entryList():
             f = File(name)
-            f.load_file(":/default_files/"+name, name, store_as_resource=True)
+            f.load_file(deck, ":/default_files/"+name)
             deck.files.append(f)
     else:
         for d in media_dirs:
@@ -734,7 +756,7 @@ def build_empty_deck(media_dirs=None):
                     if ext.lower() in [".jpg", ".png"]:
                         print("Adding image: {} ({})".format(filename, basename))
                         f = File(basename)
-                        f.load_file(filename, basename, store_as_resource=False)
+                        f.load_file(deck, filename)
                         deck.files.append(f)
     # a default style
     deck.styles.append(Style("default"))

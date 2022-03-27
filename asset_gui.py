@@ -35,6 +35,8 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
         self.cbStyleJustification.addItem("Right", "right")
         self.cbStyleJustification.addItem("Center", "center")
 
+        self.twAssets.itemChanged.connect(self.asset_name_changed)
+
     def set_card_dirty(self):
         pass
 
@@ -140,16 +142,19 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
             return
         tmp = QtWidgets.QTreeWidgetItem(["Files"])
         tmp.setFlags(QtCore.Qt.ItemIsEnabled)
+        tmp.setData(0, QtCore.Qt.UserRole, "File")
         tw.addTopLevelItem(tmp)
         for f in self._deck.files:
-            CETreeWidgetItem(f, parent=tmp)
+            CETreeWidgetItem(f, parent=tmp, can_rename=not f.filename.startswith(":"))
         tmp = QtWidgets.QTreeWidgetItem(["Images"])
         tmp.setFlags(QtCore.Qt.ItemIsEnabled)
+        tmp.setData(0, QtCore.Qt.UserRole, "Image")
         tw.addTopLevelItem(tmp)
         for i in self._deck.images:
             CETreeWidgetItem(i, parent=tmp)
         tmp = QtWidgets.QTreeWidgetItem(["Styles"])
         tmp.setFlags(QtCore.Qt.ItemIsEnabled)
+        tmp.setData(0, QtCore.Qt.UserRole, "Style")
         tw.addTopLevelItem(tmp)
         for s in self._deck.styles:
             CETreeWidgetItem(s, parent=tmp, can_rename=not (s.name == "default"))
@@ -170,6 +175,7 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
             self.lblFileSize.setText(self._current_asset.get_column_info(1))
             img = self.resize_image(self._current_asset.get_image(), 200)
             self.lblFileImage.setPixmap(QtGui.QPixmap.fromImage(img))
+            self.pbSelectFile.setEnabled(not self._current_asset.filename.startswith(":"))
         elif tag == 'image':
             self.lblImgAssetName.setText("Image: " + self._current_asset.name)
             self.lblImgAssetFile.setText("Source file: " + self._current_asset.file)
@@ -207,6 +213,25 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
         img = self._current_asset.get_file_image(self._deck, mask=True)
         img = self.resize_image(img, 200)
         self.lbImgAssetFile.setPixmap(QtGui.QPixmap.fromImage(img))
+
+    def asset_name_changed(self, item: QtWidgets.QTreeWidgetItem, _) -> None:
+        if not isinstance(item, CETreeWidgetItem):
+            return
+        obj = item.obj
+        obj.name = item.text(0)
+        self.update_asset_props()
+
+    def do_as_file_select(self):
+        filename = QtWidgets.QFileDialog.getOpenFileName(self, "Select image file",
+                                                         self._current_asset.get_full_pathname(self._deck),
+                                                         "Images (*.png *.jpg)")
+        if filename[0]:
+            try:
+                self._current_asset.load_file(self._deck, filename[0])
+                self.update_asset_props()
+            except:
+                QtWidgets.QMessageBox.critical(self, "Unable to load image",
+                                               f"An error occurred while reading the file: '{filename[0]}'.")
 
     def do_as_image_update(self):
         if self._current_asset is None:

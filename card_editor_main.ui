@@ -491,7 +491,7 @@
        </widget>
        <widget class="QStackedWidget" name="swAssetProps">
         <property name="currentIndex">
-         <number>1</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="pgnone"/>
         <widget class="QWidget" name="pgimage">
@@ -592,6 +592,13 @@
            <widget class="QLabel" name="lblFileFilename">
             <property name="text">
              <string>TextLabel</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pbSelectFile">
+            <property name="text">
+             <string>Select file...</string>
             </property>
            </widget>
           </item>
@@ -1427,8 +1434,8 @@
    <slot>do_image_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>304</x>
-     <y>540</y>
+     <x>108</x>
+     <y>521</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1443,8 +1450,8 @@
    <slot>do_image_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>304</x>
-     <y>566</y>
+     <x>108</x>
+     <y>521</y>
     </hint>
     <hint type="destinationlabel">
      <x>365</x>
@@ -1459,8 +1466,8 @@
    <slot>do_image_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>165</x>
-     <y>566</y>
+     <x>108</x>
+     <y>521</y>
     </hint>
     <hint type="destinationlabel">
      <x>366</x>
@@ -1475,8 +1482,8 @@
    <slot>do_image_update_int(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>152</x>
-     <y>620</y>
+     <x>108</x>
+     <y>521</y>
     </hint>
     <hint type="destinationlabel">
      <x>363</x>
@@ -1491,8 +1498,8 @@
    <slot>do_text_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>99</x>
-     <y>506</y>
+     <x>286</x>
+     <y>540</y>
     </hint>
     <hint type="destinationlabel">
      <x>367</x>
@@ -1507,8 +1514,8 @@
    <slot>do_text_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>70</x>
-     <y>506</y>
+     <x>118</x>
+     <y>540</y>
     </hint>
     <hint type="destinationlabel">
      <x>364</x>
@@ -1523,8 +1530,8 @@
    <slot>do_text_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>99</x>
-     <y>509</y>
+     <x>286</x>
+     <y>566</y>
     </hint>
     <hint type="destinationlabel">
      <x>360</x>
@@ -1539,8 +1546,8 @@
    <slot>do_text_update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>70</x>
-     <y>509</y>
+     <x>118</x>
+     <y>566</y>
     </hint>
     <hint type="destinationlabel">
      <x>369</x>
@@ -1556,7 +1563,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>99</x>
-     <y>515</y>
+     <y>860</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1571,8 +1578,8 @@
    <slot>do_text_update_int(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>92</x>
-     <y>511</y>
+     <x>117</x>
+     <y>620</y>
     </hint>
     <hint type="destinationlabel">
      <x>365</x>
@@ -1587,8 +1594,8 @@
    <slot>do_text_update_double(double)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>70</x>
-     <y>511</y>
+     <x>118</x>
+     <y>592</y>
     </hint>
     <hint type="destinationlabel">
      <x>422</x>
@@ -1603,8 +1610,8 @@
    <slot>do_image_update_double(double)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>165</x>
-     <y>592</y>
+     <x>108</x>
+     <y>521</y>
     </hint>
     <hint type="destinationlabel">
      <x>366</x>
@@ -1699,8 +1706,8 @@
    <slot>do_as_style_update_int(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1092</x>
-     <y>392</y>
+     <x>1140</x>
+     <y>511</y>
     </hint>
     <hint type="destinationlabel">
      <x>993</x>
@@ -1715,8 +1722,8 @@
    <slot>do_as_style_update_int(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1092</x>
-     <y>398</y>
+     <x>1134</x>
+     <y>601</y>
     </hint>
     <hint type="destinationlabel">
      <x>994</x>
@@ -1731,8 +1738,8 @@
    <slot>do_as_style_update_int(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1092</x>
-     <y>400</y>
+     <x>1138</x>
+     <y>629</y>
     </hint>
     <hint type="destinationlabel">
      <x>995</x>
@@ -1747,8 +1754,8 @@
    <slot>do_as_style_update_int(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1092</x>
-     <y>402</y>
+     <x>1139</x>
+     <y>657</y>
     </hint>
     <hint type="destinationlabel">
      <x>992</x>
@@ -1763,8 +1770,8 @@
    <slot>do_as_style_fillcolor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1092</x>
-     <y>390</y>
+     <x>1094</x>
+     <y>483</y>
     </hint>
     <hint type="destinationlabel">
      <x>992</x>
@@ -1779,8 +1786,8 @@
    <slot>do_as_style_bordercolor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1092</x>
-     <y>394</y>
+     <x>1114</x>
+     <y>542</y>
     </hint>
     <hint type="destinationlabel">
      <x>993</x>
@@ -1795,8 +1802,8 @@
    <slot>do_as_style_textcolor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1092</x>
-     <y>396</y>
+     <x>1104</x>
+     <y>573</y>
     </hint>
     <hint type="destinationlabel">
      <x>993</x>
@@ -1811,12 +1818,28 @@
    <slot>do_as_style_font()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1099</x>
-     <y>387</y>
+     <x>1337</x>
+     <y>453</y>
     </hint>
     <hint type="destinationlabel">
      <x>990</x>
      <y>478</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pbSelectFile</sender>
+   <signal>clicked()</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_as_file_select()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1078</x>
+     <y>435</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>993</x>
+     <y>472</y>
     </hint>
    </hints>
   </connection>
@@ -1850,5 +1873,6 @@
   <slot>do_as_style_textcolor()</slot>
   <slot>do_as_style_bordercolor()</slot>
   <slot>do_as_style_font()</slot>
+  <slot>do_as_file_select()</slot>
  </slots>
 </ui>

@@ -90,6 +90,8 @@ class CardEditorMain(AssetGui):
 
     def deck_loaded(self, deck: Deck, filename: str):
         self._deck = deck
+        self.twAssets.deck = self._deck
+        self.twCards.deck = self._deck
         self._renderer = Renderer(self._deck, parent=self.wCardView)
         self._renderer.scene.selectionChanged.connect(self.do_gfx_item_selection_changed)
         self._deck_filename = filename
@@ -123,7 +125,7 @@ class CardEditorMain(AssetGui):
             return
         self._dirty = False
 
-    def do_frontface(self, b: bool):
+    def do_frontface(self, _):
         self.update_card_render()
 
     def set_dirty(self, d: bool):
@@ -201,9 +203,9 @@ class CardEditorMain(AssetGui):
         tmp.setFlags(static_flags)
         tw.addTopLevelItem(tmp)
         CETreeWidgetItem(self._deck.default_location_card, parent=tmp, can_move=False, can_rename=False)
-        for l in self._deck.locations:
-            loc = CETreeWidgetItem(l, parent=tmp)
-            for c in l.cards:
+        for location in self._deck.locations:
+            loc = CETreeWidgetItem(location, parent=tmp)
+            for c in location.cards:
                 CETreeWidgetItem(c, parent=loc)
 
     def set_current_renderable_target(self, renderable: Optional[Renderable], selection_only: bool = False):
@@ -250,7 +252,7 @@ class CardEditorMain(AssetGui):
 
     def current_asset_changed(self, new: CETreeWidgetItem, _):
         if isinstance(new, CETreeWidgetItem):
-            obj = new.get_obj()
+            obj = new.obj
         else:
             obj = None
         self._current_asset = obj
@@ -394,7 +396,7 @@ class CardEditorMain(AssetGui):
 
     def current_card_changed(self, new: CETreeWidgetItem, _):
         if isinstance(new, CETreeWidgetItem):
-            obj = new.get_obj()
+            obj = new.obj
         else:
             obj = None
         self._current_card = obj
