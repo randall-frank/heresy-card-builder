@@ -9,12 +9,12 @@ from PySide6 import QtCore
 from PySide6 import QtWidgets
 from PySide6 import QtGui
 
-from card_objects import build_empty_deck, Deck, Location, Renderable
+from card_objects import build_empty_deck, Deck, Renderable
 from card_render import Renderer, ImageRender, TextRender, RectRender
 from asset_gui import AssetGui
 from view_widgets import CETreeWidgetItem
 
-from typing import Optional, List, Tuple
+from typing import Optional
 
 # TODO:
 # create/delete/reorder cards
@@ -157,50 +157,56 @@ class CardEditorMain(AssetGui):
         self.update_cardlist()
         self.update_card_render()
 
+    @staticmethod
+    def card_root_item(item: QtWidgets.QTreeWidgetItem):
+        item.setFlags(QtCore.Qt.ItemIsEnabled)
+        font = item.font(0)
+        font.setBold(True)
+        item.setFont(0, font)
+
     def update_cardlist(self):
         tw = self.twCards
         tw.clear()
         if self._deck is None:
             return
         self._deck.renumber_entities()
-        static_flags = QtCore.Qt.ItemIsEnabled
         tmp = CETreeWidgetItem(self._deck.default_card, can_move=False, can_rename=False)
         tw.addTopLevelItem(tmp)
         tmp = QtWidgets.QTreeWidgetItem(["Deck cards"])
-        tmp.setFlags(static_flags)
+        self.card_root_item(tmp)
         tw.addTopLevelItem(tmp)
         for i in self._deck.deckcards:
             CETreeWidgetItem(i, parent=tmp)
         tmp = QtWidgets.QTreeWidgetItem(["Base Cards"])
-        tmp.setFlags(static_flags)
+        self.card_root_item(tmp)
         tw.addTopLevelItem(tmp)
         for i in self._deck.base:
             CETreeWidgetItem(i, parent=tmp)
         tmp = QtWidgets.QTreeWidgetItem(["Item Cards"])
-        tmp.setFlags(static_flags)
+        self.card_root_item(tmp)
         tw.addTopLevelItem(tmp)
         CETreeWidgetItem(self._deck.default_item_card, parent=tmp, can_move=False, can_rename=False)
         for i in self._deck.items:
             CETreeWidgetItem(i, parent=tmp)
         tmp = QtWidgets.QTreeWidgetItem(["Plan Cards"])
-        tmp.setFlags(static_flags)
+        self.card_root_item(tmp)
         tw.addTopLevelItem(tmp)
         for p in self._deck.plan:
             CETreeWidgetItem(p, parent=tmp)
         tmp = QtWidgets.QTreeWidgetItem(["Misc Cards"])
-        tmp.setFlags(static_flags)
+        self.card_root_item(tmp)
         tw.addTopLevelItem(tmp)
         for c in self._deck.misc:
             CETreeWidgetItem(c, parent=tmp)
         tmp = QtWidgets.QTreeWidgetItem(["Characters"])
-        tmp.setFlags(static_flags)
+        self.card_root_item(tmp)
         tw.addTopLevelItem(tmp)
         for c in self._deck.characters:
             CETreeWidgetItem(c, parent=tmp)
         tmp = CETreeWidgetItem(self._deck.icon_reference, can_move=False, can_rename=False)
         tw.addTopLevelItem(tmp)
         tmp = QtWidgets.QTreeWidgetItem(["Locations"])
-        tmp.setFlags(static_flags)
+        self.card_root_item(tmp)
         tw.addTopLevelItem(tmp)
         CETreeWidgetItem(self._deck.default_location_card, parent=tmp, can_move=False, can_rename=False)
         for location in self._deck.locations:

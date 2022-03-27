@@ -13,9 +13,9 @@ from PySide6 import QtWidgets, QtCore
 
 from card_editor_main import CardEditorMain
 from utilities import qt_message_handler
+from card_objects import Deck
 
-
-__version__ = "0.3.0.0"
+__version__ = "0.4.0.0"
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Edit/process T.I.M.E Stories cards from art assets.')
@@ -43,5 +43,11 @@ if __name__ == '__main__':
     main_win = CardEditorMain(__version__)
     main_win.show()
     if args.cardfile:
-        print("Reading {}\n".format(args.cardfile))
+        logging.info("Reading {}\n".format(args.cardfile))
+        tmp = Deck()
+        if not tmp.load(args.cardfile):
+            logging.info("Error: Unable to read deck: {}\n".format(args.cardfile))
+        else:
+            main_win.deck_loaded(tmp, args.cardfile)
+
     sys.exit(app.exec())

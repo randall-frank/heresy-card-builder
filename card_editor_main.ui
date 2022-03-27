@@ -14,8 +14,8 @@
    <string>T.I.M.E Stories Card Editor</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="card_editor_res.qrc">
-    <normaloff>:/images/icon</normaloff>:/images/icon</iconset>
+   <iconset>
+    <normaloff>media/TS_CreaPack_Icon_-1-.png</normaloff>media/TS_CreaPack_Icon_-1-.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,10">

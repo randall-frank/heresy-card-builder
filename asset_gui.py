@@ -135,26 +135,31 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
         font.setItalic(italic)
         return font
 
+    @staticmethod
+    def root_item(item: QtWidgets.QTreeWidgetItem, column: int, user: str):
+        item.setFlags(QtCore.Qt.ItemIsEnabled)
+        item.setData(column, QtCore.Qt.UserRole, user)
+        font = item.font(column)
+        font.setBold(True)
+        item.setFont(column, font)
+
     def update_assetlist(self):
         tw = self.twAssets
         tw.clear()
         if self._deck is None:
             return
         tmp = QtWidgets.QTreeWidgetItem(["Files"])
-        tmp.setFlags(QtCore.Qt.ItemIsEnabled)
-        tmp.setData(0, QtCore.Qt.UserRole, "File")
+        self.root_item(tmp, 0, "File")
         tw.addTopLevelItem(tmp)
         for f in self._deck.files:
             CETreeWidgetItem(f, parent=tmp, can_rename=not f.filename.startswith(":"))
         tmp = QtWidgets.QTreeWidgetItem(["Images"])
-        tmp.setFlags(QtCore.Qt.ItemIsEnabled)
-        tmp.setData(0, QtCore.Qt.UserRole, "Image")
+        self.root_item(tmp, 0, "Image")
         tw.addTopLevelItem(tmp)
         for i in self._deck.images:
             CETreeWidgetItem(i, parent=tmp)
         tmp = QtWidgets.QTreeWidgetItem(["Styles"])
-        tmp.setFlags(QtCore.Qt.ItemIsEnabled)
-        tmp.setData(0, QtCore.Qt.UserRole, "Style")
+        self.root_item(tmp, 0, "Style")
         tw.addTopLevelItem(tmp)
         for s in self._deck.styles:
             CETreeWidgetItem(s, parent=tmp, can_rename=not (s.name == "default"))

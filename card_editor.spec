@@ -3,8 +3,6 @@
 
 block_cipher = None
 
-
-
 a = Analysis(['card_editor.py'],
              pathex=[],
              binaries=[("spellchecker/resources/*", "spellchecker/resources"), ("media/*", "media")],
@@ -30,7 +28,7 @@ exe = EXE(pyz,
           bootloader_ignore_signals=False,
           strip=False,
           upx=True,
-          console=True,
+          console=False,
           disable_windowed_traceback=False,
           target_arch=None,
           codesign_identity=None,
