@@ -6,11 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8cfc4c4e-5ad7-4556-a225-5ccb4b4d928e" name="Default" comment="Updated for makeplayingcards.com support.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/asset_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/asset_gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card_editor_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card_editor_main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card_objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_objects.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view_widgets.py" beforeDir="false" afterPath="$PROJECT_DIR$/view_widgets.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +108,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.editor" />
+    <property name="settings.editor.selected.configurable" value="preferences.externalTools" />
   </component>
   <component name="RunManager" selected="Python.build_deck">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
@@ -291,7 +286,8 @@
       <workItem from="1648000864754" duration="5930000" />
       <workItem from="1648085235561" duration="5069000" />
       <workItem from="1648319012700" duration="3380000" />
-      <workItem from="1648346140639" duration="3986000" />
+      <workItem from="1648346140639" duration="4543000" />
+      <workItem from="1648409794578" duration="2340000" />
     </task>
     <task id="LOCAL-00033" summary="Finish out graveyard scene.">
       <created>1503254845206</created>

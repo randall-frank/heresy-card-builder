@@ -1,3 +1,5 @@
 __pycache__/
 card_editor_res_rc.py
 ui_card_editor_main.py
+build/
+dist/
