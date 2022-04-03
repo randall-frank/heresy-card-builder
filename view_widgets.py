@@ -125,6 +125,7 @@ class AssetTreeWidget(QtWidgets.QTreeWidget):
         menu = QtWidgets.QMenu(self)
         root_type = None
         delete_item = None
+        asset = None
         if isinstance(item, CETreeWidgetItem):
             asset = item.obj
             delete_item = item
@@ -153,6 +154,41 @@ class AssetTreeWidget(QtWidgets.QTreeWidget):
             if action is None:
                 return
             if action == add_action:
-                print("Add new ", root_type, " to ", item)
+                if root_type == "File":
+                    new_obj = File(f"New {root_type}")
+                    self.deck.files.append(new_obj)
+                elif root_type == "Image":
+                    new_obj = Image(f"New {root_type}")
+                    self.deck.images.append(new_obj)
+                else:
+                    new_obj = Style(f"New {root_type}")
+                    self.deck.styles.append(new_obj)
+                new_item = CETreeWidgetItem(new_obj)
+                if asset is None:
+                    # insert at start of items
+                    item.insertChild(0, new_item)
+                else:
+                    # insert before 'item'
+                    parent = item.parent()
+                    idx = parent.indexOfChild(item)
+                    parent.insertChild(idx, new_item)
+                # print("Add new ", root_type, " to ", item)
             elif action == delete_action:
-                print("Delete ", delete_item.text(0))
+                # remove the item from the parent
+                parent = delete_item.parent()
+                idx = parent.indexOfChild(delete_item)
+                _ = parent.takeChild(idx)
+                # delete the item from the appropriate list
+                try:
+                    self.deck.files.remove(delete_item.obj)
+                except ValueError:
+                    pass
+                try:
+                    self.deck.images.remove(delete_item.obj)
+                except ValueError:
+                    pass
+                try:
+                    self.deck.styles.remove(delete_item.obj)
+                except ValueError:
+                    pass
+                # print("Delete ", delete_item.text(0))

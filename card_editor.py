@@ -15,7 +15,7 @@ from card_editor_main import CardEditorMain
 from utilities import qt_message_handler
 from card_objects import Deck
 
-__version__ = "0.4.0.0"
+__version__ = "0.5.0.0"
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Edit/process T.I.M.E Stories cards from art assets.')

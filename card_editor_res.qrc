@@ -16,6 +16,7 @@
         <file alias="">media/TS_CreaPack_Icon_-BCB- copie.png</file>
         <file alias="">media/TS_CreaPack_Icon_-CD-.png</file>
         -->
+        <file alias="Default">media/default_image.png</file>
         <file alias="Success Icon">media/TS_CreaPack_Icon-56.png</file>
         <file alias="Failure Icon">media/TS_CreaPack_Icon-57.png</file>
         <file alias="Cancel Icon">media/TS_CreaPack_Icon-59.png</file>

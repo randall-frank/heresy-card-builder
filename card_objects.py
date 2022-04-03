@@ -11,7 +11,7 @@ from PySide6 import QtXml
 from PySide6 import QtGui
 from PySide6 import QtCore
 from PySide6 import QtWidgets
-from typing import  List
+from typing import List, Optional
 
 # these are the core objects that represent a deck of cards to the editor
 
@@ -332,7 +332,9 @@ class Image(Base):
     def get_file_image(self, deck: "Deck", mask=False) -> QtGui.QImage:
         f = deck.find_file(self.file)
         if f is None:
-            return None
+            image = QtGui.QImage()
+            image.load(":/default_files/Default")
+            return image
         img = f.get_image()
         if not mask:
             return img
@@ -353,7 +355,9 @@ class Image(Base):
     def get_image(self, deck: "Deck") -> QtGui.QImage:
         f = self.get_file(deck)
         if f is None:
-            return None
+            image = QtGui.QImage()
+            image.load(":/default_files/Default")
+            return image
         w = self.rectangle[2]
         if w < 0:
             w = f.image.width()
@@ -392,6 +396,7 @@ class File(Base):
     def __init__(self, name):
         super(File, self).__init__(name, 'file')
         self.image = QtGui.QImage()
+        self.image.load(":Default")
         self.filename = ""
         self.store_inline = False
 
@@ -488,27 +493,27 @@ class File(Base):
 class Deck(Base):
     def __init__(self, name=""):
         super(Deck, self).__init__(name, 'deck')
-        self.files = list()  # of Files
-        self.images = list()  # of Images
-        self.styles = list()  # of Styles
-        self.default_card = Card("Card Base", xml_tag="defaultcard")
-        self.default_item_card = Card("Item Card Base", xml_tag="defaultitemcard")
-        self.default_location_card = Card("Location Card Base", xml_tag="defaultlocationcard")
+        self.files: list = list()  # of Files
+        self.images: list = list()  # of Images
+        self.styles: list = list()  # of Styles
+        self.default_card: Card = Card("Card Base", xml_tag="defaultcard")
+        self.default_item_card: Card = Card("Item Card Base", xml_tag="defaultitemcard")
+        self.default_location_card: Card = Card("Location Card Base", xml_tag="defaultlocationcard")
         # un-numbered cards
-        self.deckcards = list()
+        self.deckcards: list = list()
         # Proper order of a deck
-        self.base = list()  # of Cards
-        self.items = list()  # of Cards
-        self.plan = list()  # of Cards
-        self.misc = list()  # of Cards
-        self.characters = list()  # of Cards
-        self.icon_reference = Card("Icon Reference", xml_tag='iconreference')
-        self.locations = list()  # of Locations
-        self.card_size = [825, 1425]       # [945, 1535]
+        self.base: list = list()  # of Cards
+        self.items: list = list()  # of Cards
+        self.plan: list = list()  # of Cards
+        self.misc: list = list()  # of Cards
+        self.characters: list = list()  # of Cards
+        self.icon_reference: Card = Card("Icon Reference", xml_tag='iconreference')
+        self.locations: list = list()  # of Locations
+        self.card_size: list = [825, 1425]       # [945, 1535]
         # 2.75" * 300dpi = 825
         # 4.75" * 300dpi = 1425
-        self.deck_filename = None
-        self.deck_dirname = None
+        self.deck_filename: Optional[str] = None
+        self.deck_dirname: Optional[str] = None
 
     def get_card_size(self) -> List[int]:
         return self.card_size

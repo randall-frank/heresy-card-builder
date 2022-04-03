@@ -491,7 +491,7 @@
        </widget>
        <widget class="QStackedWidget" name="swAssetProps">
         <property name="currentIndex">
-         <number>2</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="pgnone"/>
         <widget class="QWidget" name="pgimage">
@@ -504,11 +504,18 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="lblImgAssetFile">
-            <property name="text">
-             <string>TextLabel</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,10">
+            <item>
+             <widget class="QLabel" name="lblImgAssetFile">
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="cbImgAssetFile"/>
+            </item>
+           </layout>
           </item>
           <item>
            <layout class="QGridLayout" name="gridLayout_4">
@@ -572,7 +579,7 @@
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
-              <height>73</height>
+              <height>0</height>
              </size>
             </property>
            </spacer>
@@ -624,7 +631,7 @@
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
-              <height>17</height>
+              <height>0</height>
              </size>
             </property>
            </spacer>
@@ -1643,7 +1650,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>1197</x>
-     <y>442</y>
+     <y>468</y>
     </hint>
     <hint type="destinationlabel">
      <x>995</x>
@@ -1659,7 +1666,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>1197</x>
-     <y>468</y>
+     <y>494</y>
     </hint>
     <hint type="destinationlabel">
      <x>996</x>
@@ -1675,7 +1682,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>1336</x>
-     <y>442</y>
+     <y>468</y>
     </hint>
     <hint type="destinationlabel">
      <x>992</x>
@@ -1691,7 +1698,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>1336</x>
-     <y>468</y>
+     <y>494</y>
     </hint>
     <hint type="destinationlabel">
      <x>987</x>
@@ -1843,6 +1850,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>cbImgAssetFile</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>card_editor_main</receiver>
+   <slot>do_as_image_update(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1060</x>
+     <y>436</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>989</x>
+     <y>454</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>do_about()</slot>
@@ -1874,5 +1897,6 @@
   <slot>do_as_style_bordercolor()</slot>
   <slot>do_as_style_font()</slot>
   <slot>do_as_file_select()</slot>
+  <slot>do_as_image_update(int)</slot>
  </slots>
 </ui>

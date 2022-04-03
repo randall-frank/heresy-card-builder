@@ -18,11 +18,10 @@ from typing import Optional
 
 # TODO:
 # create/delete/reorder cards
-# create/delete/reorder assets
-# edit assets: image, file, style
 # text edit insert assets
 # text edit insert macro
 # verification functions
+# export -> PDF, tabletop simulator, png files (+ padding, output directory)
 
 
 class CERenderableItem(QtWidgets.QListWidgetItem):
@@ -305,28 +304,6 @@ class CardEditorMain(AssetGui):
             self.set_plaintext(self.leTextText, text)
             style = self._current_renderable.style
             self.init_combo(self.cbTextStyle, style, 'styles')
-
-    def init_combo(self, w: QtWidgets.QComboBox, value: str, assets: str):
-        tmp = w.blockSignals(True)
-        w.clear()
-        if assets == 'images':
-            for image in self._deck.images:
-                icon = QtGui.QIcon(image.get_pixmap(self._deck))
-                w.addItem(icon, image.name, image.name)
-        elif assets == 'styles':
-            for style in self._deck.styles:
-                w.addItem(style.name, style.name)
-                idx = w.count() - 1
-                font = QtGui.QFont(style.typeface)
-                w.setItemData(idx, font, QtCore.Qt.FontRole)
-                back = QtGui.QBrush(QtGui.QColor(*style.fillcolor))
-                w.setItemData(idx, back, QtCore.Qt.BackgroundRole)
-                front = QtGui.QBrush(QtGui.QColor(*style.textcolor))
-                w.setItemData(idx, front, QtCore.Qt.ForegroundRole)
-                align = self.get_alignment(style.justification)
-                w.setItemData(idx, align, QtCore.Qt.TextAlignmentRole)
-        w.setCurrentIndex(w.findData(value))
-        w.blockSignals(tmp)
 
     def do_rect_update(self):
         renderable = self._current_renderable

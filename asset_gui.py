@@ -40,6 +40,31 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
     def set_card_dirty(self):
         pass
 
+    def init_combo(self, w: QtWidgets.QComboBox, value: str, assets: str):
+        tmp = w.blockSignals(True)
+        w.clear()
+        if assets == 'images':
+            for image in self._deck.images:
+                icon = QtGui.QIcon(image.get_pixmap(self._deck))
+                w.addItem(icon, image.name, image.name)
+        elif assets == 'files':
+            for fileobj in self._deck.files:
+                w.addItem(fileobj.name, fileobj.name)
+        elif assets == 'styles':
+            for style in self._deck.styles:
+                w.addItem(style.name, style.name)
+                idx = w.count() - 1
+                font = QtGui.QFont(style.typeface)
+                w.setItemData(idx, font, QtCore.Qt.FontRole)
+                back = QtGui.QBrush(QtGui.QColor(*style.fillcolor))
+                w.setItemData(idx, back, QtCore.Qt.BackgroundRole)
+                front = QtGui.QBrush(QtGui.QColor(*style.textcolor))
+                w.setItemData(idx, front, QtCore.Qt.ForegroundRole)
+                align = self.get_alignment(style.justification)
+                w.setItemData(idx, align, QtCore.Qt.TextAlignmentRole)
+        w.setCurrentIndex(w.findData(value))
+        w.blockSignals(tmp)
+
     @staticmethod
     def get_cb_data(s: QtWidgets.QComboBox) -> str:
         idx = s.currentIndex()
@@ -183,11 +208,13 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
             self.pbSelectFile.setEnabled(not self._current_asset.filename.startswith(":"))
         elif tag == 'image':
             self.lblImgAssetName.setText("Image: " + self._current_asset.name)
-            self.lblImgAssetFile.setText("Source file: " + self._current_asset.file)
+            # self.lblImgAssetFile.setText("Source file: " + self._current_asset.file)
+            self.lblImgAssetFile.setText("Source file:")
             self.leImgAssetX.setText(str(self._current_asset.rectangle[0]))
             self.leImgAssetY.setText(str(self._current_asset.rectangle[1]))
             self.leImgAssetW.setText(str(self._current_asset.rectangle[2]))
             self.leImgAssetH.setText(str(self._current_asset.rectangle[3]))
+            self.init_combo(self.cbImgAssetFile, self._current_asset.file, 'files')
             self.update_image_images()
         elif tag == 'style':
             self.lblStyleName.setText("Style: " + self._current_asset.name)
@@ -243,8 +270,13 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
             return
         rect, _ = self.get_rect_rot(self.leImgAssetX, self.leImgAssetY, self.leImgAssetW, self.leImgAssetH, None)
         self._current_asset.rectangle = rect
+        filename = self.get_cb_data(self.cbImgAssetFile)
+        self._current_asset.file = filename
         self.update_image_images()
         self.set_card_dirty()
+
+    def do_as_image_update_int(self, _):
+        self.do_as_image_update()
 
     def do_as_style_update(self):
         if self._current_asset is None:
