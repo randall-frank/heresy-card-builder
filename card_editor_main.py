@@ -247,30 +247,58 @@ class CardEditorMain(AssetGui):
 
     def do_renderlist_context_menu(self, pos: QtCore.QPoint):
         # lwGfxItems
-        item = self.lwGfxItems.itemAt(pos)
-        if item is None:
-            return
-        item.setSelected(True)
         menu = QtWidgets.QMenu(self)
-        top = menu.addAction("Move to top")
-        up = menu.addAction("Move up")
-        down = menu.addAction("Move down")
-        bot = menu.addAction("Move to bottom")
+        item = self.lwGfxItems.itemAt(pos)
+        if item:
+            item.setSelected(True)
+            top = menu.addAction("Move to top")
+            up = menu.addAction("Move up")
+            down = menu.addAction("Move down")
+            bot = menu.addAction("Move to bottom")
+            menu.addSeparator()
+            remove = menu.addAction(f"Remove {item.text()}")
+        else:
+            top = None
+            bot = None
+            down = None
+            up = None
+            remove = None
+        add_rect = menu.addAction("New rectangle")
+        add_image = menu.addAction("New image")
+        add_text = menu.addAction("New text box")
         action = menu.exec(self.lwGfxItems.mapToGlobal(pos))
         if action is None:
             return
-        renderable = item.renderable
         face = self.current_card_face()
-        idx = face.renderables.index(renderable)
-        face.renderables.remove(renderable)
+        renderable = None
+        idx = 0
+        if item:
+            renderable = item.renderable
+            idx = face.renderables.index(renderable)
         if action == top:
+            face.renderables.remove(renderable)
             face.renderables.append(renderable)
         elif action == up:
+            face.renderables.remove(renderable)
             face.renderables.insert(idx + 1, renderable)
         elif action == bot:
+            face.renderables.remove(renderable)
             face.renderables.insert(0, renderable)
         elif action == down:
+            face.renderables.remove(renderable)
             face.renderables.insert(max(idx - 1, 0), renderable)
+        elif action == remove:
+            face.renderables.remove(renderable)
+            renderable = None
+        elif action == add_rect:
+            renderable = RectRender()
+            face.renderables.insert(idx, renderable)
+        elif action == add_text:
+            renderable = TextRender()
+            face.renderables.insert(idx, renderable)
+        elif action == add_image:
+            renderable = ImageRender()
+            face.renderables.insert(idx, renderable)
         self.update_card_render()
         for idx in range(self.lwGfxItems.count()):
             item = self.lwGfxItems.item(idx)

@@ -159,7 +159,7 @@ class TextRender(Renderable):
 
 
 class RectRender(Renderable):
-    def __init__(self, name="text"):
+    def __init__(self, name="rect"):
         super(RectRender, self).__init__(name, 'render_rect')
         self.style = "default"
         self.rectangle = [10, 10, 110, 110]
