@@ -8,7 +8,7 @@ from PySide6 import QtWidgets
 from PySide6 import QtCore
 from PySide6 import QtGui
 
-from card_objects import Base
+from card_objects import Base, Renderable
 from card_objects import Deck, Style, Image, File
 
 from typing import Optional
@@ -35,6 +35,13 @@ class CETreeWidgetItem(QtWidgets.QTreeWidgetItem):
     @property
     def obj(self) -> Base:
         return self._obj
+
+
+class CERenderableItem(QtWidgets.QListWidgetItem):
+    def __init__(self, renderable: Renderable):
+        super().__init__()
+        self.renderable = renderable
+        self.setText(renderable.name)
 
 
 class CardTreeWidget(QtWidgets.QTreeWidget):

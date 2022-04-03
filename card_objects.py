@@ -192,7 +192,7 @@ class RectRender(Renderable):
 class Face(Base):
     def __init__(self, name):
         super(Face, self).__init__(name, name)
-        self.renderables = list()   # a face is an array of Renderable instances
+        self.renderables: List[Renderable] = list()   # a face is an array of Renderable instances
 
     @classmethod
     def from_element(cls, elem, deck, is_top):
@@ -228,12 +228,12 @@ class Face(Base):
 class Card(Base):
     def __init__(self, name, xml_tag='card'):
         super(Card, self).__init__(name, xml_tag)
-        self.top_face = Face('top')
-        self.bot_face = Face('bottom')
-        self.card_number = 0
-        self.local_card_number = 0
-        self.location = None    # for location cards, the parent location
-        self.background = None  # the background card for this card
+        self.top_face: Face = Face('top')
+        self.bot_face: Face = Face('bottom')
+        self.card_number: int = 0
+        self.local_card_number: int = 0
+        self.location: Optional[Card] = None    # for location cards, the parent location
+        self.background: Optional[Card] = None  # the background card for this card
 
     @classmethod
     def from_element(cls, elem, deck):

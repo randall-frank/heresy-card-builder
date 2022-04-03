@@ -22,17 +22,17 @@ from card_objects import Style
 
 class Renderer(object):
     def __init__(self, the_deck: Deck, output_dir: str = "", parent: QtWidgets.QWidget = None):
-        self.deck = the_deck
-        self.outdir = output_dir
-        self.scene = QtWidgets.QGraphicsScene()
-        self.view = QtWidgets.QGraphicsView(parent)
+        self.deck: Deck = the_deck
+        self.outdir: str = output_dir
+        self.scene: QtWidgets.QGraphicsScene = QtWidgets.QGraphicsScene()
+        self.view: QtWidgets.QGraphicsView = QtWidgets.QGraphicsView(parent)
         self.view.setScene(self.scene)
-        self.card_size = the_deck.get_card_size()
-        self.pad_size = 0
+        self.card_size: List[int] = the_deck.get_card_size()
+        self.pad_size: int = 0
         self.view.setSceneRect(0, 0, self.card_size[0], self.card_size[1])
         self.scene.setSceneRect(self.view.sceneRect())
-        self.image = None
-        self.painter = None
+        self.image: Optional[QtGui.QImage] = None
+        self.painter: Optional[QtGui.QPainter] = None
         if parent is None:
             self.image = QtGui.QImage(self.scene.sceneRect().size().toSize(), QtGui.QImage.Format_RGBA8888)
             self.painter = QtGui.QPainter(self.image)
@@ -504,7 +504,7 @@ class Renderer(object):
     def render_deck(self, target_card: int = None):
         self.output_card_number = 0
         self.target_card = target_card
-        # Walk all of the cards, rendering them to images
+        # Walk all cards, rendering them to images
         # misc - the catacomb attackers, success/failure
         # base, items, plan, misc, characters, reference, locations
         self.deck.renumber_entities()

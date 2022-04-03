@@ -9,10 +9,10 @@ from PySide6 import QtCore
 from PySide6 import QtWidgets
 from PySide6 import QtGui
 
-from card_objects import build_empty_deck, Deck, Renderable
+from card_objects import build_empty_deck, Deck, Renderable, Face
 from card_render import Renderer, ImageRender, TextRender, RectRender
 from asset_gui import AssetGui
-from view_widgets import CETreeWidgetItem
+from view_widgets import CETreeWidgetItem, CERenderableItem
 
 from typing import Optional
 
@@ -24,13 +24,6 @@ from typing import Optional
 # export -> PDF, tabletop simulator, png files (+ padding, output directory)
 
 
-class CERenderableItem(QtWidgets.QListWidgetItem):
-    def __init__(self, renderable: Renderable):
-        super().__init__()
-        self.renderable = renderable
-        self.setText(renderable.name)
-
-
 class CardEditorMain(AssetGui):
     def __init__(self, version, parent=None):
         super(CardEditorMain, self).__init__(parent)
@@ -40,13 +33,15 @@ class CardEditorMain(AssetGui):
         self._property_object = None
         self._render_object = None
         self._current_card = None
-        self._current_renderable = None
-        self._changing_selection = False
-        self._renderer = None
+        self._current_renderable: bool = None
+        self._changing_selection: bool = False
+        self._renderer: Renderer = None
         self._zoom: float = 1.0
         self.do_new()
-
-        # self.lwGfxItems.
+        self.lwGfxItems.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        self.lwGfxItems.customContextMenuRequested.connect(self.do_renderlist_context_menu)
+        self.lwGfxItems.setDragDropMode(QtWidgets.QListWidget.InternalMove)
+        self.lwGfxItems.model().rowsMoved.connect(self.do_renderlist_reorder)
 
     def set_card_dirty(self):
         self.update_card_render()
@@ -235,6 +230,53 @@ class CardEditorMain(AssetGui):
         renderable = item.renderable
         self.set_current_renderable_target(renderable)
 
+    def do_renderlist_reorder(self, parent, start, end, dest, row):
+        item = self.lwGfxItems.item(row)
+        renderable = item.renderable
+        face = self.current_card_face()
+        item_list = list()
+        for idx in range(self.lwGfxItems.count()):
+            item = self.lwGfxItems.item(idx)
+            item_list.append(item.renderable)
+        face.renderables = item_list
+        self.update_card_render()
+        for idx in range(self.lwGfxItems.count()):
+            item = self.lwGfxItems.item(idx)
+            if item.renderable == renderable:
+                self.lwGfxItems.setCurrentRow(idx)
+
+    def do_renderlist_context_menu(self, pos: QtCore.QPoint):
+        # lwGfxItems
+        item = self.lwGfxItems.itemAt(pos)
+        if item is None:
+            return
+        item.setSelected(True)
+        menu = QtWidgets.QMenu(self)
+        top = menu.addAction("Move to top")
+        up = menu.addAction("Move up")
+        down = menu.addAction("Move down")
+        bot = menu.addAction("Move to bottom")
+        action = menu.exec(self.lwGfxItems.mapToGlobal(pos))
+        if action is None:
+            return
+        renderable = item.renderable
+        face = self.current_card_face()
+        idx = face.renderables.index(renderable)
+        face.renderables.remove(renderable)
+        if action == top:
+            face.renderables.append(renderable)
+        elif action == up:
+            face.renderables.insert(idx + 1, renderable)
+        elif action == bot:
+            face.renderables.insert(0, renderable)
+        elif action == down:
+            face.renderables.insert(max(idx - 1, 0), renderable)
+        self.update_card_render()
+        for idx in range(self.lwGfxItems.count()):
+            item = self.lwGfxItems.item(idx)
+            if item.renderable == renderable:
+                self.lwGfxItems.setCurrentRow(idx)
+
     def do_gfx_item_selection_changed(self):
         # there has been a change in renderable selection in the gfx area
         if self._changing_selection:
@@ -357,12 +399,28 @@ class CardEditorMain(AssetGui):
     def do_text_update_double(self, _):
         self.do_text_update()
 
-    def update_card_render(self):
-        if self._renderer is None:
-            return
+    def current_card_face(self) -> Face:
+        if self._current_card is None:
+            return None
+        face: Face = self._current_card.bot_face
+        if self.actionFrontFace.isChecked():
+            face = self._current_card.top_face
+        return face
+
+    def current_card_face_name(self) -> str:
+        if self._current_card is None:
+            return None
         face = "bot"
         if self.actionFrontFace.isChecked():
             face = "top"
+        return face
+
+    def update_card_render(self):
+        if self._renderer is None:
+            return
+        face = self.current_card_face_name()
+        if face is None:
+            return
         render_list = self._renderer.build_card_face_scene(self._current_card, face)
         self.lwGfxItems.clear()
         for renderable in render_list:
