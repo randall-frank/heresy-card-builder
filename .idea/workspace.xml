@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8cfc4c4e-5ad7-4556-a225-5ccb4b4d928e" name="Default" comment="Updated for makeplayingcards.com support.">
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/rjfrank.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/rjfrank.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/card_editor_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card_editor_main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/card_objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_objects.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_render.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_render.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../heresy_assets/heresy.deck" beforeDir="false" afterPath="$PROJECT_DIR$/../heresy_assets/heresy.deck" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -292,7 +294,12 @@
       <workItem from="1648346140639" duration="4543000" />
       <workItem from="1648409794578" duration="6261000" />
       <workItem from="1648943677151" duration="6652000" />
-      <workItem from="1648996891062" duration="13834000" />
+      <workItem from="1648996891062" duration="14116000" />
+      <workItem from="1649513614705" duration="18681000" />
+      <workItem from="1649606489908" duration="22303000" />
+      <workItem from="1650726125121" duration="7139000" />
+      <workItem from="1651283039625" duration="8658000" />
+      <workItem from="1651434714315" duration="4216000" />
     </task>
     <task id="LOCAL-00033" summary="Finish out graveyard scene.">
       <created>1503254845206</created>

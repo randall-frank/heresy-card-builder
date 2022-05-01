@@ -239,6 +239,7 @@ class CardEditorMain(AssetGui):
             item = self.lwGfxItems.item(idx)
             item_list.append(item.renderable)
         face.renderables = item_list
+        face.recompute_renderable_order()
         self.update_card_render()
         for idx in range(self.lwGfxItems.count()):
             item = self.lwGfxItems.item(idx)
@@ -299,6 +300,7 @@ class CardEditorMain(AssetGui):
         elif action == add_image:
             renderable = ImageRender()
             face.renderables.insert(idx, renderable)
+        face.recompute_renderable_order()
         self.update_card_render()
         for idx in range(self.lwGfxItems.count()):
             item = self.lwGfxItems.item(idx)
@@ -384,7 +386,7 @@ class CardEditorMain(AssetGui):
         renderable.style = style
         renderable.rectangle = rect
         renderable.rotation = rot
-        self._renderer.update_gfx_items(renderable)
+        self._renderer.update_gfx_items(self._current_card, renderable)
 
     def do_image_update(self):
         renderable = self._current_renderable
@@ -395,7 +397,7 @@ class CardEditorMain(AssetGui):
         renderable.image = image
         renderable.rectangle = rect
         renderable.rotation = rot
-        self._renderer.update_gfx_items(renderable)
+        self._renderer.update_gfx_items(self._current_card, renderable)
 
     def do_text_update(self):
         renderable = self._current_renderable
@@ -407,7 +409,7 @@ class CardEditorMain(AssetGui):
         renderable.rectangle = rect
         renderable.rotation = rot
         renderable.text = self.leTextText.toPlainText()
-        self._renderer.update_gfx_items(renderable)
+        self._renderer.update_gfx_items(self._current_card, renderable)
 
     def do_rect_update_int(self, _):
         self.do_rect_update()
@@ -450,11 +452,12 @@ class CardEditorMain(AssetGui):
         if face is None:
             return
         render_list = self._renderer.build_card_face_scene(self._current_card, face)
+        self.update_zoom()
         self.lwGfxItems.clear()
         for renderable in render_list:
             item = CERenderableItem(renderable)
             self.lwGfxItems.addItem(item)
-        self.update_zoom()
+            self._renderer.update_gfx_items(self._current_card, renderable)
         self.set_current_renderable_target(None)
 
     def update_zoom(self):
@@ -462,6 +465,7 @@ class CardEditorMain(AssetGui):
             return
         self._renderer.view.resetTransform()
         self._renderer.view.scale(self._zoom, self._zoom)
+        self._renderer.view.setProperty("CARD_SCALE", self._zoom)
 
     def current_card_changed(self, new: CETreeWidgetItem, _):
         if isinstance(new, CETreeWidgetItem):

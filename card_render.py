@@ -15,6 +15,8 @@ from card_objects import Deck, Card, Face, Location
 from card_objects import RectRender, TextRender, ImageRender, Renderable
 from card_objects import Style
 
+from graphics_item_handles import GraphicsRectItem, GraphicsTextItem, GraphicsPixmapItem
+
 # http://www.makeplayingcards.com
 # 897x1497=min size with 36pixel safe zone
 # Tarrot card is 70mmx120mm
@@ -140,7 +142,10 @@ class Renderer(object):
                         if offset == -1:
                             current = cur_card
                             if key == 'l':
-                                current = cur_card.location
+                                try:
+                                    current = cur_card.location
+                                except AttributeError:
+                                    current = None
                         # by name lookup
                         else:
                             name = macro[offset+1:-1]
@@ -295,15 +300,16 @@ class Renderer(object):
         font.setItalic("italic" in modifiers)
         return font
 
-    def update_gfx_items(self, r: Renderable):
+    def update_gfx_items(self, the_card: Card, r: Renderable):
         height = r.rectangle[3]
         if isinstance(r, TextRender) or isinstance(r, RectRender):
             if isinstance(r, TextRender):
-                height = self.update_text_gfx_obj(r, r.gfx_list[0], r.gfx_list[1:-1])
+                height = self.update_text_gfx_obj(the_card, r, r.gfx_list[0], r.gfx_list[1:-1])
             obj = r.gfx_list[-1]
-            self.update_rect_gfx_obj(r, obj, height=height)
+            self.update_rect_gfx_obj(the_card, r, obj, height=height)
         elif isinstance(r, ImageRender):
-            self.update_image_gfx_obj(r, r.gfx_list[0])
+            self.update_image_gfx_obj(the_card, r, r.gfx_list[0])
+        r.set_gfx_depths()
 
     def make_gfx_items(self, the_card: Card, r: Renderable, selectable: bool):
         objs = list()
@@ -313,39 +319,38 @@ class Renderer(object):
             height = r.rectangle[3]
             base_style = self.deck.find_style(r.style)
             if isinstance(r, TextRender):
+                #obj = GraphicsTextItem(selectable)
                 obj = QtWidgets.QGraphicsTextItem()
                 obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, selectable)
-                obj.setData(0, r)
-                obj.setData(1, the_card)
                 objs.append(obj)
                 halo = []
-                if base_style.linestyle == 'halo':
-                    for i in range(8):
-                        obj = QtWidgets.QGraphicsTextItem()
-                        halo.append(obj)
-                        objs.append(obj)
-                height = self.update_text_gfx_obj(r, obj, halo)
+                # Always create the halo items, but we might hide them
+                for i in range(8):
+                    halo_obj = QtWidgets.QGraphicsTextItem()
+                    halo.append(halo_obj)
+                    objs.append(halo_obj)
+                height = self.update_text_gfx_obj(the_card, r, obj, halo)
 
-            # backdrop
+            # backdrop (or rectangle)
+            #obj = GraphicsRectItem(selectable and isinstance(r, RectRender))
             obj = QtWidgets.QGraphicsRectItem()
-            obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, selectable)
-            obj.setData(0, r)
-            obj.setData(1, the_card)
-            self.update_rect_gfx_obj(r, obj, height=height)
+            obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, selectable and isinstance(obj, RectRender))
+            self.update_rect_gfx_obj(the_card, r, obj, height=height)
             objs.append(obj)
+
         elif isinstance(r, ImageRender):
+            #obj = GraphicsPixmapItem(selectable)
             obj = QtWidgets.QGraphicsPixmapItem()
             obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, selectable)
-            obj.setData(0, r)
-            obj.setData(1, the_card)
-            self.update_image_gfx_obj(r, obj)
+            self.update_image_gfx_obj(the_card, r, obj)
             objs.append(obj)
+
         return objs
 
-    def update_text_gfx_obj(self, r: Renderable, obj: QtWidgets.QGraphicsRectItem,
-                            halo: List[QtWidgets.QGraphicsRectItem]):
+    def update_text_gfx_obj(self, the_card: Card, r: TextRender, obj: GraphicsTextItem,
+                            halo: List[QtWidgets.QGraphicsTextItem]):
         base_style = self.deck.find_style(r.style)
-        doc = self.build_text_document(obj.data(1), r.text, base_style, r.rectangle[2])
+        doc = self.build_text_document(the_card, r.text, base_style, r.rectangle[2])
         # some defaults
         obj.setDefaultTextColor(QtGui.QColor(base_style.textcolor[0],
                                              base_style.textcolor[1],
@@ -363,22 +368,26 @@ class Renderer(object):
         # handle the 'halo' effect
         if base_style.linestyle == 'halo':
             offsets = [[-1, -1], [-1, 1], [1, -1], [1, 1], [0, 1], [0, -1], [1, 0], [-1, 0]]
-            tmp = copy.deepcopy(base_style.textcolor)
-            base_style.textcolor = base_style.bordercolor
-            for i in range(8):
-                halo[i].setDefaultTextColor(QtGui.QColor(base_style.textcolor[0],
-                                                         base_style.textcolor[1],
-                                                         base_style.textcolor[2],
-                                                         base_style.textcolor[3]))
-                halo[i].setDocument(doc)
+            style = copy.deepcopy(base_style)
+            style.textcolor = style.bordercolor
+            halo_doc = self.build_text_document(the_card, r.text, style, r.rectangle[2])
+            for i, offset in enumerate(offsets):
+                halo[i].setVisible(True)
+                halo[i].setDocument(halo_doc)
+                halo[i].setDefaultTextColor(QtGui.QColor(style.textcolor[0], style.textcolor[1],
+                                                         style.textcolor[2], style.textcolor[3]))
                 halo[i].setTextWidth(r.rectangle[2])
-                halo[i].setX(r.rectangle[0] + offsets[i][0]*3)    # x,y,dx,dy
-                halo[i].setY(r.rectangle[1] + offsets[i][1]*3)
+                halo[i].setX(r.rectangle[0] + offset[0]*3)    # x,y,dx,dy
+                halo[i].setY(r.rectangle[1] + offset[1]*3)
                 halo[i].setRotation(r.rotation)
-            base_style.textcolor = tmp
+        else:
+            for item in halo:
+                item.setVisible(False)
+        if isinstance(obj, GraphicsTextItem):
+            obj.updateHandlesPos()
         return height
 
-    def update_rect_gfx_obj(self, r: Renderable, obj: QtWidgets.QGraphicsRectItem, height: Optional[int] = None):
+    def update_rect_gfx_obj(self, the_card: Card, r: RectRender, obj: QtWidgets.QGraphicsRectItem, height: Optional[int] = None):
         base_style = self.deck.find_style(r.style)
         # backdrop
         if r.rectangle[3] > 0:
@@ -410,8 +419,10 @@ class Renderer(object):
             pen.setStyle(QtCore.Qt.DashDotLine)
         obj.setPen(pen)
         obj.setRotation(r.rotation)
+        if isinstance(obj, GraphicsRectItem):
+            obj.updateHandlesPos()
 
-    def update_image_gfx_obj(self, r: Renderable, obj: QtWidgets.QGraphicsPixmapItem):
+    def update_image_gfx_obj(self, the_card: Card, r: ImageRender, obj: QtWidgets.QGraphicsPixmapItem):
         image = self.deck.find_image(r.image)
         if image is not None:
             sub_image = image.get_image(self.deck)
@@ -444,6 +455,8 @@ class Renderer(object):
                 obj.setTransform(transform, False)
         else:
             logging.error("Unable to find the reference image {}".format(r.image))
+        if isinstance(obj, GraphicsPixmapItem):
+            obj.updateHandlesPos()
 
     def build_card_face_scene(self, the_card: Card, top_bottom: str) -> list:
         # reset the scene
@@ -467,29 +480,31 @@ class Renderer(object):
         # light blue background
         base = QtWidgets.QGraphicsRectItem(0, 0, self.card_size[0], self.card_size[1])
         base.setBrush(QtGui.QBrush(QtGui.QColor("#E0E0FF")))
-        base.setZValue(-1000)
+        base.setZValue(-1000.0)
         self.scene.addItem(base)
         # generate the QGraphicsItems from the face and the background
         render_list = list()
         for renderable in face.renderables:
             renderable.gfx_list = list()
             render_list.append(renderable)
-            z = float(renderable.order)
             gfx_items = self.make_gfx_items(the_card, renderable, True)
             for gfx_item in gfx_items:
-                gfx_item.setZValue(z)
-                z -= 0.01
                 self.scene.addItem(gfx_item)
                 renderable.gfx_list.append(gfx_item)
+        # compute graphics item offsets
+        face.recompute_renderable_order()
+        # now the background face/gfx items
         if background_face is not None:
             # Do not add background render items to the return list
             for renderable in background_face.renderables:
-                z = float(renderable.order)
+                renderable.gfx_list = list()
                 gfx_items = self.make_gfx_items(the_card, renderable, False)
                 for gfx_item in gfx_items:
-                    gfx_item.setZValue(z)
-                    z -= 0.01
                     self.scene.addItem(gfx_item)
+                    renderable.gfx_list.append(gfx_item)
+            # compute the graphics item offsets using the previous depth limits
+            background_face.recompute_renderable_order(background=True)
+        self.scene.update(self.scene.sceneRect())
         return render_list
 
     def render_card_to_disk(self, the_card: Card):

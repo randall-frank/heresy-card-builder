@@ -11,29 +11,29 @@ from PySide6 import QtXml
 from PySide6 import QtGui
 from PySide6 import QtCore
 from PySide6 import QtWidgets
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 # these are the core objects that represent a deck of cards to the editor
 
 
 class Base(object):
-    def __init__(self, name, xml_tag):
+    def __init__(self, name: str, xml_tag: str):
         self.name = name
         self.xml_tag = xml_tag
 
     def __str__(self):
         return f"Core object: '{self.name}'  class: {self.__class__}"
 
-    def get_column_info(self, col):
+    def get_column_info(self, col: int) -> str:
         return ""
 
-    def set_xml_name(self, name):
+    def set_xml_name(self, name: str):
         self.xml_tag = name
 
-    def get_xml_name(self):
+    def get_xml_name(self) -> str:
         return self.xml_tag
 
-    def load_attrib_string(self, elem, name, default=None):
+    def load_attrib_string(self, elem, name: str, default: Optional[str] = None):
         QtWidgets.QApplication.processEvents()
         tmp = elem.firstChildElement(name)
         v = default
@@ -42,25 +42,42 @@ class Base(object):
         if v is not None:
             self.__setattr__(name, v)
 
-    def save_attrib_string(self, doc, parent, name):
+    def save_attrib_string(self, doc, parent, name: str):
         tmp = doc.createElement(name)
         parent.appendChild(tmp)
         s = self.__getattribute__(name)
         text = doc.createTextNode(str(s))
         tmp.appendChild(text)
 
-    def load_attrib_int(self, elem, name, default=None):
+    def load_attrib_int(self, elem, name, default: Optional[int] = None):
         tmp = elem.firstChildElement(name)
         v = default
         if not tmp.isNull():
-            v = int(str(tmp.text()))
+            try:
+                v = int(str(tmp.text()))
+            except ValueError:
+                v = default
         if v is not None:
             self.__setattr__(name, v)
 
-    def save_attrib_int(self, doc, parent, name):
+    def save_attrib_int(self, doc, parent, name: str):
         self.save_attrib_string(doc, parent, name)
 
-    def load_attrib_obj(self, elem, name, default=None):
+    def load_attrib_float(self, elem, name: str, default=None):
+        tmp = elem.firstChildElement(name)
+        v = default
+        if not tmp.isNull():
+            try:
+                v = float(str(tmp.text()))
+            except ValueError:
+                v = default
+        if v is not None:
+            self.__setattr__(name, v)
+
+    def save_attrib_float(self, doc, parent, name: str):
+        self.save_attrib_string(doc, parent, name)
+
+    def load_attrib_obj(self, elem, name: str, default=None):
         tmp = elem.firstChildElement(name)
         obj = default
         if not tmp.isNull():
@@ -68,7 +85,7 @@ class Base(object):
         if obj is not None:
             self.__setattr__(name, obj)
 
-    def save_attrib_obj(self, doc, parent, name):
+    def save_attrib_obj(self, doc, parent, name: str):
         tmp = doc.createElement(name)
         parent.appendChild(tmp)
         obj = self.__getattribute__(name)
@@ -87,25 +104,36 @@ class Base(object):
 
 
 class Renderable(Base):
-    def __init__(self, name, xml_tag='renderable'):
+    def __init__(self, name: str, xml_tag: str = 'renderable'):
         super(Renderable, self).__init__(name, xml_tag)
-        self.order = 0  # Z depth...
-        self.rotation = 0
-        self.rectangle = [0, 0, -1, -1]
-        self.gfx_list = list()   # the list of QGraphicsItem objects that make up this instance
-        self.name = "unknown"
+        self.order: float = 0.  # Z depth...  higher values on top of lower values
+        self.underlay: int = 0   # Z below 0
+        self.rotation: int = 0
+        self.rectangle: List[int, int, int, int] = [0, 0, -1, -1]
+        # the list of QGraphicsItem objects that make up this instance
+        self.gfx_list: List[QtWidgets.QGraphicsItem] = list()
+        self.name: str = "unknown"
 
     def render_object(self):
         return
 
+    def set_gfx_depths(self):
+        # Within a renderable there may be multiple graphics items.
+        # The z value will be in the physical order in the gfx_list,
+        # first items will be on top.  Returns the top and bottom orders
+        z = float(self.order)
+        for item in self.gfx_list:
+            item.setZValue(z)
+            z -= 0.001
+
 
 class ImageRender(Renderable):
-    def __init__(self, name="image"):
+    def __init__(self, name: str = "image"):
         super(ImageRender, self).__init__(name, 'render_image')
         self.image = ""
         self.name = "Image"
 
-    def get_column_info(self, col):
+    def get_column_info(self, col: int):
         if col != 1:
             return super(ImageRender, self).get_column_info(col)
         return "%d,%d - %d,%d" % tuple(self.rectangle)
@@ -116,14 +144,19 @@ class ImageRender(Renderable):
         obj.load_attrib_string(elem, "image")
         obj.load_attrib_obj(elem, "rectangle")
         obj.load_attrib_int(elem, "rotation")
-        obj.load_attrib_int(elem, "order")
+        obj.load_attrib_float(elem, "order")
+        underlay = 0
+        if obj.order < 0:
+            underlay = 1
+        obj.load_attrib_int(elem, "underlay", default=underlay)
         return obj
 
     def to_element(self, doc, elem):
         self.save_attrib_string(doc, elem, "image")
         self.save_attrib_int(doc, elem, "rotation")
         self.save_attrib_obj(doc, elem, "rectangle")
-        self.save_attrib_int(doc, elem, "order")
+        self.save_attrib_float(doc, elem, "order")
+        self.save_attrib_int(doc, elem, "underlay")
         return True
 
 
@@ -134,7 +167,7 @@ class TextRender(Renderable):
         self.text = ""
         self.name = "Text Box"
 
-    def get_column_info(self, col):
+    def get_column_info(self, col) -> str:
         if col != 1:
             return super(TextRender, self).get_column_info(col)
         return "%d,%d - %d,%d" % tuple(self.rectangle)
@@ -146,7 +179,11 @@ class TextRender(Renderable):
         obj.load_attrib_string(elem, "style")
         obj.load_attrib_int(elem, "rotation")
         obj.load_attrib_obj(elem, "rectangle")
-        obj.load_attrib_int(elem, "order")
+        obj.load_attrib_float(elem, "order")
+        underlay = 0
+        if obj.order < 0:
+            underlay = 1
+        obj.load_attrib_int(elem, "underlay", default=underlay)
         return obj
 
     def to_element(self, doc, elem):
@@ -154,18 +191,19 @@ class TextRender(Renderable):
         self.save_attrib_string(doc, elem, "style")
         self.save_attrib_int(doc, elem, "rotation")
         self.save_attrib_obj(doc, elem, "rectangle")
-        self.save_attrib_int(doc, elem, "order")
+        self.save_attrib_float(doc, elem, "order")
+        self.save_attrib_int(doc, elem, "underlay")
         return True
 
 
 class RectRender(Renderable):
-    def __init__(self, name="rect"):
+    def __init__(self, name: str = "rect"):
         super(RectRender, self).__init__(name, 'render_rect')
         self.style = "default"
         self.rectangle = [10, 10, 110, 110]
         self.name = "Rectangle"
 
-    def get_column_info(self, col):
+    def get_column_info(self, col: int) -> str:
         if col != 1:
             return super(RectRender, self).get_column_info(col)
         return "%d,%d - %d,%d" % tuple(self.rectangle)
@@ -176,23 +214,79 @@ class RectRender(Renderable):
         obj.load_attrib_string(elem, "style")
         obj.load_attrib_int(elem, "rotation")
         obj.load_attrib_obj(elem, "rectangle")
-        obj.load_attrib_int(elem, "order")
+        obj.load_attrib_float(elem, "order")
+        underlay = 0
+        if obj.order < 0:
+            underlay = 1
+        obj.load_attrib_int(elem, "underlay", default=underlay)
         return obj
 
     def to_element(self, doc, elem):
         self.save_attrib_string(doc, elem, "style")
         self.save_attrib_int(doc, elem, "rotation")
         self.save_attrib_obj(doc, elem, "rectangle")
-        self.save_attrib_int(doc, elem, "order")
+        self.save_attrib_float(doc, elem, "order")
+        self.save_attrib_int(doc, elem, "underlay")
         return True
 
 
 # Essentially, a Face is a list of renderable items.  Right now, text or image items
 # that reference styles and images, along with content.
 class Face(Base):
-    def __init__(self, name):
+    def __init__(self, name: str):
         super(Face, self).__init__(name, name)
         self.renderables: List[Renderable] = list()   # a face is an array of Renderable instances
+
+    def recompute_renderable_order(self, background: bool = False):
+        # There are two cases:  1) normal cards  2) background cards
+        # When computing complete faces there are 3 rules:
+        #  rule 0: [-100+] background underlay renderables
+        #  rule 1: [0+] normal card renderables
+        #  rule 2: [100+] background non-underlay renderables
+        # For basic storage, all order values are from [0+]
+        # if background is True, renumber using rules 0 and 2
+        # if background is False, renumber using rule 1
+        underlay = list()
+        core = list()
+        overlay = list()
+        for r in self.renderables:
+            if background:
+                if r.underlay:
+                    underlay.append(r)
+                else:
+                    overlay.append(r)
+            else:
+                core.append(r)
+
+        # renumber and rebuild
+        self.renderables = list()
+        order = 100.
+        for r in overlay:
+            r.order = order
+            self.renderables.append(r)
+            order += 0.1
+        order = 0.
+        for r in core:
+            r.order = order
+            self.renderables.append(r)
+            order += 0.1
+        order = -100.
+        for r in underlay:
+            r.order = order
+            self.renderables.append(r)
+            order += 0.1
+
+        # Now that the renderable order numbers have been set, we
+        # can update the (Z) depth numbers within any renderables
+        # that have been realized
+        self.set_gfx_item_depths()
+
+    def set_gfx_item_depths(self):
+        # Actually set the QGraphicsItem depth values for the individual items
+        # If this face is actually a non-editable background face, an order_base
+        # will be passed via order_base
+        for renderable in self.renderables:
+            renderable.set_gfx_depths()
 
     @classmethod
     def from_element(cls, elem, deck, is_top):
@@ -217,6 +311,23 @@ class Face(Base):
             if tmp_obj is not None:
                 obj.renderables.append(tmp_obj)
             tmp = tmp.nextSiblingElement()
+        # If we have renderables, we will look at the "order" fields
+        if len(obj.renderables):
+            # Here we rebuild the "order" fields.  We start by sorting by the
+            # incoming "order" value.  When there is a tie, we try to preserve
+            # the native order in the input list.  The first item in the list
+            # will be on the "bottom" and will have the lowest order number.
+            tmp = []
+            # start with a list of tuples (order, original index, object)
+            for i, v in enumerate(obj.renderables):
+                tmp.append((v.order, i, v))
+            tmp.sort()
+            # Ok, we have the new renderable order, save it
+            obj.renderables = []
+            for v in tmp:
+                obj.renderables.append(v[2])
+            # Rebuild the "order" numbers to match the new list
+            obj.recompute_renderable_order()
         return obj
 
     def to_element(self, doc, elem):
@@ -226,14 +337,18 @@ class Face(Base):
 
 
 class Card(Base):
-    def __init__(self, name, xml_tag='card'):
+    def __init__(self, name: str, xml_tag: str = 'card', background: bool = False):
         super(Card, self).__init__(name, xml_tag)
         self.top_face: Face = Face('top')
         self.bot_face: Face = Face('bottom')
         self.card_number: int = 0
         self.local_card_number: int = 0
+        self.background: bool = background
         self.location: Optional[Card] = None    # for location cards, the parent location
         self.background: Optional[Card] = None  # the background card for this card
+
+    def is_background(self) -> bool:
+        return self.background
 
     @classmethod
     def from_element(cls, elem, deck):
@@ -254,11 +369,11 @@ class Card(Base):
 
 
 class Location(Base):
-    def __init__(self, name):
+    def __init__(self, name: str):
         super(Location, self).__init__(name, 'location')
-        self.cards = list()
-        self.card_number = 0
-        self.local_card_number = 0
+        self.cards: List[Card] = list()
+        self.card_number: int = 0
+        self.local_card_number: int = 0
 
     @classmethod
     def from_element(cls, elem, deck):
@@ -268,6 +383,7 @@ class Location(Base):
         while not tmp.isNull():
             tmp_card = Card.from_element(tmp, deck)
             if tmp_card is not None:
+                tmp_card.location = obj
                 obj.cards.append(tmp_card)
             tmp = tmp.nextSiblingElement('card')
         return obj
@@ -496,9 +612,9 @@ class Deck(Base):
         self.files: list = list()  # of Files
         self.images: list = list()  # of Images
         self.styles: list = list()  # of Styles
-        self.default_card: Card = Card("Card Base", xml_tag="defaultcard")
-        self.default_item_card: Card = Card("Item Card Base", xml_tag="defaultitemcard")
-        self.default_location_card: Card = Card("Location Card Base", xml_tag="defaultlocationcard")
+        self.default_card: Card = Card("Card Base", xml_tag="defaultcard", background=True)
+        self.default_item_card: Card = Card("Item Card Base", xml_tag="defaultitemcard", background=True)
+        self.default_location_card: Card = Card("Location Card Base", xml_tag="defaultlocationcard", background=True)
         # un-numbered cards
         self.deckcards: list = list()
         # Proper order of a deck
