@@ -345,6 +345,7 @@ class Renderer(object):
             self.update_image_gfx_obj(the_card, r, obj)
             objs.append(obj)
 
+        objs[0].setData(0, r)
         return objs
 
     def update_text_gfx_obj(self, the_card: Card, r: TextRender, obj: GraphicsTextItem,
