@@ -393,6 +393,9 @@ class Location(Base):
             c.to_xml(doc, elem)
         return True
 
+    def is_background(self) -> bool:
+        return False
+
 
 class Style(Base):
     def __init__(self, name):

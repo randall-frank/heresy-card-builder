@@ -232,12 +232,16 @@ class CardEditorMain(AssetGui):
 
     def do_renderlist_reorder(self, parent, start, end, dest, row):
         item = self.lwGfxItems.item(row)
+        if item is None:
+            # TODO: drop past the end of the list
+            return
         renderable = item.renderable
         face = self.current_card_face()
         item_list = list()
         for idx in range(self.lwGfxItems.count()):
             item = self.lwGfxItems.item(idx)
-            item_list.append(item.renderable)
+            if item.renderable:
+                item_list.append(item.renderable)
         face.renderables = item_list
         face.recompute_renderable_order()
         self.update_card_render()
@@ -345,10 +349,6 @@ class CardEditorMain(AssetGui):
                 break
         if name == "none":
             return
-        # is it a background card (should overlay checkbox be visible)
-        is_background = False
-        if self._current_card:
-            is_background = self._current_card.is_background()
         # Update the page widgets
         rect = self._current_renderable.rectangle
         rot = self._current_renderable.rotation
@@ -458,10 +458,24 @@ class CardEditorMain(AssetGui):
         render_list = self._renderer.build_card_face_scene(self._current_card, face)
         self.update_zoom()
         self.lwGfxItems.clear()
+
+        # is it a background card (should overlay checkbox be visible)
+        is_background = False
+        previous_underlay = True
+        if self._current_card:
+            is_background = self._current_card.is_background()
         for renderable in render_list:
+            if is_background:
+                if previous_underlay and not renderable.underlay:
+                    separator = CERenderableItem(None)
+                    self.lwGfxItems.addItem(separator)
+                    previous_underlay = False
             item = CERenderableItem(renderable)
             self.lwGfxItems.addItem(item)
             self._renderer.update_gfx_items(self._current_card, renderable)
+        if is_background and previous_underlay:
+            separator = CERenderableItem(None)
+            self.lwGfxItems.addItem(separator)
         self.set_current_renderable_target(None)
 
     def update_zoom(self):

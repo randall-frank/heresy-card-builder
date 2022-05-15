@@ -38,10 +38,21 @@ class CETreeWidgetItem(QtWidgets.QTreeWidgetItem):
 
 
 class CERenderableItem(QtWidgets.QListWidgetItem):
-    def __init__(self, renderable: Renderable):
+    def __init__(self, renderable: Optional[Renderable]):
         super().__init__()
         self.renderable = renderable
-        self.setText(renderable.name)
+
+        # this could be the overlay/underlay separator
+        if self.renderable is None:
+            flags = QtCore.Qt.ItemIsDropEnabled
+            self.setFlags(flags)
+            self.setText('\u23af'*4 + '\u00bb overlay \u00bb' + '\u23af'*4)
+        else:
+            self.setText(renderable.name)
+
+
+    def is_separator(self) -> bool:
+        return self.renderable is None
 
 
 class CardTreeWidget(QtWidgets.QTreeWidget):
