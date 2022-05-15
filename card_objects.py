@@ -343,9 +343,9 @@ class Card(Base):
         self.bot_face: Face = Face('bottom')
         self.card_number: int = 0
         self.local_card_number: int = 0
-        self.background: bool = background
+        self.background: bool = background  # is this a background "default" card
         self.location: Optional[Card] = None    # for location cards, the parent location
-        self.background: Optional[Card] = None  # the background card for this card
+        self.background_card: Optional[Card] = None  # the background card for this card
 
     def is_background(self) -> bool:
         return self.background
@@ -684,7 +684,7 @@ class Deck(Base):
         for card in self.deckcards:
             card.card_number = 1
             card.local_card_number = local_count
-            card.background = None
+            card.background_card = None
             card.location = None
             local_count += 1
         global_count = 1
@@ -694,16 +694,16 @@ class Deck(Base):
             for card in chunk:
                 card.card_number = global_count
                 card.local_card_number = local_count
-                card.background = self.default_card
+                card.background_card = self.default_card
                 if chunk == self.items:
-                    card.background = self.default_item_card
+                    card.background_card = self.default_item_card
                 card.location = None
                 global_count += 1
                 local_count += 1
         # reference card
         self.icon_reference.card_number = global_count
         self.icon_reference.local_card_number = local_count
-        self.icon_reference.background = self.default_card
+        self.icon_reference.background_card = self.default_card
         self.icon_reference.location = None
         global_count += 1
         local_count += 1
@@ -717,7 +717,7 @@ class Deck(Base):
             for card in location.cards:
                 card.card_number = global_count
                 card.local_card_number = local_count
-                card.background = self.default_location_card
+                card.background_card = self.default_location_card
                 card.location = location
                 global_count += 1
                 local_count += 1
@@ -788,6 +788,7 @@ class Deck(Base):
                 if tmp_obj is not None:
                     tmp_obj.set_xml_name(tag)
                     self.__setattr__(v[1], tmp_obj)
+                    tmp_obj.background = True
 
         # Plan, Items, Base, Characters, Locations - simple lists
         # [v0, v1, v2] use v0.from_element() to create an object starting at the tag v2
@@ -808,6 +809,7 @@ class Deck(Base):
                     tmp_obj = v[0].from_element(tmp, self)
                     if tmp_obj is not None:
                         self.__getattribute__(v[1]).append(tmp_obj)
+                        tmp_obj.background = False
                     tmp = tmp.nextSiblingElement(v[2])
         return True
 

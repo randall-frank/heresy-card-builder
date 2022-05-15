@@ -345,32 +345,36 @@ class CardEditorMain(AssetGui):
                 break
         if name == "none":
             return
+        # is it a background card (should overlay checkbox be visible)
+        is_background = False
+        if self._current_card:
+            is_background = self._current_card.is_background()
         # Update the page widgets
         rect = self._current_renderable.rectangle
         rot = self._current_renderable.rotation
         if isinstance(self._current_renderable, ImageRender):
-            self.set_text(self.leImageX, str(rect[0]))
-            self.set_text(self.leImageY, str(rect[1]))
-            self.set_text(self.leImageW, str(rect[2]))
-            self.set_text(self.leImageH, str(rect[3]))
+            self.set_value(self.sbImageX, rect[0])
+            self.set_value(self.sbImageY, rect[1])
+            self.set_value(self.sbImageW, rect[2])
+            self.set_value(self.sbImageH, rect[3])
             self.set_value(self.dsImageR, rot)
             image = self._current_renderable.image
             self.init_combo(self.cbImageImage, image, 'images')
 
         elif isinstance(self._current_renderable, RectRender):
-            self.set_text(self.leRectX, str(rect[0]))
-            self.set_text(self.leRectY, str(rect[1]))
-            self.set_text(self.leRectW, str(rect[2]))
-            self.set_text(self.leRectH, str(rect[3]))
+            self.set_value(self.sbRectX, rect[0])
+            self.set_value(self.sbRectY, rect[1])
+            self.set_value(self.sbRectW, rect[2])
+            self.set_value(self.sbRectH, rect[3])
             self.set_value(self.dsRectR, rot)
             style = self._current_renderable.style
             self.init_combo(self.cbRectStyle, style, 'styles')
 
         elif isinstance(self._current_renderable, TextRender):
-            self.set_text(self.leTextX, str(rect[0]))
-            self.set_text(self.leTextY, str(rect[1]))
-            self.set_text(self.leTextW, str(rect[2]))
-            self.set_text(self.leTextH, str(rect[3]))
+            self.set_value(self.sbTextX, rect[0])
+            self.set_value(self.sbTextY, rect[1])
+            self.set_value(self.sbTextW, rect[2])
+            self.set_value(self.sbTextH, rect[3])
             self.set_value(self.dsTextR, rot)
             text = self._current_renderable.text
             self.set_plaintext(self.leTextText, text)
@@ -381,7 +385,7 @@ class CardEditorMain(AssetGui):
         renderable = self._current_renderable
         if renderable is None:
             return
-        rect, rot = self.get_rect_rot(self.leRectX, self.leRectY, self.leRectW, self.leRectH, self.dsRectR)
+        rect, rot = self.get_rect_rot(self.sbRectX, self.sbRectY, self.sbRectW, self.sbRectH, self.dsRectR)
         style = self.get_cb_data(self.cbRectStyle)
         renderable.style = style
         renderable.rectangle = rect
@@ -392,7 +396,7 @@ class CardEditorMain(AssetGui):
         renderable = self._current_renderable
         if renderable is None:
             return
-        rect, rot = self.get_rect_rot(self.leImageX, self.leImageY, self.leImageW, self.leImageH, self.dsImageR)
+        rect, rot = self.get_rect_rot(self.sbImageX, self.sbImageY, self.sbImageW, self.sbImageH, self.dsImageR)
         image = self.get_cb_data(self.cbImageImage)
         renderable.image = image
         renderable.rectangle = rect
@@ -403,7 +407,7 @@ class CardEditorMain(AssetGui):
         renderable = self._current_renderable
         if renderable is None:
             return
-        rect, rot = self.get_rect_rot(self.leTextX, self.leTextY, self.leTextW, self.leTextH, self.dsTextR)
+        rect, rot = self.get_rect_rot(self.sbTextX, self.sbTextY, self.sbTextW, self.sbTextH, self.dsTextR)
         style = self.get_cb_data(self.cbTextStyle)
         renderable.style = style
         renderable.rectangle = rect

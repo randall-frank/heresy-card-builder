@@ -467,7 +467,7 @@ class Renderer(object):
         if isinstance(the_card, Location):
             return list()
         # find the background face
-        the_background = the_card.background
+        the_background = the_card.background_card
         background_face = None
         if the_background is not None:
             if top_bottom == "top":
@@ -493,7 +493,7 @@ class Renderer(object):
                 self.scene.addItem(gfx_item)
                 renderable.gfx_list.append(gfx_item)
         # compute graphics item offsets
-        face.recompute_renderable_order()
+        face.recompute_renderable_order(background=False)
         # now the background face/gfx items
         if background_face is not None:
             # Do not add background render items to the return list

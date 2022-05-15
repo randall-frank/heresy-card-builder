@@ -71,7 +71,7 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
         return s.itemData(idx)
 
     @staticmethod
-    def set_value(w: QtWidgets.QDoubleSpinBox, v: int):
+    def set_value(w: Union[QtWidgets.QDoubleSpinBox, QtWidgets.QSpinBox], v: int):
         tmp = w.blockSignals(True)
         w.setValue(v)
         w.blockSignals(tmp)
@@ -97,10 +97,9 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
         return i
 
     @staticmethod
-    def get_rect_rot(x: QtWidgets.QLineEdit, y: QtWidgets.QLineEdit, w: QtWidgets.QLineEdit,
-                     h: QtWidgets.QLineEdit, r: Optional[QtWidgets.QDoubleSpinBox]) -> Tuple[List[int], int]:
-        rect = [AssetGui.get_int(x.text()), AssetGui.get_int(y.text()),
-                AssetGui.get_int(w.text()), AssetGui.get_int(h.text())]
+    def get_rect_rot(x: QtWidgets.QSpinBox, y: QtWidgets.QSpinBox, w: QtWidgets.QSpinBox,
+                     h: QtWidgets.QSpinBox, r: Optional[QtWidgets.QDoubleSpinBox]) -> Tuple[List[int], int]:
+        rect = [x.value(), y.value(), w.value(), h.value()]
         rot = 0
         if r:
             rot = int(r.value())
