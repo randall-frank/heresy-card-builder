@@ -9,7 +9,7 @@ from PySide6 import QtCore
 from PySide6 import QtWidgets
 from PySide6 import QtGui
 
-from card_objects import build_empty_deck, Deck, Renderable, Face
+from card_objects import build_empty_deck, Deck, Renderable, Face, Card
 from card_render import Renderer, ImageRender, TextRender, RectRender
 from asset_gui import AssetGui
 from view_widgets import CETreeWidgetItem, CERenderableItem
@@ -243,7 +243,7 @@ class CardEditorMain(AssetGui):
             if item.renderable:
                 item_list.append(item.renderable)
         face.renderables = item_list
-        face.recompute_renderable_order()
+        face.recompute_renderable_order(background=self.current_card().is_background())
         self.update_card_render()
         for idx in range(self.lwGfxItems.count()):
             item = self.lwGfxItems.item(idx)
@@ -304,7 +304,7 @@ class CardEditorMain(AssetGui):
         elif action == add_image:
             renderable = ImageRender()
             face.renderables.insert(idx, renderable)
-        face.recompute_renderable_order()
+        face.recompute_renderable_order(background=self.current_card().is_background())
         self.update_card_render()
         for idx in range(self.lwGfxItems.count()):
             item = self.lwGfxItems.item(idx)
@@ -433,6 +433,9 @@ class CardEditorMain(AssetGui):
     def do_text_update_double(self, _):
         self.do_text_update()
 
+    def current_card(self) -> Card:
+        return self._current_card
+
     def current_card_face(self) -> Face:
         if self._current_card is None:
             return None
@@ -462,8 +465,8 @@ class CardEditorMain(AssetGui):
         # is it a background card (should overlay checkbox be visible)
         is_background = False
         previous_underlay = True
-        if self._current_card:
-            is_background = self._current_card.is_background()
+        if self.current_card():
+            is_background = self.current_card().is_background()
         for renderable in render_list:
             if is_background:
                 if previous_underlay and not renderable.underlay:
@@ -472,7 +475,7 @@ class CardEditorMain(AssetGui):
                     previous_underlay = False
             item = CERenderableItem(renderable)
             self.lwGfxItems.addItem(item)
-            self._renderer.update_gfx_items(self._current_card, renderable)
+            self._renderer.update_gfx_items(self.current_card(), renderable)
         if is_background and previous_underlay:
             separator = CERenderableItem(None)
             self.lwGfxItems.addItem(separator)

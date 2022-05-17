@@ -260,8 +260,8 @@ class Face(Base):
 
         # renumber and rebuild
         self.renderables = list()
-        order = 100.
-        for r in overlay:
+        order = -100.
+        for r in underlay:
             r.order = order
             self.renderables.append(r)
             order += 0.1
@@ -270,8 +270,8 @@ class Face(Base):
             r.order = order
             self.renderables.append(r)
             order += 0.1
-        order = -100.
-        for r in underlay:
+        order = 100.
+        for r in overlay:
             r.order = order
             self.renderables.append(r)
             order += 0.1

@@ -493,7 +493,7 @@ class Renderer(object):
                 self.scene.addItem(gfx_item)
                 renderable.gfx_list.append(gfx_item)
         # compute graphics item offsets
-        face.recompute_renderable_order(background=False)
+        face.recompute_renderable_order(background=the_card.is_background())
         # now the background face/gfx items
         if background_face is not None:
             # Do not add background render items to the return list
