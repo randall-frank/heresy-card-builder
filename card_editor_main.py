@@ -231,42 +231,40 @@ class CardEditorMain(AssetGui):
         self.set_current_renderable_target(renderable)
 
     def do_renderlist_reorder(self, parent, start, end, dest, row):
-        item = self.lwGfxItems.item(row)
-        if item is None:
-            # TODO: drop past the end of the list
-            return
-        renderable = item.renderable
-        face = self.current_card_face()
+        # callback on QModel for drop operation
+        self.rebuild_renderlist_from_list_widget()
+
+    def rebuild_renderlist_from_list_widget(self):
+        # rebuild the renderable list based on the new model order
+        is_background_card = self.current_card().is_background()
+        underlay = True
         item_list = list()
         for idx in range(self.lwGfxItems.count()):
             item = self.lwGfxItems.item(idx)
             if item.renderable:
+                # if we are processing a background card, update the underlay flags
+                if is_background_card:
+                    item.renderable.underlay = underlay
                 item_list.append(item.renderable)
+            else:
+                # this would be the dividing line item
+                underlay = False
+        face = self.current_card_face()
         face.renderables = item_list
-        face.recompute_renderable_order(background=self.current_card().is_background())
+        # update the rendering order
+        face.recompute_renderable_order(background=is_background_card)
         self.update_card_render()
-        for idx in range(self.lwGfxItems.count()):
-            item = self.lwGfxItems.item(idx)
-            if item.renderable == renderable:
-                self.lwGfxItems.setCurrentRow(idx)
 
     def do_renderlist_context_menu(self, pos: QtCore.QPoint):
         # lwGfxItems
         menu = QtWidgets.QMenu(self)
         item = self.lwGfxItems.itemAt(pos)
         if item:
+            if item.is_separator():
+                return
             item.setSelected(True)
-            top = menu.addAction("Move to top")
-            up = menu.addAction("Move up")
-            down = menu.addAction("Move down")
-            bot = menu.addAction("Move to bottom")
-            menu.addSeparator()
             remove = menu.addAction(f"Remove {item.text()}")
         else:
-            top = None
-            bot = None
-            down = None
-            up = None
             remove = None
         add_rect = menu.addAction("New rectangle")
         add_image = menu.addAction("New image")
@@ -276,23 +274,11 @@ class CardEditorMain(AssetGui):
             return
         face = self.current_card_face()
         renderable = None
-        idx = 0
+        idx = len(face.renderables)
         if item:
             renderable = item.renderable
             idx = face.renderables.index(renderable)
-        if action == top:
-            face.renderables.remove(renderable)
-            face.renderables.append(renderable)
-        elif action == up:
-            face.renderables.remove(renderable)
-            face.renderables.insert(idx + 1, renderable)
-        elif action == bot:
-            face.renderables.remove(renderable)
-            face.renderables.insert(0, renderable)
-        elif action == down:
-            face.renderables.remove(renderable)
-            face.renderables.insert(max(idx - 1, 0), renderable)
-        elif action == remove:
+        if action == remove:
             face.renderables.remove(renderable)
             renderable = None
         elif action == add_rect:
@@ -304,12 +290,22 @@ class CardEditorMain(AssetGui):
         elif action == add_image:
             renderable = ImageRender()
             face.renderables.insert(idx, renderable)
-        face.recompute_renderable_order(background=self.current_card().is_background())
+        is_background_card = self.current_card().is_background()
+        face.recompute_renderable_order(background=is_background_card)
         self.update_card_render()
+        # update the selection and the underlay flags
+        underlay = True
         for idx in range(self.lwGfxItems.count()):
             item = self.lwGfxItems.item(idx)
-            if item.renderable == renderable:
-                self.lwGfxItems.setCurrentRow(idx)
+            if item.renderable:
+                # if we are processing a background card, update the underlay flags
+                if is_background_card:
+                    item.renderable.underlay = underlay
+                if item.renderable == renderable:
+                    self.lwGfxItems.setCurrentRow(idx)
+            else:
+                # this would be the dividing line item
+                underlay = False
 
     def do_gfx_item_selection_changed(self):
         # there has been a change in renderable selection in the gfx area

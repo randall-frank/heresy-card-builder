@@ -7,8 +7,7 @@
     <list default="true" id="8cfc4c4e-5ad7-4556-a225-5ccb4b4d928e" name="Default" comment="Updated for makeplayingcards.com support.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/card_editor_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card_objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_objects.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card_render.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_render.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view_widgets.py" beforeDir="false" afterPath="$PROJECT_DIR$/view_widgets.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -300,6 +299,7 @@
       <workItem from="1652545849474" duration="1790000" />
       <workItem from="1652627143019" duration="10643000" />
       <workItem from="1652748091356" duration="2884000" />
+      <workItem from="1653089556991" duration="5840000" />
     </task>
     <task id="LOCAL-00033" summary="Finish out graveyard scene.">
       <created>1503254845206</created>

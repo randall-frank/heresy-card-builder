@@ -44,12 +44,13 @@ class CERenderableItem(QtWidgets.QListWidgetItem):
 
         # this could be the overlay/underlay separator
         if self.renderable is None:
-            flags = QtCore.Qt.ItemIsDropEnabled
-            self.setFlags(flags)
             self.setText('\u23af'*4 + '\u00bb overlay \u00bb' + '\u23af'*4)
+            flags = QtCore.Qt.NoItemFlags
+            self.setFlags(flags)
         else:
             self.setText(renderable.name)
-
+            flags = QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsDragEnabled | QtCore.Qt.ItemIsSelectable
+            self.setFlags(flags)
 
     def is_separator(self) -> bool:
         return self.renderable is None
