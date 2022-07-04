@@ -1,7 +1,11 @@
 
+
 [Heresy]: http://heresy.mrtrashcan.com
 
 # Heresy Deck Generation Tools
+[![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-360/)
+[![CC-0 license](https://img.shields.io/badge/License-CC--0-blue.svg)](https://creativecommons.org/licenses/by-nd/4.0)
+
 Copyright (C) 2017-2022 Randall Frank
 
 These tools were developed for use with the Heresy series of T.I.M.E Stories

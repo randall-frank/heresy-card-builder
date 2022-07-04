@@ -3,6 +3,7 @@
 # Copyright (C) Randall Frank
 # See LICENSE for details
 #
+import copy
 
 from PySide6 import QtWidgets
 from PySide6 import QtCore
@@ -10,8 +11,9 @@ from PySide6 import QtGui
 
 from card_objects import Base, Renderable
 from card_objects import Deck, Style, Image, File
+from card_objects import Card, Location
 
-from typing import Optional
+from typing import Optional, List
 
 
 class CETreeWidgetItem(QtWidgets.QTreeWidgetItem):
@@ -26,7 +28,7 @@ class CETreeWidgetItem(QtWidgets.QTreeWidgetItem):
         if can_rename:
             flags |= QtCore.Qt.ItemIsEditable
         if can_move:
-            flags |= QtCore.Qt.ItemIsDropEnabled
+            # flags |= QtCore.Qt.ItemIsDropEnabled
             flags |= QtCore.Qt.ItemIsDragEnabled
         self.setFlags(flags)
         if parent:
@@ -35,6 +37,32 @@ class CETreeWidgetItem(QtWidgets.QTreeWidgetItem):
     @property
     def obj(self) -> Base:
         return self._obj
+
+
+class CERootTreeWidgetItem(QtWidgets.QTreeWidgetItem):
+    def __init__(self, name: str, obj: List, attr_name: str, parent: Optional[QtWidgets.QTreeWidgetItem] = None):
+        super().__init__()
+        self._obj = obj
+        self._attr_name = attr_name
+        self.setText(0, name)
+        self.setFlags(QtCore.Qt.ItemIsEnabled)
+        font = self.font(0)
+        font.setBold(True)
+        self.setFont(0, font)
+        if parent:
+            parent.addChild(self)
+
+    @property
+    def attr_name(self) -> Base:
+        return self._attr_name
+
+    @property
+    def obj(self) -> Base:
+        return self._obj
+
+    @obj.setter
+    def obj(self, obj):
+        self._obj = obj
 
 
 class CERenderableItem(QtWidgets.QListWidgetItem):
@@ -62,6 +90,7 @@ class CardTreeWidget(QtWidgets.QTreeWidget):
         self.customContextMenuRequested.connect(self.custom_menu)
         self.itemChanged.connect(self.item_changed)
         self._deck: Optional[Deck] = None
+        self._copy_buffer: dict = {}
 
     @property
     def deck(self):
@@ -72,10 +101,45 @@ class CardTreeWidget(QtWidgets.QTreeWidget):
         self._deck = deck
 
     def dragMoveEvent(self, event: QtGui.QDragMoveEvent) -> None:
-        super().dragMoveEvent(event)
+        target = self.itemAt(event.pos())
+        source = self.currentItem()
+        # Can drop on another asset item of the same type (move before)
+        event.ignore()
+        if target == source:
+            return
+        # cannot drop on "background" item
+        if target.obj and target.obj.background:
+            return
+        # have to share the same parent
+        if target.parent() == source.parent():
+            event.acceptProposedAction()
 
     def dropEvent(self, event: QtGui.QDropEvent) -> None:
         super().dropEvent(event)
+        # pass the parent to rebuild_child_list()
+        self.rebuild_child_list(self.currentItem().parent())
+
+    def rebuild_child_list(self, parent: CETreeWidgetItem) -> None:
+        # The children of "parent" have changed in some way (delete, add, reorder)
+        # Rebuild the underlying object lists from the tree structure.
+        if isinstance(parent.obj, Location):
+            # if a Location's children are changing, we update parent.obj.cards
+            new_loc_list = []
+            for idx in range(parent.childCount()):
+                item = parent.child(idx)
+                new_loc_list.append(item.obj)
+            parent.obj.cards = new_loc_list
+        else:
+            # otherwise, we update the parent.obj list (non-Base subclass)
+            new_item_list = []
+            for idx in range(parent.childCount()):
+                item = parent.child(idx)
+                new_item_list.append(item.obj)
+            # the new list goes in two places
+            # the parent obj list
+            parent.obj = new_item_list
+            # and the deck slot
+            setattr(self._deck, parent.attr_name, new_item_list)
 
     def item_changed(self, item: QtWidgets.QTreeWidgetItem, _) -> None:
         if not isinstance(item, CETreeWidgetItem):
@@ -85,10 +149,117 @@ class CardTreeWidget(QtWidgets.QTreeWidget):
 
     def custom_menu(self, point: QtCore.QPoint) -> None:
         item = self.itemAt(point)
-        if not isinstance(item, CETreeWidgetItem):
+        # the object being clicked on
+        obj = None
+        objlist = None
+        if isinstance(item, CETreeWidgetItem):
+            obj = item.obj
+        elif isinstance(item, CERootTreeWidgetItem):
+            objlist = item.obj
+
+        # if objlist is None, get it from the parent of the obj
+        if objlist is None:
+            if item.parent():
+                objlist = item.parent().obj
+
+        # RMB menu
+        menu = QtWidgets.QMenu(self)
+
+        # delete action for non-background Card objects and Location objects
+        del_action = menu.addAction("")
+        if obj:
+            del_action.setText(f"Delete {obj.name}")
+            allow = (isinstance(obj, Card) and not obj.is_background())
+            allow |= isinstance(obj, Location)
+        else:
+            allow = False
+        del_action.setVisible(allow)
+
+        copy_action = menu.addAction("Copy")
+        copy_action.setVisible(False)
+        paste_action = menu.addAction("Paste")
+        paste_action.setVisible(False)
+
+        # Add card for: (1) Location and (2) Card if they are not top level or is the default location card
+        if obj:
+            allow = isinstance(obj, Location)
+            allow |= isinstance(obj, Card) and (item.parent() is not None)
+            if obj == self._deck.default_location_card:
+                allow = False
+        else:
+            if objlist != self._deck.locations:
+                allow = True
+        add_card_action = menu.addAction(f"Add new card")
+        add_card_action.setVisible(allow)
+        if allow:
+            copy_action.setVisible((obj is not None) and (not obj.is_background()))
+            copy_action.setProperty("clipboard", "card")
+            copy_action.setText(f"Copy card '{obj.name}'")
+            cbuf = self._copy_buffer.get("card", None)
+            if cbuf:
+                paste_action.setVisible(True)
+                paste_action.setProperty("clipboard", "card")
+                paste_action.setText(f"Paste card '{cbuf.name}'")
+        # Add location if a location or the Location card base
+        allow = isinstance(obj, Location)
+        allow |= (obj == self._deck.default_location_card)
+        allow |= (objlist == self._deck.locations)
+        add_location_action = menu.addAction(f"Add new location")
+        add_location_action.setVisible(allow)
+        if allow:
+            copy_action.setVisible((obj is not None) and (not obj.is_background()))
+            copy_action.setProperty("clipboard", "location")
+            copy_action.setText(f"Copy location '{obj.name}'")
+            cbuf = self._copy_buffer.get("location", None)
+            if cbuf:
+                paste_action.setVisible(True)
+                paste_action.setProperty("clipboard", "location")
+                paste_action.setText(f"Paste location '{cbuf.name}'")
+        # do the menu
+        action = menu.exec(self.mapToGlobal(point))
+        if action is None:
             return
-        obj = item.obj
-        print("Card menu:", obj)
+        if action == del_action:
+            # TODO delete card/location
+            msg = f"Delete card '{obj.name}'?"
+            if isinstance(obj, Location):
+                msg = f"Delete location '{obj.name}'?"
+            ret = QtWidgets.QMessageBox.question(self,  "Confirm", msg)
+            if ret != QtWidgets.QMessageBox.Yes:
+                return
+            print(f"RJF delete item:'{obj}'  parent:'{objlist}")
+        elif action == add_card_action:
+            # TODO add card
+            print(f"RJF add card:'{obj}'  parent:'{objlist}")
+        elif action == add_location_action:
+            # TODO add location
+            print(f"RJF add location:'{obj}'  parent:'{objlist}")
+        elif action == copy_action:
+            tag = action.property("clipboard")
+            self._copy_buffer[tag] = deep_copy_item(obj)
+        elif action == paste_action:
+            # TODO paste
+            tag = action.property("clipboard")
+            print(f"RJF paste {tag} item:'{obj}'  parent:'{objlist}")
+
+
+def deep_copy_item(item: Base):
+    if isinstance(item, Card):
+        top_render = item.top_face.renderables
+        bot_render = item.bot_face.renderables
+        item.top_face.renderables = []
+        item.bot_face.renderables = []
+        location = item.location
+        background = item.background_card
+        item.location = None
+        item.background_card = None
+        dup = copy.deepcopy(item)
+        item.location = location
+        item.background_card = background
+        item.top_face.renderables = top_render
+        item.bot_face.renderables = bot_render
+        return dup
+    return  None
 
 
 class AssetTreeWidget(QtWidgets.QTreeWidget):
@@ -193,6 +364,10 @@ class AssetTreeWidget(QtWidgets.QTreeWidget):
                     parent.insertChild(idx, new_item)
                 # print("Add new ", root_type, " to ", item)
             elif action == delete_action:
+                msg = f"Delete '{delete_item.obj.name}'?"
+                ret = QtWidgets.QMessageBox.question(self, "Confirm", msg)
+                if ret != QtWidgets.QMessageBox.Yes:
+                    return
                 # remove the item from the parent
                 parent = delete_item.parent()
                 idx = parent.indexOfChild(delete_item)
