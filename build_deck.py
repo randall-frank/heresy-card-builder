@@ -20,7 +20,9 @@ from utilities import qt_message_handler
 
 # Bug: text word wrapping not correct yet
 
-__version__ = "0.9.0.0"
+from _version import VERSION
+
+__version__ = VERSION
 
 
 if __name__ == '__main__':

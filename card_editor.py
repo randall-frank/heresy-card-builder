@@ -14,8 +14,9 @@ from PySide6 import QtWidgets, QtCore
 from card_editor_main import CardEditorMain
 from utilities import qt_message_handler
 from card_objects import Deck
+from _version import VERSION
 
-__version__ = "0.5.0.0"
+__version__ = VERSION
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Edit/process T.I.M.E Stories cards from art assets.')
