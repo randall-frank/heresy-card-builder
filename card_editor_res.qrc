@@ -2,6 +2,13 @@
 <RCC>
     <qresource prefix="/images">
         <file alias="icon">media/TS_CreaPack_Icon_-1-.png</file>
+        <file alias="ui_zoom_in">media/zoom-in-line.svg</file>
+        <file alias="ui_zoom_out">media/zoom-out-line.svg</file>
+        <file alias="file_open">media/folder-open-line.svg</file>
+        <file alias="file_save">media/save-line.svg</file>
+        <file alias="ui_zoom_reset">media/fullscreen-fill.svg</file>
+        <file alias="ui_face_on">media/bring-forward.svg</file>
+        <file alias="ui_face_off">media/send-backward.svg</file>
     </qresource>
     <qresource prefix="/default_files">
         <!--

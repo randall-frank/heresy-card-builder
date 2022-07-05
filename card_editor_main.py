@@ -42,6 +42,13 @@ class CardEditorMain(AssetGui):
         self.lwGfxItems.customContextMenuRequested.connect(self.do_renderlist_context_menu)
         self.lwGfxItems.setDragDropMode(QtWidgets.QListWidget.InternalMove)
         self.lwGfxItems.model().rowsMoved.connect(self.do_renderlist_reorder)
+        self.toolbar.addAction(self.actionLoad)
+        self.toolbar.addSeparator()
+        self.toolbar.addAction(self.actionZoomIn)
+        self.toolbar.addAction(self.actionZoomOut)
+        self.toolbar.addAction(self.actionZoomReset)
+        self.toolbar.addSeparator()
+        self.toolbar.addAction(self.actionFrontFace)
 
     def set_card_dirty(self):
         self.update_card_render()
