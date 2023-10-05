@@ -1,6 +1,6 @@
-import sys
 import os
 import subprocess
+import sys
 
 # get the executable names
 root = os.path.dirname(sys.executable)

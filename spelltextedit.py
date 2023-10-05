@@ -1,17 +1,18 @@
-import sys
 import re
+import sys
+from typing import List
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QSyntaxHighlighter, QTextCharFormat
-from PySide6.QtGui import QContextMenuEvent, QTextCursor, QAction
-from PySide6.QtWidgets import QMenu, QPlainTextEdit, QWidget
-from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout
-from typing import List
+from PySide6.QtGui import (QAction, QContextMenuEvent, QSyntaxHighlighter,
+                           QTextCharFormat, QTextCursor)
+from PySide6.QtWidgets import (QApplication, QMainWindow, QMenu,
+                               QPlainTextEdit, QVBoxLayout, QWidget)
 
 has_spell_checker = False
 try:
     # python -m pip install pyspellchecker
     from spellchecker import SpellChecker
+
     has_spell_checker = True
 except ModuleNotFoundError:
     pass
@@ -27,7 +28,7 @@ class SpellCheckHighlighter(QSyntaxHighlighter):
 
     def set_speller(self, speller: SpellChecker) -> None:
         self._spell = speller
-        
+
     def highlightBlock(self, text: str) -> None:
         if self._spell is None:
             return
@@ -38,8 +39,7 @@ class SpellCheckHighlighter(QSyntaxHighlighter):
 
         for word_object in self.wordRegEx.finditer(text):
             if self._spell.unknown([word_object.group()]):
-                self.setFormat(word_object.start(), word_object.end() - word_object.start(),
-                               self._misspelledFormat)
+                self.setFormat(word_object.start(), word_object.end() - word_object.start(), self._misspelledFormat)
 
 
 class SpellTextEdit(QPlainTextEdit):

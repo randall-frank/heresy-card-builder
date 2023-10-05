@@ -5,16 +5,14 @@
 #
 
 from datetime import date
-from PySide6 import QtCore
-from PySide6 import QtWidgets
-from PySide6 import QtGui
-
-from card_objects import build_empty_deck, Deck, Renderable, Face, Card
-from card_render import Renderer, ImageRender, TextRender, RectRender
-from asset_gui import AssetGui
-from view_widgets import CETreeWidgetItem, CERenderableItem
-
 from typing import Optional
+
+from PySide6 import QtCore, QtGui, QtWidgets
+
+from asset_gui import AssetGui
+from card_objects import Card, Deck, Face, Renderable, build_empty_deck
+from card_render import ImageRender, RectRender, Renderer, TextRender
+from view_widgets import CERenderableItem, CETreeWidgetItem
 
 # TODO:
 # create/delete/reorder cards
@@ -29,7 +27,7 @@ class CardEditorMain(AssetGui):
         super(CardEditorMain, self).__init__(parent)
         self._version: str = version
         self._dirty: bool = False
-        self._deck_filename: str = ''
+        self._deck_filename: str = ""
         self._property_object = None
         self._render_object = None
         self._current_card = None
@@ -69,7 +67,7 @@ class CardEditorMain(AssetGui):
             btn = QtWidgets.QMessageBox.question(self, "Start a new deck", s)
             if btn != QtWidgets.QMessageBox.Yes:
                 return
-        self.deck_loaded(build_empty_deck(), '')
+        self.deck_loaded(build_empty_deck(), "")
 
     def do_load(self):
         if self._deck and self._dirty:
@@ -77,15 +75,13 @@ class CardEditorMain(AssetGui):
             btn = QtWidgets.QMessageBox.question(self, "Load a new deck", s)
             if btn != QtWidgets.QMessageBox.Yes:
                 return
-        tmp = QtWidgets.QFileDialog.getOpenFileName(self, "Load deck", "",
-                                                    "Card deck (*.deck);;All files (*)")
+        tmp = QtWidgets.QFileDialog.getOpenFileName(self, "Load deck", "", "Card deck (*.deck);;All files (*)")
         if len(tmp[0]) == 0:
             return
         filename = tmp[0]
         tmp = Deck()
         if not tmp.load(filename):
-            QtWidgets.QMessageBox.critical(self, "Unable to load deck",
-                                           "An error occurred while loading the deck")
+            QtWidgets.QMessageBox.critical(self, "Unable to load deck", "An error occurred while loading the deck")
             return
         self.deck_loaded(tmp, filename)
 
@@ -101,14 +97,12 @@ class CardEditorMain(AssetGui):
         self.deck_update()
 
     def do_saveas(self):
-        tmp = QtWidgets.QFileDialog.getSaveFileName(self, "Save deck as", "Untitled.deck",
-                                                    "Card deck (*.deck);;All files (*)")
+        tmp = QtWidgets.QFileDialog.getSaveFileName(self, "Save deck as", "Untitled.deck", "Card deck (*.deck);;All files (*)")
         if len(tmp[0]) == 0:
             return
         filename = tmp[0]
         if not self._deck.save(filename):
-            QtWidgets.QMessageBox.critical(self, "Unable to save deck",
-                                           "An error occurred while saving the deck")
+            QtWidgets.QMessageBox.critical(self, "Unable to save deck", "An error occurred while saving the deck")
             return
         self._dirty = False
         self._deck_filename = filename
@@ -121,8 +115,7 @@ class CardEditorMain(AssetGui):
             self.do_saveas()
             return
         if not self._deck.save(self._deck_filename):
-            QtWidgets.QMessageBox.critical(self, "Unable to save deck",
-                                           "An error occurred while saving the deck")
+            QtWidgets.QMessageBox.critical(self, "Unable to save deck", "An error occurred while saving the deck")
             return
         self._dirty = False
 
@@ -347,7 +340,7 @@ class CardEditorMain(AssetGui):
         if self._current_renderable:
             name = self._current_renderable.get_xml_name()
         for i in range(self.swGfxItemProps.count()):
-            if self.swGfxItemProps.widget(i).objectName() == 'pg_' + name:
+            if self.swGfxItemProps.widget(i).objectName() == "pg_" + name:
                 self.swGfxItemProps.setCurrentIndex(i)
                 break
         if name == "none":
@@ -362,7 +355,7 @@ class CardEditorMain(AssetGui):
             self.set_value(self.sbImageH, rect[3])
             self.set_value(self.dsImageR, rot)
             image = self._current_renderable.image
-            self.init_combo(self.cbImageImage, image, 'images')
+            self.init_combo(self.cbImageImage, image, "images")
 
         elif isinstance(self._current_renderable, RectRender):
             self.set_value(self.sbRectX, rect[0])
@@ -371,7 +364,7 @@ class CardEditorMain(AssetGui):
             self.set_value(self.sbRectH, rect[3])
             self.set_value(self.dsRectR, rot)
             style = self._current_renderable.style
-            self.init_combo(self.cbRectStyle, style, 'styles')
+            self.init_combo(self.cbRectStyle, style, "styles")
 
         elif isinstance(self._current_renderable, TextRender):
             self.set_value(self.sbTextX, rect[0])
@@ -382,7 +375,7 @@ class CardEditorMain(AssetGui):
             text = self._current_renderable.text
             self.set_plaintext(self.leTextText, text)
             style = self._current_renderable.style
-            self.init_combo(self.cbTextStyle, style, 'styles')
+            self.init_combo(self.cbTextStyle, style, "styles")
 
     def do_rect_update(self):
         renderable = self._current_renderable

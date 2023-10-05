@@ -1,4 +1,3 @@
-
 import os
 from distutils.core import setup
 
@@ -18,18 +17,19 @@ with open(_version_file) as fp:
     exec(fp.read(), version)
 
 
-setup(name='heresy-card-builder',
-      version=version["VERSION"],
-      description='GUI tool for creating T.I.M.E Stories card decks',
-      author='Randall Frank',
-      author_email='frogboots.000@gmail.com',
-      url='https://github.com/randall-frank/heresy-card-builder',
-      project_urls={'Information': 'http://heresy.mrtrashcan.com/'},
-      packages=['heresy-card-builder'],
-      python_requires=">=3.8",
-      license="MIT",
-      package_dir={"": "src"},
-      long_description=get_file_text("README.md") + "\n\n" + get_file_text("CHANGELOG.md"),
-      long_description_content_type="text/markdown",
-      install_requires=REQUIREMENTS,
-      )
+setup(
+    name="heresy-card-builder",
+    version=version["VERSION"],
+    description="GUI tool for creating T.I.M.E Stories card decks",
+    author="Randall Frank",
+    author_email="frogboots.000@gmail.com",
+    url="https://github.com/randall-frank/heresy-card-builder",
+    project_urls={"Information": "http://heresy.mrtrashcan.com/"},
+    packages=["heresy-card-builder"],
+    python_requires=">=3.8",
+    license="MIT",
+    package_dir={"": "src"},
+    long_description=get_file_text("README.md") + "\n\n" + get_file_text("CHANGELOG.md"),
+    long_description_content_type="text/markdown",
+    install_requires=REQUIREMENTS,
+)

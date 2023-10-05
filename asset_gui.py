@@ -3,15 +3,13 @@
 # Copyright (C) Randall Frank
 # See LICENSE for details
 #
-from PySide6 import QtCore
-from PySide6 import QtWidgets
-from PySide6 import QtGui
+from typing import List, Optional, Tuple, Union
+
+from PySide6 import QtCore, QtGui, QtWidgets
+from ui_card_editor_main import Ui_card_editor_main
 
 from card_objects import Deck, File, Image, Style
-from ui_card_editor_main import Ui_card_editor_main
 from view_widgets import CETreeWidgetItem
-
-from typing import List, Tuple, Optional, Union
 
 
 class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
@@ -43,14 +41,14 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
     def init_combo(self, w: QtWidgets.QComboBox, value: str, assets: str):
         tmp = w.blockSignals(True)
         w.clear()
-        if assets == 'images':
+        if assets == "images":
             for image in self._deck.images:
                 icon = QtGui.QIcon(image.get_pixmap(self._deck))
                 w.addItem(icon, image.name, image.name)
-        elif assets == 'files':
+        elif assets == "files":
             for fileobj in self._deck.files:
                 w.addItem(fileobj.name, fileobj.name)
-        elif assets == 'styles':
+        elif assets == "styles":
             for style in self._deck.styles:
                 w.addItem(style.name, style.name)
                 idx = w.count() - 1
@@ -97,9 +95,18 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
         return i
 
     @staticmethod
-    def get_rect_rot(x: QtWidgets.QSpinBox, y: QtWidgets.QSpinBox, w: QtWidgets.QSpinBox,
-                     h: QtWidgets.QSpinBox, r: Optional[QtWidgets.QDoubleSpinBox]) -> Tuple[List[int], int]:
-        rect = [x.value(), y.value(), w.value(), h.value()]
+    def get_rect_rot(
+        x: Union[QtWidgets.QSpinBox, QtWidgets.QLineEdit],
+        y: Union[QtWidgets.QSpinBox, QtWidgets.QLineEdit],
+        w: Union[QtWidgets.QSpinBox, QtWidgets.QLineEdit],
+        h: Union[QtWidgets.QSpinBox, QtWidgets.QLineEdit],
+        r: Optional[QtWidgets.QDoubleSpinBox],
+    ) -> Tuple[List[int], int]:
+        if isinstance(x, QtWidgets.QLineEdit):
+            rect = [AssetGui.get_int(x.text()), AssetGui.get_int(y.text()),
+                    AssetGui.get_int(w.text()), AssetGui.get_int(h.text())]
+        else:
+            rect = [x.value(), y.value(), w.value(), h.value()]
         rot = 0
         if r:
             rot = int(r.value())
@@ -144,10 +151,10 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
         s = family
         if bold:
             s += ":bold"
-            if ':' not in s:
+            if ":" not in s:
                 s += ":"
         if italic:
-            if ':' not in s:
+            if ":" not in s:
                 s += ":"
             s += "italic"
         return s
@@ -195,17 +202,17 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
             return
         tag = self._current_asset.get_xml_name()
         for i in range(self.swAssetProps.count()):
-            if self.swAssetProps.widget(i).objectName() == 'pg' + tag:
+            if self.swAssetProps.widget(i).objectName() == "pg" + tag:
                 self.swAssetProps.setCurrentIndex(i)
                 break
-        if tag == 'file':
+        if tag == "file":
             self.lblFileName.setText("File: " + self._current_asset.name)
             self.lblFileFilename.setText("Pathname: " + self._current_asset.filename)
             self.lblFileSize.setText(self._current_asset.get_column_info(1))
             img = self.resize_image(self._current_asset.get_image(), 200)
             self.lblFileImage.setPixmap(QtGui.QPixmap.fromImage(img))
             self.pbSelectFile.setEnabled(not self._current_asset.filename.startswith(":"))
-        elif tag == 'image':
+        elif tag == "image":
             self.lblImgAssetName.setText("Image: " + self._current_asset.name)
             # self.lblImgAssetFile.setText("Source file: " + self._current_asset.file)
             self.lblImgAssetFile.setText("Source file:")
@@ -213,9 +220,9 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
             self.leImgAssetY.setText(str(self._current_asset.rectangle[1]))
             self.leImgAssetW.setText(str(self._current_asset.rectangle[2]))
             self.leImgAssetH.setText(str(self._current_asset.rectangle[3]))
-            self.init_combo(self.cbImgAssetFile, self._current_asset.file, 'files')
+            self.init_combo(self.cbImgAssetFile, self._current_asset.file, "files")
             self.update_image_images()
-        elif tag == 'style':
+        elif tag == "style":
             self.lblStyleName.setText("Style: " + self._current_asset.name)
             self.lblStyleTypeface.setText(self._current_asset.typeface)
             font = self.typeface_to_font(self._current_asset.typeface)
@@ -253,16 +260,17 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
         self.update_asset_props()
 
     def do_as_file_select(self):
-        filename = QtWidgets.QFileDialog.getOpenFileName(self, "Select image file",
-                                                         self._current_asset.get_full_pathname(self._deck),
-                                                         "Images (*.png *.jpg)")
+        filename = QtWidgets.QFileDialog.getOpenFileName(
+            self, "Select image file", self._current_asset.get_full_pathname(self._deck), "Images (*.png *.jpg)"
+        )
         if filename[0]:
             try:
                 self._current_asset.load_file(self._deck, filename[0])
                 self.update_asset_props()
-            except:
-                QtWidgets.QMessageBox.critical(self, "Unable to load image",
-                                               f"An error occurred while reading the file: '{filename[0]}'.")
+            except Exception:
+                QtWidgets.QMessageBox.critical(
+                    self, "Unable to load image", f"An error occurred while reading the file: '{filename[0]}'."
+                )
 
     def do_as_image_update(self):
         if self._current_asset is None:
@@ -304,9 +312,12 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
         self.set_card_dirty()
 
     def do_as_style_bordercolor(self):
-        color = QtWidgets.QColorDialog.getColor(QtGui.QColor(*self._current_asset.bordercolor),
-                                                self, "Select style border color",
-                                                QtWidgets.QColorDialog.ShowAlphaChannel)
+        color = QtWidgets.QColorDialog.getColor(
+            QtGui.QColor(*self._current_asset.bordercolor),
+            self,
+            "Select style border color",
+            QtWidgets.QColorDialog.ShowAlphaChannel,
+        )
         if not color.isValid():
             return
         self._current_asset.bordercolor = [color.red(), color.green(), color.blue(), color.alpha()]
@@ -314,9 +325,12 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
         self.set_card_dirty()
 
     def do_as_style_textcolor(self):
-        color = QtWidgets.QColorDialog.getColor(QtGui.QColor(*self._current_asset.textcolor),
-                                                self, "Select style text color",
-                                                QtWidgets.QColorDialog.ShowAlphaChannel)
+        color = QtWidgets.QColorDialog.getColor(
+            QtGui.QColor(*self._current_asset.textcolor),
+            self,
+            "Select style text color",
+            QtWidgets.QColorDialog.ShowAlphaChannel,
+        )
         if not color.isValid():
             return
         self._current_asset.textcolor = [color.red(), color.green(), color.blue(), color.alpha()]
@@ -324,9 +338,12 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
         self.set_card_dirty()
 
     def do_as_style_fillcolor(self):
-        color = QtWidgets.QColorDialog.getColor(QtGui.QColor(*self._current_asset.fillcolor),
-                                                self, "Select style fill color",
-                                                QtWidgets.QColorDialog.ShowAlphaChannel)
+        color = QtWidgets.QColorDialog.getColor(
+            QtGui.QColor(*self._current_asset.fillcolor),
+            self,
+            "Select style fill color",
+            QtWidgets.QColorDialog.ShowAlphaChannel,
+        )
         if not color.isValid():
             return
         self._current_asset.fillcolor = [color.red(), color.green(), color.blue(), color.alpha()]

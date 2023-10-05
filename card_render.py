@@ -7,15 +7,14 @@
 import copy
 import logging
 import os
-from typing import Optional, List
+from typing import List, Optional
 
 from PySide6 import QtCore, QtGui, QtWidgets
 
-from card_objects import Deck, Card, Face, Location
-from card_objects import RectRender, TextRender, ImageRender, Renderable
-from card_objects import Style
-
-from graphics_item_handles import GraphicsRectItem, GraphicsTextItem, GraphicsPixmapItem
+from card_objects import (Card, Deck, ImageRender, Location, RectRender,
+                          Renderable, Style, TextRender)
+from graphics_item_handles import (GraphicsPixmapItem, GraphicsRectItem,
+                                   GraphicsTextItem)
 
 # http://www.makeplayingcards.com
 # 897x1497=min size with 36pixel safe zone
@@ -60,44 +59,44 @@ class Renderer(object):
     def pad_image(self, img: QtGui.QImage) -> QtGui.QImage:
         if self.pad_size == 0:
             return img
-        w = img.width()
-        h = img.height()
-        s = [self.pad_size*2 + w, self.pad_size*2 + h]
-        l = int((s[0] - w) / 2)
-        r = int((s[0] - w) - l)
-        t = int((s[1] - h) / 2)
-        b = int((s[1] - h) - l)
+        width = img.width()
+        height = img.height()
+        size = [self.pad_size * 2 + width, self.pad_size * 2 + height]
+        left: int = int((size[0] - width) / 2)
+        right: int = int((size[0] - width) - left)
+        top: int = int((size[1] - height) / 2)
+        bottom: int = int((size[1] - height) - left)
         # ok, pad by l,r,t,b
-        out = QtGui.QImage(s[0], s[1], QtGui.QImage.Format_RGBA8888)
+        out = QtGui.QImage(size[0], size[1], QtGui.QImage.Format_RGBA8888)
         p = QtGui.QPainter()
         p.begin(out)
         # Paint the center rect
-        src = QtCore.QRectF(0, 0, w, h)
-        tgt = QtCore.QRectF(l, t, w, h)
+        src = QtCore.QRectF(0, 0, width, height)
+        tgt = QtCore.QRectF(left, top, width, height)
         p.drawImage(tgt, img, src)
         # Top trapezoid
-        src = QtCore.QRectF(0, 0, w, 1)
-        f = float(l + r + 1) / float(t - 1)
-        for i in range(t):
-            tgt = QtCore.QRectF(l - i * f * 0.5 - 1, t - i - 1, w + f * i + 2, 1)
+        src = QtCore.QRectF(0, 0, width, 1)
+        f = float(left + right + 1) / float(top - 1)
+        for i in range(top):
+            tgt = QtCore.QRectF(left - i * f * 0.5 - 1, top - i - 1, width + f * i + 2, 1)
             p.drawImage(tgt, img, src)
         # Bottom trapezoid
-        src = QtCore.QRectF(0, h - 1, w, 1)
-        f = float(l + r + 1) / float(b - 1)
-        for i in range(b):
-            tgt = QtCore.QRectF(l - i * f * 0.5 - 1, t + h + i, w + f * i + 2, 1)
+        src = QtCore.QRectF(0, height - 1, width, 1)
+        f = float(left + right + 1) / float(bottom - 1)
+        for i in range(bottom):
+            tgt = QtCore.QRectF(left - i * f * 0.5 - 1, top + height + i, width + f * i + 2, 1)
             p.drawImage(tgt, img, src)
         # Left trapezoid
-        src = QtCore.QRectF(0, 0, 1, h)
-        f = float(t + b + 1) / float(l - 1)
-        for i in range(l):
-            tgt = QtCore.QRectF(l - i - 1, t - i * f * 0.5 - 1, 1, h + f * i + 2)
+        src = QtCore.QRectF(0, 0, 1, height)
+        f = float(top + bottom + 1) / float(left - 1)
+        for i in range(left):
+            tgt = QtCore.QRectF(left - i - 1, top - i * f * 0.5 - 1, 1, height + f * i + 2)
             p.drawImage(tgt, img, src)
         # Right trapezoid
-        src = QtCore.QRectF(w - 1, 0, 1, h)
-        f = float(t + b + 1) / float(r - 1)
-        for i in range(r):
-            tgt = QtCore.QRectF(l + w + i, t - i * f * 0.5 - 1, 1, h + f * i + 2)
+        src = QtCore.QRectF(width - 1, 0, 1, height)
+        f = float(top + bottom + 1) / float(right - 1)
+        for i in range(right):
+            tgt = QtCore.QRectF(left + width + i, top - i * f * 0.5 - 1, 1, height + f * i + 2)
             p.drawImage(tgt, img, src)
         p.end()
         return out
@@ -120,55 +119,55 @@ class Renderer(object):
         # X - c=card, i=item, l=location
         # Y - N=global number, n=local number, s=string name,  A=global letter, a=local letter
         # {n} - new line
-        for key in 'ciln':
+        for key in "ciln":
             while True:
-                start = text.find("{"+key)
+                start = text.find("{" + key)
                 if start == -1:
                     break
                 end = text[start:].find("}")
                 if end == -1:
                     break
-                macro = text[start:start+end+1]
+                macro = text[start:start + end + 1]
                 replacement = "{err}"
-                if key == 'n':
+                if key == "n":
                     replacement = "\n"
                 else:
                     current = cur_card
                     opt = macro[2]
-                    if opt in 'NnsAa':
+                    if opt in "NnsAa":
                         # get the referenced object
                         offset = macro.find(":")
                         # the "current" object
                         if offset == -1:
                             current = cur_card
-                            if key == 'l':
+                            if key == "l":
                                 try:
                                     current = cur_card.location
                                 except AttributeError:
                                     current = None
                         # by name lookup
                         else:
-                            name = macro[offset+1:-1]
+                            name = macro[offset + 1:-1]
                             if len(name):
-                                if key == 'l':
+                                if key == "l":
                                     current = self.deck.find_location(name, default=cur_card)
-                                elif key == 'i':
+                                elif key == "i":
                                     current = self.deck.find_item(name, default=cur_card)
                                 else:
                                     current = self.deck.find_card(name, default=cur_card)
                         if current is not None:
                             # we have a target card
-                            if opt == 'N':
+                            if opt == "N":
                                 replacement = str(current.card_number)
-                            elif opt == 'n':
+                            elif opt == "n":
                                 replacement = str(current.local_card_number)
-                            elif opt == 's':
+                            elif opt == "s":
                                 replacement = current.name
-                            elif opt == 'A':
-                                replacement = chr(ord('A') + current.card_number - 1)
-                            elif opt == 'a':
-                                replacement = chr(ord('A') + current.local_card_number - 1)
-                text = text[:start] + replacement + text[start+end+1:]
+                            elif opt == "A":
+                                replacement = chr(ord("A") + current.card_number - 1)
+                            elif opt == "a":
+                                replacement = chr(ord("A") + current.local_card_number - 1)
+                text = text[:start] + replacement + text[start + end + 1:]
         return text
 
     def build_text_document(self, the_card: Card, text: str, base_style: Style, width: int):
@@ -222,17 +221,17 @@ class Renderer(object):
             cursor.insertText(text[:start], text_format)
             if is_style:
                 # update the style and the remaining text
-                style = self.deck.find_style(text[start+3:start+end], default=base_style)
+                style = self.deck.find_style(text[start + 3:start + end], default=base_style)
                 text_format = self.build_text_format(style)
             else:
                 # parse image:dx:dy
-                info = text[start+3:start+end].split(":")
+                info = text[start + 3:start + end].split(":")
                 if len(info) == 3:
                     image = self.deck.find_image(info[0], default=None)
                     if image is not None:
                         image = image.get_image(self.deck)
                         if image is None:
-                            logging.error("Unable to find pixels for image:".format(info[0]))
+                            logging.error(f"Unable to find pixels for image:{info[0]}")
                         else:
                             try:
                                 dx = int(info[1])
@@ -247,19 +246,18 @@ class Renderer(object):
                             if dx == -2:
                                 dx = image.width()
                                 if dy > 0:
-                                    dx = int(float(dy)/float(image.height()) * float(dx))
+                                    dx = int(float(dy) / float(image.height()) * float(dx))
                             if dy == -2:
                                 dy = image.height()
                                 if dx > 0:
-                                    dy = int(float(dx)/float(image.width()) * float(dy))
+                                    dy = int(float(dx) / float(image.width()) * float(dy))
                             # resize the image
-                            final_image = image.scaled(dx, dy, QtCore.Qt.IgnoreAspectRatio,
-                                                       QtCore.Qt.SmoothTransformation)
+                            final_image = image.scaled(dx, dy, QtCore.Qt.IgnoreAspectRatio, QtCore.Qt.SmoothTransformation)
                             cursor.insertImage(final_image)
                 else:
-                    logging.error("Invalid image token: {}".format(text[start+3:start+end]))
+                    logging.error("Invalid image token: {}".format(text[start + 3:start + end]))
             # remove the {} clause
-            text = text[start+end+1:]
+            text = text[start + end + 1:]
         # send the remaining text in the last format
         if len(text):
             cursor.insertText(text, text_format)
@@ -269,32 +267,29 @@ class Renderer(object):
         tf = QtGui.QTextCharFormat()
         font = self.build_font(style)
         tf.setFont(font)
-        color = QtGui.QColor(style.textcolor[0],
-                             style.textcolor[1],
-                             style.textcolor[2],
-                             style.textcolor[3])
+        color = QtGui.QColor(style.textcolor[0], style.textcolor[1], style.textcolor[2], style.textcolor[3])
         tf.setForeground(QtGui.QBrush(color))
         return tf
 
     def build_font(self, style: Style):
         name = style.typeface
         modifiers = ""
-        pos = name.find(':')
+        pos = name.find(":")
         if pos > 0:
-            modifiers = name[pos+1:]
+            modifiers = name[pos + 1:]
             name = name[:pos]
         font = QtGui.QFont(name)
         # typeface and size, convert points to pixels
         dpi = self.card_size[0] / 2.75  # the card is 2.75 inches wide
         # base points on 72dpi
-        pixel_size = style.typesize * (dpi / 72.)
+        pixel_size = style.typesize * (dpi / 72.0)
         # Between Qt5 and Qt6 the default line spacing changed
         # in Qt5 the leading value is 0, in Qt6 is tends to be
         # much larger.  So if we see 0, no changes.  If we see
         # something larger, adjust by a fraction of leading()
         fm = QtGui.QFontMetrics(font)
-        if fm.leading() > 0.:
-            pixel_size *= (fm.height()/(fm.height() + fm.leading()*0.75))
+        if fm.leading() > 0.0:
+            pixel_size *= fm.height() / (fm.height() + fm.leading() * 0.75)
         font.setPixelSize(pixel_size)
         font.setBold("bold" in modifiers)
         font.setItalic("italic" in modifiers)
@@ -315,11 +310,11 @@ class Renderer(object):
         objs = list()
         # return a list of QGraphicsItem objects in order top to bottom
         if isinstance(r, TextRender) or isinstance(r, RectRender):
-            width = r.rectangle[2]
+            # width = r.rectangle[2]
             height = r.rectangle[3]
-            base_style = self.deck.find_style(r.style)
+            # base_style = self.deck.find_style(r.style)
             if isinstance(r, TextRender):
-                #obj = GraphicsTextItem(selectable)
+                # obj = GraphicsTextItem(selectable)
                 obj = QtWidgets.QGraphicsTextItem()
                 obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, selectable)
                 objs.append(obj)
@@ -332,14 +327,14 @@ class Renderer(object):
                 height = self.update_text_gfx_obj(the_card, r, obj, halo)
 
             # backdrop (or rectangle)
-            #obj = GraphicsRectItem(selectable and isinstance(r, RectRender))
+            # obj = GraphicsRectItem(selectable and isinstance(r, RectRender))
             obj = QtWidgets.QGraphicsRectItem()
             obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, selectable and isinstance(obj, RectRender))
             self.update_rect_gfx_obj(the_card, r, obj, height=height)
             objs.append(obj)
 
         elif isinstance(r, ImageRender):
-            #obj = GraphicsPixmapItem(selectable)
+            # obj = GraphicsPixmapItem(selectable)
             obj = QtWidgets.QGraphicsPixmapItem()
             obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, selectable)
             self.update_image_gfx_obj(the_card, r, obj)
@@ -348,26 +343,26 @@ class Renderer(object):
         objs[0].setData(0, r)
         return objs
 
-    def update_text_gfx_obj(self, the_card: Card, r: TextRender, obj: GraphicsTextItem,
-                            halo: List[QtWidgets.QGraphicsTextItem]):
+    def update_text_gfx_obj(
+        self, the_card: Card, r: TextRender, obj: GraphicsTextItem, halo: List[QtWidgets.QGraphicsTextItem]
+    ):
         base_style = self.deck.find_style(r.style)
         doc = self.build_text_document(the_card, r.text, base_style, r.rectangle[2])
         # some defaults
-        obj.setDefaultTextColor(QtGui.QColor(base_style.textcolor[0],
-                                             base_style.textcolor[1],
-                                             base_style.textcolor[2],
-                                             base_style.textcolor[3]))
+        obj.setDefaultTextColor(
+            QtGui.QColor(base_style.textcolor[0], base_style.textcolor[1], base_style.textcolor[2], base_style.textcolor[3])
+        )
         obj.setDocument(doc)
         obj.setTextWidth(r.rectangle[2])
-        obj.setX(r.rectangle[0])    # x,y,dx,dy
+        obj.setX(r.rectangle[0])  # x,y,dx,dy
         obj.setY(r.rectangle[1])
 
         # compute the bounding box and snag the height for the backdrop...
         height = int(obj.boundingRect().height())
-        width = int(obj.boundingRect().width())
+        # width = int(obj.boundingRect().width())
         obj.setRotation(r.rotation)
         # handle the 'halo' effect
-        if base_style.linestyle == 'halo':
+        if base_style.linestyle == "halo":
             offsets = [[-1, -1], [-1, 1], [1, -1], [1, 1], [0, 1], [0, -1], [1, 0], [-1, 0]]
             style = copy.deepcopy(base_style)
             style.textcolor = style.bordercolor
@@ -375,11 +370,12 @@ class Renderer(object):
             for i, offset in enumerate(offsets):
                 halo[i].setVisible(True)
                 halo[i].setDocument(halo_doc)
-                halo[i].setDefaultTextColor(QtGui.QColor(style.textcolor[0], style.textcolor[1],
-                                                         style.textcolor[2], style.textcolor[3]))
+                halo[i].setDefaultTextColor(
+                    QtGui.QColor(style.textcolor[0], style.textcolor[1], style.textcolor[2], style.textcolor[3])
+                )
                 halo[i].setTextWidth(r.rectangle[2])
-                halo[i].setX(r.rectangle[0] + offset[0]*3)    # x,y,dx,dy
-                halo[i].setY(r.rectangle[1] + offset[1]*3)
+                halo[i].setX(r.rectangle[0] + offset[0] * 3)  # x,y,dx,dy
+                halo[i].setY(r.rectangle[1] + offset[1] * 3)
                 halo[i].setRotation(r.rotation)
         else:
             for item in halo:
@@ -388,7 +384,9 @@ class Renderer(object):
             obj.updateHandlesPos()
         return height
 
-    def update_rect_gfx_obj(self, the_card: Card, r: RectRender, obj: QtWidgets.QGraphicsRectItem, height: Optional[int] = None):
+    def update_rect_gfx_obj(
+        self, the_card: Card, r: RectRender, obj: QtWidgets.QGraphicsRectItem, height: Optional[int] = None
+    ):
         base_style = self.deck.find_style(r.style)
         # backdrop
         if r.rectangle[3] > 0:
@@ -396,27 +394,26 @@ class Renderer(object):
         # "outset" the rectangle by the boundary_offset
         left = r.rectangle[0] - base_style.boundary_offset
         top = r.rectangle[1] - base_style.boundary_offset
-        width = r.rectangle[2] + 2*base_style.boundary_offset
-        height += 2*base_style.boundary_offset
+        width = r.rectangle[2] + 2 * base_style.boundary_offset
+        height += 2 * base_style.boundary_offset
         obj.setRect(left, top, width, height)
         obj.setTransformOriginPoint(QtCore.QPointF(left, top))
-        color = QtGui.QColor(base_style.fillcolor[0],
-                             base_style.fillcolor[1],
-                             base_style.fillcolor[2],
-                             base_style.fillcolor[3])
+        color = QtGui.QColor(
+            base_style.fillcolor[0], base_style.fillcolor[1], base_style.fillcolor[2], base_style.fillcolor[3]
+        )
         obj.setBrush(QtGui.QBrush(color))
         pen = QtGui.QPen()
         tmp = copy.deepcopy(base_style.bordercolor)
-        if (base_style.borderthickness == 0) or (base_style.linestyle == 'halo'):
+        if (base_style.borderthickness == 0) or (base_style.linestyle == "halo"):
             tmp[3] = 0
         color = QtGui.QColor(tmp[0], tmp[1], tmp[2], tmp[3])
         pen.setColor(color)
         pen.setWidth(base_style.borderthickness)
-        if base_style.linestyle == 'dash':
+        if base_style.linestyle == "dash":
             pen.setStyle(QtCore.Qt.DashLine)
-        elif base_style.linestyle == 'dot':
+        elif base_style.linestyle == "dot":
             pen.setStyle(QtCore.Qt.DotLine)
-        elif base_style.linestyle == 'dashdot':
+        elif base_style.linestyle == "dashdot":
             pen.setStyle(QtCore.Qt.DashDotLine)
         obj.setPen(pen)
         obj.setRotation(r.rotation)
@@ -432,7 +429,7 @@ class Renderer(object):
             else:
                 pixmap = QtGui.QPixmap.fromImage(sub_image)
                 obj.setPixmap(pixmap)
-                obj.setX(r.rectangle[0])    # x,y,dx,dy
+                obj.setX(r.rectangle[0])  # x,y,dx,dy
                 obj.setY(r.rectangle[1])
                 transform = QtGui.QTransform()
                 transform.rotate(r.rotation)
@@ -445,13 +442,13 @@ class Renderer(object):
                 if w == -2:
                     w = sub_image.width()
                     if h > 0:
-                        w = float(h)/float(sub_image.height()) * float(w)
+                        w = float(h) / float(sub_image.height()) * float(w)
                 if h == -2:
                     h = sub_image.height()
                     if w > 0:
-                        h = float(w)/float(sub_image.width()) * float(h)
-                sx = float(w)/float(sub_image.width())
-                sy = float(h)/float(sub_image.height())
+                        h = float(w) / float(sub_image.width()) * float(h)
+                sx = float(w) / float(sub_image.width())
+                sy = float(h) / float(sub_image.height())
                 transform.scale(sx, sy)
                 obj.setTransform(transform, False)
         else:

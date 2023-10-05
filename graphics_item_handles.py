@@ -8,12 +8,14 @@
 # https://stackoverflow.com/questions/34429632/resize-a-qgraphicsitem-with-the-mouse
 # It has been refactored to more easily be used for multiple item classes
 
-from PySide6.QtCore import Qt, QRectF, QPointF
-from PySide6.QtGui import QBrush, QPainter, QColor, QPen
-from PySide6.QtWidgets import QGraphicsSceneMouseEvent, QGraphicsSceneHoverEvent, QStyleOptionGraphicsItem
-from PySide6.QtWidgets import QWidget, QGraphicsItem, QGraphicsTextItem, QGraphicsPixmapItem, QGraphicsRectItem
-
 from typing import Optional
+
+from PySide6.QtCore import QPointF, QRectF, Qt
+from PySide6.QtGui import QBrush, QColor, QPainter, QPen
+from PySide6.QtWidgets import (QGraphicsItem, QGraphicsPixmapItem,
+                               QGraphicsRectItem, QGraphicsSceneHoverEvent,
+                               QGraphicsSceneMouseEvent, QGraphicsTextItem,
+                               QStyleOptionGraphicsItem, QWidget)
 
 
 class GraphicsHandlesBase:
@@ -59,7 +61,10 @@ class GraphicsHandlesBase:
         """
         Returns the resize handle below the given point.
         """
-        for k, v, in self.handles.items():
+        for (
+            k,
+            v,
+        ) in self.handles.items():
             if v.contains(point):
                 return k
         return None
@@ -131,7 +136,7 @@ class GraphicsHandlesBase:
         """
         size = self.handleSize
         boundingRect = self.boundingRect()
-        rect = boundingRect   # self.rect()
+        rect = boundingRect  # self.rect()
         diff = QPointF(0, 0)
 
         self.prepareGeometryChange()

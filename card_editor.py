@@ -9,21 +9,21 @@ import logging
 import platform
 import sys
 
-from PySide6 import QtWidgets, QtCore
+from PySide6 import QtCore, QtWidgets
 
-from card_editor_main import CardEditorMain
-from utilities import qt_message_handler
-from card_objects import Deck
 from _version import VERSION
+from card_editor_main import CardEditorMain
+from card_objects import Deck
+from utilities import qt_message_handler
 
 __version__ = VERSION
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Edit/process T.I.M.E Stories cards from art assets.')
-    parser.add_argument('--version', action='version', version='%(prog)s ' + __version__)
-    parser.add_argument('cardfile', nargs='?', default=None, help='The name of a saved project.')
-    parser.add_argument('--verbose', action='store_true', default=False,  help="Enable verbose mode")
-    parser.add_argument('--logfile', default=None,  help="Save console output to the specified file")
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Edit/process T.I.M.E Stories cards from art assets.")
+    parser.add_argument("--version", action="version", version="%(prog)s " + __version__)
+    parser.add_argument("cardfile", nargs="?", default=None, help="The name of a saved project.")
+    parser.add_argument("--verbose", action="store_true", default=False, help="Enable verbose mode")
+    parser.add_argument("--logfile", default=None, help="Save console output to the specified file")
     args = parser.parse_args()
 
     log_level = logging.INFO
@@ -39,6 +39,7 @@ if __name__ == '__main__':
     # Windows specific for taskbar icons
     if platform.system().startswith("Wind"):
         import ctypes
+
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("card.editor")
 
     main_win = CardEditorMain(__version__)

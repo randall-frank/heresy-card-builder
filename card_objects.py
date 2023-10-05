@@ -7,11 +7,9 @@
 import base64
 import os
 import os.path
-from PySide6 import QtXml
-from PySide6 import QtGui
-from PySide6 import QtCore
-from PySide6 import QtWidgets
-from typing import List, Optional, Tuple
+from typing import List, Optional
+
+from PySide6 import QtCore, QtGui, QtWidgets, QtXml
 
 # these are the core objects that represent a deck of cards to the editor
 
@@ -95,7 +93,7 @@ class Base(object):
     def to_xml(self, doc, parent):
         QtWidgets.QApplication.processEvents()
         tmp = doc.createElement(self.xml_tag)
-        tmp.setAttribute('name', self.name)
+        tmp.setAttribute("name", self.name)
         parent.appendChild(tmp)
         return self.to_element(doc, tmp)
 
@@ -104,10 +102,10 @@ class Base(object):
 
 
 class Renderable(Base):
-    def __init__(self, name: str, xml_tag: str = 'renderable'):
+    def __init__(self, name: str, xml_tag: str = "renderable"):
         super(Renderable, self).__init__(name, xml_tag)
-        self.order: float = 0.  # Z depth...  higher values on top of lower values
-        self.underlay: int = 0   # Z below 0
+        self.order: float = 0.0  # Z depth...  higher values on top of lower values
+        self.underlay: int = 0  # Z below 0
         self.rotation: int = 0
         self.rectangle: List[int, int, int, int] = [0, 0, -1, -1]
         # the list of QGraphicsItem objects that make up this instance
@@ -129,7 +127,7 @@ class Renderable(Base):
 
 class ImageRender(Renderable):
     def __init__(self, name: str = "image"):
-        super(ImageRender, self).__init__(name, 'render_image')
+        super(ImageRender, self).__init__(name, "render_image")
         self.image = ""
         self.name = "Image"
 
@@ -162,7 +160,7 @@ class ImageRender(Renderable):
 
 class TextRender(Renderable):
     def __init__(self, name="text"):
-        super(TextRender, self).__init__(name, 'render_text')
+        super(TextRender, self).__init__(name, "render_text")
         self.style = "default"
         self.text = ""
         self.name = "Text Box"
@@ -198,7 +196,7 @@ class TextRender(Renderable):
 
 class RectRender(Renderable):
     def __init__(self, name: str = "rect"):
-        super(RectRender, self).__init__(name, 'render_rect')
+        super(RectRender, self).__init__(name, "render_rect")
         self.style = "default"
         self.rectangle = [10, 10, 110, 110]
         self.name = "Rectangle"
@@ -235,7 +233,7 @@ class RectRender(Renderable):
 class Face(Base):
     def __init__(self, name: str):
         super(Face, self).__init__(name, name)
-        self.renderables: List[Renderable] = list()   # a face is an array of Renderable instances
+        self.renderables: List[Renderable] = list()  # a face is an array of Renderable instances
 
     def recompute_renderable_order(self, background: bool = False):
         # There are two cases:  1) normal cards  2) background cards
@@ -260,17 +258,17 @@ class Face(Base):
 
         # renumber and rebuild
         self.renderables = list()
-        order = -100.
+        order = -100.0
         for r in underlay:
             r.order = order
             self.renderables.append(r)
             order += 0.1
-        order = 0.
+        order = 0.0
         for r in core:
             r.order = order
             self.renderables.append(r)
             order += 0.1
-        order = 100.
+        order = 100.0
         for r in overlay:
             r.order = order
             self.renderables.append(r)
@@ -300,11 +298,11 @@ class Face(Base):
         tmp = elem.firstChildElement()
         while not tmp.isNull():
             tag = str(tmp.tagName())
-            if tag.endswith('image'):
+            if tag.endswith("image"):
                 tmp_obj = ImageRender.from_element(tmp, deck)
-            elif tag.endswith('text'):
+            elif tag.endswith("text"):
                 tmp_obj = TextRender.from_element(tmp, deck)
-            elif tag.endswith('rect'):
+            elif tag.endswith("rect"):
                 tmp_obj = RectRender.from_element(tmp, deck)
             else:
                 tmp_obj = None
@@ -337,14 +335,14 @@ class Face(Base):
 
 
 class Card(Base):
-    def __init__(self, name: str, xml_tag: str = 'card', background: bool = False):
+    def __init__(self, name: str, xml_tag: str = "card", background: bool = False):
         super(Card, self).__init__(name, xml_tag)
-        self.top_face: Face = Face('top')
-        self.bot_face: Face = Face('bottom')
+        self.top_face: Face = Face("top")
+        self.bot_face: Face = Face("bottom")
         self.card_number: int = 0
         self.local_card_number: int = 0
         self.background: bool = background  # is this a background "default" card
-        self.location: Optional[Card] = None    # for location cards, the parent location
+        self.location: Optional[Card] = None  # for location cards, the parent location
         self.background_card: Optional[Card] = None  # the background card for this card
 
     def is_background(self) -> bool:
@@ -370,7 +368,7 @@ class Card(Base):
 
 class Location(Base):
     def __init__(self, name: str):
-        super(Location, self).__init__(name, 'location')
+        super(Location, self).__init__(name, "location")
         self.cards: List[Card] = list()
         self.card_number: int = 0
         self.local_card_number: int = 0
@@ -385,7 +383,7 @@ class Location(Base):
             if tmp_card is not None:
                 tmp_card.location = obj
                 obj.cards.append(tmp_card)
-            tmp = tmp.nextSiblingElement('card')
+            tmp = tmp.nextSiblingElement("card")
         return obj
 
     def to_element(self, doc, elem):
@@ -399,7 +397,7 @@ class Location(Base):
 
 class Style(Base):
     def __init__(self, name):
-        super(Style, self).__init__(name, 'style')
+        super(Style, self).__init__(name, "style")
         self.typeface = "Arial"
         self.typesize = 12
         self.fillcolor = [255, 255, 255, 255]
@@ -440,10 +438,10 @@ class Style(Base):
 
 class Image(Base):
     def __init__(self, name: str):
-        super(Image, self).__init__(name, 'image')
-        self.file = ''
+        super(Image, self).__init__(name, "image")
+        self.file = ""
         self.rectangle = [0, 0, -1, -1]  # x,y,dx,dy
-        self.usage = 'any'
+        self.usage = "any"
 
     def get_file(self, deck: "Deck") -> "File":
         return deck.find_file(self.file)
@@ -513,24 +511,24 @@ class Image(Base):
 
 class File(Base):
     def __init__(self, name):
-        super(File, self).__init__(name, 'file')
+        super(File, self).__init__(name, "file")
         self.image = QtGui.QImage()
         self.image.load(":Default")
         self.filename = ""
         self.store_inline = False
 
     def get_full_pathname(self, deck: "Deck") -> str:
-        if self.filename.startswith(':'):
+        if self.filename.startswith(":"):
             return self.filename
         pathname = self.filename
         tmp = QtCore.QFileInfo(pathname)
-        if tmp.isRelative():
+        if tmp.isRelative() and deck.deck_dirname:
             pathname = os.path.join(deck.deck_dirname, self.filename)
         return pathname
 
     def load_file(self, deck: "Deck", filename: str):
         try:
-            if filename.startswith(':'):
+            if filename.startswith(":"):
                 self.image.load(filename)
                 self.filename = filename
             else:
@@ -545,9 +543,9 @@ class File(Base):
                 tmp = QtCore.QFileInfo(deck.deck_dirname)
                 deck_dirname = tmp.canonicalFilePath()
                 if pathname.startswith(deck_dirname):
-                    pathname = pathname[len(deck_dirname)+1:]
+                    pathname = pathname[len(deck_dirname) + 1:]
                 self.filename = pathname
-        except:
+        except Exception:
             return False
         return True
 
@@ -580,8 +578,8 @@ class File(Base):
                     return None
             else:
                 tmp = bytes(tmp, "UTF-8")  # convert to ASCII 8bit bytes
-                s = base64.b64decode(tmp)   # decode to binary
-                buffer = QtCore.QBuffer()   # do the I/O
+                s = base64.b64decode(tmp)  # decode to binary
+                buffer = QtCore.QBuffer()  # do the I/O
                 buffer.setData(s)
                 buffer.open(QtCore.QIODevice.ReadWrite)
                 if not obj.image.load(buffer, "png"):
@@ -597,12 +595,12 @@ class File(Base):
             if self.store_inline:
                 buffer = QtCore.QBuffer()
                 buffer.open(QtCore.QIODevice.ReadWrite)
-                self.image.save(buffer, "png")   # Do the I/O
-                s = base64.b64encode(buffer.data())   # encode binary data as ASCII 8bit bytes
-                tmp = s.decode(encoding="UTF-8")   # convert the ASCII 8bit sequence to Unicode
+                self.image.save(buffer, "png")  # Do the I/O
+                s = base64.b64encode(buffer.data())  # encode binary data as ASCII 8bit bytes
+                tmp = s.decode(encoding="UTF-8")  # convert the ASCII 8bit sequence to Unicode
                 text = doc.createTextNode(tmp)  # Add it to the DOM
                 elem.appendChild(text)
-            elem.setAttribute('filename', self.filename)
+            elem.setAttribute("filename", self.filename)
         except Exception as e:
             print("File to_element Error", str(e))
             return False
@@ -611,7 +609,7 @@ class File(Base):
 
 class Deck(Base):
     def __init__(self, name=""):
-        super(Deck, self).__init__(name, 'deck')
+        super(Deck, self).__init__(name, "deck")
         self.files: list = list()  # of Files
         self.images: list = list()  # of Images
         self.styles: list = list()  # of Styles
@@ -626,9 +624,9 @@ class Deck(Base):
         self.plan: list = list()  # of Cards
         self.misc: list = list()  # of Cards
         self.characters: list = list()  # of Cards
-        self.icon_reference: Card = Card("Icon Reference", xml_tag='iconreference')
+        self.icon_reference: Card = Card("Icon Reference", xml_tag="iconreference")
         self.locations: list = list()  # of Locations
-        self.card_size: list = [825, 1425]       # [945, 1535]
+        self.card_size: list = [825, 1425]  # [945, 1535]
         # 2.75" * 300dpi = 825
         # 4.75" * 300dpi = 1425
         self.deck_filename: Optional[str] = None
@@ -638,33 +636,33 @@ class Deck(Base):
         return self.card_size
 
     def find_file(self, name: str, default=None) -> File:
-        for f in self.files:
-            if f.name == name:
-                return f
+        for filename in self.files:
+            if filename.name == name:
+                return filename
         return default
 
     def find_image(self, name: str, default=None) -> Image:
-        for i in self.images:
-            if i.name == name:
-                return i
+        for img in self.images:
+            if img.name == name:
+                return img
         return default
 
     def find_style(self, name: str, default=Style("default")) -> Style:
-        for s in self.styles:
-            if s.name == name:
-                return s
+        for sty in self.styles:
+            if sty.name == name:
+                return sty
         return default
 
     def find_item(self, name: str, default=None) -> Card:
-        for i in self.items:
-            if i.name == name:
-                return i
+        for item in self.items:
+            if item.name == name:
+                return item
         return default
 
     def find_location(self, name: str, default=None) -> Location:
-        for l in self.locations:
-            if l.name == name:
-                return l
+        for loc in self.locations:
+            if loc.name == name:
+                return loc
         return default
 
     def find_card(self, name: str, default=None) -> Card:
@@ -737,7 +735,7 @@ class Deck(Base):
             fp = open(filename, "wb")
             fp.write(bytes(s, "UTF-8"))
             fp.close()
-        except Exception as e:
+        except Exception:
             success = False
         QtWidgets.QApplication.restoreOverrideCursor()
         return success
@@ -748,7 +746,7 @@ class Deck(Base):
             fp = open(filename, "rb")
             xml = fp.read()
             fp.close()
-        except:
+        except Exception:
             QtWidgets.QApplication.restoreOverrideCursor()
             return False
         self.deck_filename = filename
@@ -780,10 +778,12 @@ class Deck(Base):
     def parse_cards(self, root):
         # single cards
         # default cards (layering) and the reference card
-        work = dict(defaultcard=[Card, 'default_card'],
-                    defaultitemcard=[Card, 'default_item_card'],
-                    defaultlocationcard=[Card, 'default_location_card'],
-                    iconreference=[Card, 'icon_reference'])
+        work = dict(
+            defaultcard=[Card, "default_card"],
+            defaultitemcard=[Card, "default_item_card"],
+            defaultlocationcard=[Card, "default_location_card"],
+            iconreference=[Card, "icon_reference"],
+        )
         for tag, v in work.items():
             tmp = root.firstChildElement(tag)
             if not tmp.isNull():
@@ -796,13 +796,15 @@ class Deck(Base):
         # Plan, Items, Base, Characters, Locations - simple lists
         # [v0, v1, v2] use v0.from_element() to create an object starting at the tag v2
         # make a list of objects at self.{v1}
-        work = dict(base=[Card, 'base', 'card'],
-                    items=[Card, 'items', 'card'],
-                    plan=[Card, 'plan', 'card'],
-                    misc=[Card, 'misc', 'card'],
-                    characters=[Card, 'characters', 'card'],
-                    locations=[Location, 'locations', 'location'],
-                    deckcards=[Card, "deckcards", "card"])
+        work = dict(
+            base=[Card, "base", "card"],
+            items=[Card, "items", "card"],
+            plan=[Card, "plan", "card"],
+            misc=[Card, "misc", "card"],
+            characters=[Card, "characters", "card"],
+            locations=[Location, "locations", "location"],
+            deckcards=[Card, "deckcards", "card"],
+        )
         for tag, v in work.items():
             tmp_root = root.firstChildElement(tag)
             if not tmp_root.isNull():
@@ -817,9 +819,7 @@ class Deck(Base):
         return True
 
     def parse_assets(self, root):
-        work = dict(file=[File, self.files],
-                    image=[Image, self.images],
-                    style=[Style, self.styles])
+        work = dict(file=[File, self.files], image=[Image, self.images], style=[Style, self.styles])
         for tag, v in work.items():
             tmp = root.firstChildElement(tag)
             while not tmp.isNull():
@@ -854,8 +854,15 @@ class Deck(Base):
         self.default_location_card.to_xml(doc, card_root)
         self.icon_reference.to_xml(doc, card_root)
         # lists: base, items,  plan, misc, characters, locations, deckcards
-        blocks = dict(base=self.base, plan=self.plan, items=self.items, misc=self.misc,
-                      characters=self.characters, locations=self.locations, deckcards=self.deckcards)
+        blocks = dict(
+            base=self.base,
+            plan=self.plan,
+            items=self.items,
+            misc=self.misc,
+            characters=self.characters,
+            locations=self.locations,
+            deckcards=self.deckcards,
+        )
         for tag, v in blocks.items():
             tag_elem = doc.createElement(tag)  # make an element inside <cards>
             card_root.appendChild(tag_elem)
@@ -871,7 +878,7 @@ def build_empty_deck(media_dirs=None):
         d = QtCore.QDir(":/default_files")
         for name in d.entryList():
             f = File(name)
-            f.load_file(deck, ":/default_files/"+name)
+            f.load_file(deck, ":/default_files/" + name)
             deck.files.append(f)
     else:
         for d in media_dirs:
@@ -887,4 +894,3 @@ def build_empty_deck(media_dirs=None):
     # a default style
     deck.styles.append(Style("default"))
     return deck
-
