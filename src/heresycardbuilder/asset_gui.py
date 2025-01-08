@@ -6,14 +6,13 @@
 from typing import List, Optional, Tuple, Union
 
 from PySide6 import QtCore, QtGui, QtWidgets
-from ui_card_editor_main import Ui_card_editor_main
-
 from card_objects import Deck, File, Image, Style
+from ui_card_editor_main import Ui_card_editor_main
 from view_widgets import CETreeWidgetItem
 
 
 class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
-    def __init__(self, parent):
+    def __init__(self, parent) -> None:
         QtWidgets.QMainWindow.__init__(self, parent)
         self.setupUi(self)
 
@@ -42,24 +41,27 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
         tmp = w.blockSignals(True)
         w.clear()
         if assets == "images":
-            for image in self._deck.images:
-                icon = QtGui.QIcon(image.get_pixmap(self._deck))
-                w.addItem(icon, image.name, image.name)
+            if self._deck:
+                for image in self._deck.images:
+                    icon = QtGui.QIcon(image.get_pixmap(self._deck))
+                    w.addItem(icon, image.name, image.name)
         elif assets == "files":
-            for fileobj in self._deck.files:
-                w.addItem(fileobj.name, fileobj.name)
+            if self._deck:
+                for fileobj in self._deck.files:
+                    w.addItem(fileobj.name, fileobj.name)
         elif assets == "styles":
-            for style in self._deck.styles:
-                w.addItem(style.name, style.name)
-                idx = w.count() - 1
-                font = QtGui.QFont(style.typeface)
-                w.setItemData(idx, font, QtCore.Qt.FontRole)
-                back = QtGui.QBrush(QtGui.QColor(*style.fillcolor))
-                w.setItemData(idx, back, QtCore.Qt.BackgroundRole)
-                front = QtGui.QBrush(QtGui.QColor(*style.textcolor))
-                w.setItemData(idx, front, QtCore.Qt.ForegroundRole)
-                align = self.get_alignment(style.justification)
-                w.setItemData(idx, align, QtCore.Qt.TextAlignmentRole)
+            if self._deck:
+                for style in self._deck.styles:
+                    w.addItem(style.name, style.name)
+                    idx = w.count() - 1
+                    font = QtGui.QFont(style.typeface)
+                    w.setItemData(idx, font, QtCore.Qt.FontRole)
+                    back = QtGui.QBrush(QtGui.QColor(*style.fillcolor))
+                    w.setItemData(idx, back, QtCore.Qt.BackgroundRole)
+                    front = QtGui.QBrush(QtGui.QColor(*style.textcolor))
+                    w.setItemData(idx, front, QtCore.Qt.ForegroundRole)
+                    align = self.get_alignment(style.justification)
+                    w.setItemData(idx, align, QtCore.Qt.TextAlignmentRole)
         w.setCurrentIndex(w.findData(value))
         w.blockSignals(tmp)
 
@@ -103,8 +105,12 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
         r: Optional[QtWidgets.QDoubleSpinBox],
     ) -> Tuple[List[int], int]:
         if isinstance(x, QtWidgets.QLineEdit):
-            rect = [AssetGui.get_int(x.text()), AssetGui.get_int(y.text()),
-                    AssetGui.get_int(w.text()), AssetGui.get_int(h.text())]
+            rect = [
+                AssetGui.get_int(x.text()),
+                AssetGui.get_int(y.text()),
+                AssetGui.get_int(w.text()),
+                AssetGui.get_int(h.text()),
+            ]
         else:
             rect = [x.value(), y.value(), w.value(), h.value()]
         rot = 0
@@ -261,7 +267,10 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
 
     def do_as_file_select(self):
         filename = QtWidgets.QFileDialog.getOpenFileName(
-            self, "Select image file", self._current_asset.get_full_pathname(self._deck), "Images (*.png *.jpg)"
+            self,
+            "Select image file",
+            self._current_asset.get_full_pathname(self._deck),
+            "Images (*.png *.jpg)",
         )
         if filename[0]:
             try:
@@ -269,13 +278,17 @@ class AssetGui(QtWidgets.QMainWindow, Ui_card_editor_main):
                 self.update_asset_props()
             except Exception:
                 QtWidgets.QMessageBox.critical(
-                    self, "Unable to load image", f"An error occurred while reading the file: '{filename[0]}'."
+                    self,
+                    "Unable to load image",
+                    f"An error occurred while reading the file: '{filename[0]}'.",
                 )
 
     def do_as_image_update(self):
         if self._current_asset is None:
             return
-        rect, _ = self.get_rect_rot(self.leImgAssetX, self.leImgAssetY, self.leImgAssetW, self.leImgAssetH, None)
+        rect, _ = self.get_rect_rot(
+            self.leImgAssetX, self.leImgAssetY, self.leImgAssetW, self.leImgAssetH, None
+        )
         self._current_asset.rectangle = rect
         filename = self.get_cb_data(self.cbImgAssetFile)
         self._current_asset.file = filename

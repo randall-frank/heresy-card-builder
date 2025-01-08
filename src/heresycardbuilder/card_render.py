@@ -10,9 +10,17 @@ import os
 from typing import List, Optional
 
 from PySide6 import QtCore, QtGui, QtWidgets
-
-from card_objects import (Card, Deck, ImageRender, Location, RectRender,  Renderable, Style, TextRender)
-from graphics_item_handles import (GraphicsPixmapItem, GraphicsRectItem, GraphicsTextItem)
+from card_objects import (
+    Card,
+    Deck,
+    ImageRender,
+    Location,
+    RectRender,
+    Renderable,
+    Style,
+    TextRender,
+)
+from graphics_item_handles import GraphicsPixmapItem, GraphicsRectItem, GraphicsTextItem
 
 # http://www.makeplayingcards.com
 # 897x1497=min size with 36pixel safe zone
@@ -33,7 +41,9 @@ class Renderer(object):
         self.image: Optional[QtGui.QImage] = None
         self.painter: Optional[QtGui.QPainter] = None
         if parent is None:
-            self.image = QtGui.QImage(self.scene.sceneRect().size().toSize(), QtGui.QImage.Format_RGBA8888)
+            self.image = QtGui.QImage(
+                self.scene.sceneRect().size().toSize(), QtGui.QImage.Format_RGBA8888
+            )
             self.painter = QtGui.QPainter(self.image)
         else:
             # clear the old layout (if any)
@@ -106,7 +116,9 @@ class Renderer(object):
         # print("Output file: {}".format(pathname))
         if (self.card_size[0] != 825) or (self.card_size[1] != 1425):
             # resize to 825x1425
-            tmp = self.image.scaled(825, 1425, QtCore.Qt.IgnoreAspectRatio, QtCore.Qt.SmoothTransformation)
+            tmp = self.image.scaled(
+                825, 1425, QtCore.Qt.IgnoreAspectRatio, QtCore.Qt.SmoothTransformation
+            )
             img = self.pad_image(tmp)
         else:
             img = self.pad_image(self.image)
@@ -125,7 +137,7 @@ class Renderer(object):
                 end = text[start:].find("}")
                 if end == -1:
                     break
-                macro = text[start:start + end + 1]
+                macro = text[start : start + end + 1]
                 replacement = "{err}"
                 if key == "n":
                     replacement = "\n"
@@ -145,7 +157,7 @@ class Renderer(object):
                                     current = None
                         # by name lookup
                         else:
-                            name = macro[offset + 1:-1]
+                            name = macro[offset + 1 : -1]
                             if len(name):
                                 if key == "l":
                                     current = self.deck.find_location(name, default=cur_card)
@@ -165,7 +177,7 @@ class Renderer(object):
                                 replacement = chr(ord("A") + current.card_number - 1)
                             elif opt == "a":
                                 replacement = chr(ord("A") + current.local_card_number - 1)
-                text = text[:start] + replacement + text[start + end + 1:]
+                text = text[:start] + replacement + text[start + end + 1 :]
         return text
 
     def build_text_document(self, the_card: Card, text: str, base_style: Style, width: int):
@@ -219,11 +231,11 @@ class Renderer(object):
             cursor.insertText(text[:start], text_format)
             if is_style:
                 # update the style and the remaining text
-                style = self.deck.find_style(text[start + 3:start + end], default=base_style)
+                style = self.deck.find_style(text[start + 3 : start + end], default=base_style)
                 text_format = self.build_text_format(style)
             else:
                 # parse image:dx:dy
-                info = text[start + 3:start + end].split(":")
+                info = text[start + 3 : start + end].split(":")
                 if len(info) == 3:
                     image = self.deck.find_image(info[0], default=None)
                     if image is not None:
@@ -250,12 +262,14 @@ class Renderer(object):
                                 if dx > 0:
                                     dy = int(float(dx) / float(image.width()) * float(dy))
                             # resize the image
-                            final_image = image.scaled(dx, dy, QtCore.Qt.IgnoreAspectRatio, QtCore.Qt.SmoothTransformation)
+                            final_image = image.scaled(
+                                dx, dy, QtCore.Qt.IgnoreAspectRatio, QtCore.Qt.SmoothTransformation
+                            )
                             cursor.insertImage(final_image)
                 else:
-                    logging.error("Invalid image token: {}".format(text[start + 3:start + end]))
+                    logging.error("Invalid image token: {}".format(text[start + 3 : start + end]))
             # remove the {} clause
-            text = text[start + end + 1:]
+            text = text[start + end + 1 :]
         # send the remaining text in the last format
         if len(text):
             cursor.insertText(text, text_format)
@@ -265,7 +279,9 @@ class Renderer(object):
         tf = QtGui.QTextCharFormat()
         font = self.build_font(style)
         tf.setFont(font)
-        color = QtGui.QColor(style.textcolor[0], style.textcolor[1], style.textcolor[2], style.textcolor[3])
+        color = QtGui.QColor(
+            style.textcolor[0], style.textcolor[1], style.textcolor[2], style.textcolor[3]
+        )
         tf.setForeground(QtGui.QBrush(color))
         return tf
 
@@ -274,7 +290,7 @@ class Renderer(object):
         modifiers = ""
         pos = name.find(":")
         if pos > 0:
-            modifiers = name[pos + 1:]
+            modifiers = name[pos + 1 :]
             name = name[:pos]
         font = QtGui.QFont(name)
         # typeface and size, convert points to pixels
@@ -320,7 +336,9 @@ class Renderer(object):
             # backdrop (or rectangle)
             # obj = GraphicsRectItem(selectable and isinstance(r, RectRender))
             obj = QtWidgets.QGraphicsRectItem()
-            obj.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, selectable and isinstance(obj, RectRender))
+            obj.setFlag(
+                QtWidgets.QGraphicsItem.ItemIsSelectable, selectable and isinstance(obj, RectRender)
+            )
             self.update_rect_gfx_obj(the_card, r, obj, height=height)
             objs.append(obj)
 
@@ -335,13 +353,22 @@ class Renderer(object):
         return objs
 
     def update_text_gfx_obj(
-        self, the_card: Card, r: TextRender, obj: GraphicsTextItem, halo: List[QtWidgets.QGraphicsTextItem]
+        self,
+        the_card: Card,
+        r: TextRender,
+        obj: GraphicsTextItem,
+        halo: List[QtWidgets.QGraphicsTextItem],
     ):
         base_style = self.deck.find_style(r.style)
         doc = self.build_text_document(the_card, r.text, base_style, r.rectangle[2])
         # some defaults
         obj.setDefaultTextColor(
-            QtGui.QColor(base_style.textcolor[0], base_style.textcolor[1], base_style.textcolor[2], base_style.textcolor[3])
+            QtGui.QColor(
+                base_style.textcolor[0],
+                base_style.textcolor[1],
+                base_style.textcolor[2],
+                base_style.textcolor[3],
+            )
         )
         obj.setDocument(doc)
         obj.setTextWidth(r.rectangle[2])
@@ -362,7 +389,12 @@ class Renderer(object):
                 halo[i].setVisible(True)
                 halo[i].setDocument(halo_doc)
                 halo[i].setDefaultTextColor(
-                    QtGui.QColor(style.textcolor[0], style.textcolor[1], style.textcolor[2], style.textcolor[3])
+                    QtGui.QColor(
+                        style.textcolor[0],
+                        style.textcolor[1],
+                        style.textcolor[2],
+                        style.textcolor[3],
+                    )
                 )
                 halo[i].setTextWidth(r.rectangle[2])
                 halo[i].setX(r.rectangle[0] + offset[0] * 3)  # x,y,dx,dy
@@ -376,7 +408,11 @@ class Renderer(object):
         return height
 
     def update_rect_gfx_obj(
-        self, the_card: Card, r: RectRender, obj: QtWidgets.QGraphicsRectItem, height: Optional[int] = None
+        self,
+        the_card: Card,
+        r: RectRender,
+        obj: QtWidgets.QGraphicsRectItem,
+        height: Optional[int] = None,
     ):
         base_style = self.deck.find_style(r.style)
         # backdrop
@@ -390,7 +426,10 @@ class Renderer(object):
         obj.setRect(left, top, width, height)
         obj.setTransformOriginPoint(QtCore.QPointF(left, top))
         color = QtGui.QColor(
-            base_style.fillcolor[0], base_style.fillcolor[1], base_style.fillcolor[2], base_style.fillcolor[3]
+            base_style.fillcolor[0],
+            base_style.fillcolor[1],
+            base_style.fillcolor[2],
+            base_style.fillcolor[3],
         )
         obj.setBrush(QtGui.QBrush(color))
         pen = QtGui.QPen()
@@ -411,12 +450,16 @@ class Renderer(object):
         if isinstance(obj, GraphicsRectItem):
             obj.updateHandlesPos()
 
-    def update_image_gfx_obj(self, the_card: Card, r: ImageRender, obj: QtWidgets.QGraphicsPixmapItem):
+    def update_image_gfx_obj(
+        self, the_card: Card, r: ImageRender, obj: QtWidgets.QGraphicsPixmapItem
+    ):
         image = self.deck.find_image(r.image)
         if image is not None:
             sub_image = image.get_image(self.deck)
             if sub_image is None:
-                logging.error("Unable to find the reference file {} for image {}".format(image.file, r.image))
+                logging.error(
+                    "Unable to find the reference file {} for image {}".format(image.file, r.image)
+                )
             else:
                 pixmap = QtGui.QPixmap.fromImage(sub_image)
                 obj.setPixmap(pixmap)
@@ -498,7 +541,9 @@ class Renderer(object):
 
     def render_card_to_disk(self, the_card: Card):
         if (self.target_card is None) or (self.target_card == self.output_card_number):
-            logging.info("Rendering card number {}: {}".format(self.output_card_number, the_card.name))
+            logging.info(
+                "Rendering card number {}: {}".format(self.output_card_number, the_card.name)
+            )
             self.build_card_face_scene(the_card, "top")
             self.render("top", self.output_card_number)  # render the scene to a file
             self.build_card_face_scene(the_card, "bot")

@@ -60,7 +60,9 @@ def generate_pdf(renderer):
         painter.begin(writer)
 
         r = painter.viewport()
-        logging.info("{} page rectangle: {} {} {} {}".format(name, r.left(), r.top(), r.width(), r.height()))
+        logging.info(
+            "{} page rectangle: {} {} {} {}".format(name, r.left(), r.top(), r.width(), r.height())
+        )
         pw = r.width()
         ph = r.height()
         xspace = (pw - 2 * w) / 3

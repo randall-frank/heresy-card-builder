@@ -51,12 +51,11 @@ doc = [
 ]
 
 [tool.black]
-line-length = 100
 src_paths = ["src", "doc"]
 
 [tool.codespell]
 quiet-level = 3
-skip = "*.pyc,*.xml,*.gif,*.png,*.jpg,*.js,*.html,*.svg,*.gz,*.spec"
+skip = "*.pyc,*.xml,*.gif,*.png,*.jpg,*.js,*.html,*.svg,*.gz,*.spec,*.ui,*.qrc"
 
 [tool.isort]
 profile = "black"

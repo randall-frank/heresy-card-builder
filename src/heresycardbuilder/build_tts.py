@@ -11,7 +11,6 @@ from PySide6 import QtCore, QtGui
 
 
 def generate_tts(render):
-
     num = 0
     while True:
         s = "card_bot_{:03}.png".format(num)
@@ -57,7 +56,9 @@ def generate_tts(render):
                         face = QtGui.QImage(tmp, "png")
                         logging.info("Reading: {}".format(s))
                         # scale
-                        tmp = face.scaled(w, h, QtCore.Qt.IgnoreAspectRatio, QtCore.Qt.SmoothTransformation)
+                        tmp = face.scaled(
+                            w, h, QtCore.Qt.IgnoreAspectRatio, QtCore.Qt.SmoothTransformation
+                        )
                         # paste
                         src = QtCore.QRectF(0, 0, w, h)
                         tgt = QtCore.QRectF(x * w, y * h, w, h)

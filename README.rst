@@ -199,7 +199,7 @@ command:
 
    pre-commit run --all-files
 
-flake8, isort, codespell, mypy and black will all be applied.
+flake8, isort, codespell and black will all be applied.
 
 To run individual hooks, use this command, where ``<hook_id>`` is obtained from
 from the ``.pre-commit-config.yaml`` file:

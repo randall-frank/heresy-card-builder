@@ -12,14 +12,19 @@ from typing import Optional
 
 from PySide6.QtCore import QPointF, QRectF, Qt
 from PySide6.QtGui import QBrush, QColor, QPainter, QPen
-from PySide6.QtWidgets import (QGraphicsItem, QGraphicsPixmapItem,
-                               QGraphicsRectItem, QGraphicsSceneHoverEvent,
-                               QGraphicsSceneMouseEvent, QGraphicsTextItem,
-                               QStyleOptionGraphicsItem, QWidget)
+from PySide6.QtWidgets import (
+    QGraphicsItem,
+    QGraphicsPixmapItem,
+    QGraphicsRectItem,
+    QGraphicsSceneHoverEvent,
+    QGraphicsSceneMouseEvent,
+    QGraphicsTextItem,
+    QStyleOptionGraphicsItem,
+    QWidget,
+)
 
 
 class GraphicsHandlesBase:
-
     handleTopLeft: int = 1
     handleTopMiddle: int = 2
     handleTopRight: int = 3
@@ -42,7 +47,7 @@ class GraphicsHandlesBase:
         handleBottomRight: Qt.SizeFDiagCursor,
     }
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.handles: dict = {}
         self.handleSelected: Optional[int] = None
         self.mousePressPos: Optional[QPointF] = None
@@ -142,21 +147,20 @@ class GraphicsHandlesBase:
         self.prepareGeometryChange()
 
         if self.handleSelected == self.handleTopLeft:
-
-            fromX = self.mousePressRect.left()
-            fromY = self.mousePressRect.top()
-            toX = fromX + mousePos.x() - self.mousePressPos.x()
-            toY = fromY + mousePos.y() - self.mousePressPos.y()
-            diff.setX(toX - fromX)
-            diff.setY(toY - fromY)
-            boundingRect.setLeft(toX)
-            boundingRect.setTop(toY)
-            rect.setLeft(boundingRect.left() + size)
-            rect.setTop(boundingRect.top() + size)
-            self.setItemRect(rect)
+            if self.mousePressRect:
+                fromX = self.mousePressRect.left()
+                fromY = self.mousePressRect.top()
+                toX = fromX + mousePos.x() - self.mousePressPos.x()
+                toY = fromY + mousePos.y() - self.mousePressPos.y()
+                diff.setX(toX - fromX)
+                diff.setY(toY - fromY)
+                boundingRect.setLeft(toX)
+                boundingRect.setTop(toY)
+                rect.setLeft(boundingRect.left() + size)
+                rect.setTop(boundingRect.top() + size)
+                self.setItemRect(rect)
 
         elif self.handleSelected == self.handleTopMiddle:
-
             fromY = self.mousePressRect.top()
             toY = fromY + mousePos.y() - self.mousePressPos.y()
             diff.setY(toY - fromY)
@@ -165,7 +169,6 @@ class GraphicsHandlesBase:
             self.setItemRect(rect)
 
         elif self.handleSelected == self.handleTopRight:
-
             fromX = self.mousePressRect.right()
             fromY = self.mousePressRect.top()
             toX = fromX + mousePos.x() - self.mousePressPos.x()
@@ -179,7 +182,6 @@ class GraphicsHandlesBase:
             self.setItemRect(rect)
 
         elif self.handleSelected == self.handleMiddleLeft:
-
             fromX = self.mousePressRect.left()
             toX = fromX + mousePos.x() - self.mousePressPos.x()
             diff.setX(toX - fromX)
@@ -196,7 +198,6 @@ class GraphicsHandlesBase:
             self.setItemRect(rect)
 
         elif self.handleSelected == self.handleBottomLeft:
-
             fromX = self.mousePressRect.left()
             fromY = self.mousePressRect.bottom()
             toX = fromX + mousePos.x() - self.mousePressPos.x()
@@ -210,7 +211,6 @@ class GraphicsHandlesBase:
             self.setItemRect(rect)
 
         elif self.handleSelected == self.handleBottomMiddle:
-
             fromY = self.mousePressRect.bottom()
             toY = fromY + mousePos.y() - self.mousePressPos.y()
             diff.setY(toY - fromY)
@@ -219,7 +219,6 @@ class GraphicsHandlesBase:
             self.setItemRect(rect)
 
         elif self.handleSelected == self.handleBottomRight:
-
             fromX = self.mousePressRect.right()
             fromY = self.mousePressRect.bottom()
             toX = fromX + mousePos.x() - self.mousePressPos.x()

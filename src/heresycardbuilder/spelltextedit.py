@@ -3,10 +3,14 @@ import sys
 from typing import List
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import (QAction, QContextMenuEvent, QSyntaxHighlighter,
-                           QTextCharFormat, QTextCursor)
-from PySide6.QtWidgets import (QApplication, QMainWindow, QMenu,
-                               QPlainTextEdit, QVBoxLayout, QWidget)
+from PySide6.QtGui import (
+    QAction,
+    QContextMenuEvent,
+    QSyntaxHighlighter,
+    QTextCharFormat,
+    QTextCursor,
+)
+from PySide6.QtWidgets import QApplication, QMainWindow, QMenu, QPlainTextEdit, QVBoxLayout, QWidget
 
 has_spell_checker = False
 try:
@@ -39,7 +43,11 @@ class SpellCheckHighlighter(QSyntaxHighlighter):
 
         for word_object in self.wordRegEx.finditer(text):
             if self._spell.unknown([word_object.group()]):
-                self.setFormat(word_object.start(), word_object.end() - word_object.start(), self._misspelledFormat)
+                self.setFormat(
+                    word_object.start(),
+                    word_object.end() - word_object.start(),
+                    self._misspelledFormat,
+                )
 
 
 class SpellTextEdit(QPlainTextEdit):

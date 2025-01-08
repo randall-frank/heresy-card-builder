@@ -13,18 +13,25 @@ import sys
 from PySide6 import QtCore, QtWidgets
 
 import heresycardbuilder
+
 __version__ = heresycardbuilder.__version__
 sys.path.append(os.path.dirname(heresycardbuilder.__file__))
 
-from card_editor_main import CardEditorMain
-from card_objects import Deck
-from utilities import qt_message_handler
+from card_editor_main import CardEditorMain  # noqa: E402
+from card_objects import Deck  # noqa: E402
+from utilities import qt_message_handler  # noqa: E402
 
 
 def run() -> None:
-    parser = argparse.ArgumentParser(description="Edit/process T.I.M.E Stories cards from art assets.")
-    parser.add_argument('-V', '--version', action='version',
-                        version='%(prog)s {version}'.format(version=__version__))
+    parser = argparse.ArgumentParser(
+        description="Edit/process T.I.M.E Stories cards from art assets."
+    )
+    parser.add_argument(
+        "-V",
+        "--version",
+        action="version",
+        version="%(prog)s {version}".format(version=__version__),
+    )
     parser.add_argument("cardfile", nargs="?", default=None, help="The name of a saved project.")
     parser.add_argument("--verbose", action="store_true", default=False, help="Enable verbose mode")
     parser.add_argument("--logfile", default=None, help="Save console output to the specified file")

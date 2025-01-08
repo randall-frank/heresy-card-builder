@@ -543,7 +543,7 @@ class File(Base):
                 tmp = QtCore.QFileInfo(deck.deck_dirname)
                 deck_dirname = tmp.canonicalFilePath()
                 if pathname.startswith(deck_dirname):
-                    pathname = pathname[len(deck_dirname) + 1:]
+                    pathname = pathname[len(deck_dirname) + 1 :]
                 self.filename = pathname
         except Exception:
             return False
@@ -608,14 +608,18 @@ class File(Base):
 
 
 class Deck(Base):
-    def __init__(self, name=""):
+    def __init__(self, name="") -> None:
         super(Deck, self).__init__(name, "deck")
         self.files: list = list()  # of Files
         self.images: list = list()  # of Images
         self.styles: list = list()  # of Styles
         self.default_card: Card = Card("Card Base", xml_tag="defaultcard", background=True)
-        self.default_item_card: Card = Card("Item Card Base", xml_tag="defaultitemcard", background=True)
-        self.default_location_card: Card = Card("Location Card Base", xml_tag="defaultlocationcard", background=True)
+        self.default_item_card: Card = Card(
+            "Item Card Base", xml_tag="defaultitemcard", background=True
+        )
+        self.default_location_card: Card = Card(
+            "Location Card Base", xml_tag="defaultlocationcard", background=True
+        )
         # un-numbered cards
         self.deckcards: list = list()
         # Proper order of a deck

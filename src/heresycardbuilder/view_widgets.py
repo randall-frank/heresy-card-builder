@@ -7,8 +7,7 @@ import copy
 from typing import List, Optional
 
 from PySide6 import QtCore, QtGui, QtWidgets
-
-from card_objects import (Base, Card, Deck, File, Image, Location, Renderable, Style)
+from card_objects import Base, Card, Deck, File, Image, Location, Renderable, Style
 
 
 class CETreeWidgetItem(QtWidgets.QTreeWidgetItem):
@@ -41,7 +40,13 @@ class CETreeWidgetItem(QtWidgets.QTreeWidgetItem):
 
 
 class CERootTreeWidgetItem(QtWidgets.QTreeWidgetItem):
-    def __init__(self, name: str, obj: List, attr_name: str, parent: Optional[QtWidgets.QTreeWidgetItem] = None):
+    def __init__(
+        self,
+        name: str,
+        obj: List,
+        attr_name: str,
+        parent: Optional[QtWidgets.QTreeWidgetItem] = None,
+    ):
         super().__init__()
         self._obj = obj
         self._attr_name = attr_name
@@ -78,7 +83,9 @@ class CERenderableItem(QtWidgets.QListWidgetItem):
             self.setFlags(flags)
         else:
             self.setText(renderable.name)
-            flags = QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsDragEnabled | QtCore.Qt.ItemIsSelectable
+            flags = (
+                QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsDragEnabled | QtCore.Qt.ItemIsSelectable
+            )
             self.setFlags(flags)
 
     def is_separator(self) -> bool:
@@ -171,8 +178,11 @@ class CardTreeWidget(QtWidgets.QTreeWidget):
         del_action = menu.addAction("")
         if obj:
             del_action.setText(f"Delete {obj.name}")
-            allow = isinstance(obj, Card) and (not obj.is_background()) and \
-                    (not obj.xml_tag == "iconreference")
+            allow = (
+                isinstance(obj, Card)
+                and (not obj.is_background())
+                and (not obj.xml_tag == "iconreference")
+            )
             allow |= isinstance(obj, Location)
         else:
             allow = False
@@ -183,7 +193,8 @@ class CardTreeWidget(QtWidgets.QTreeWidget):
         paste_action = menu.addAction("Paste")
         paste_action.setVisible(False)
 
-        # Add card for: (1) Location and (2) Card if they are not top level or is the default location card
+        # Add card for: (1) Location and (2) Card if they are not top level
+        # or is the default location card
         if obj:
             allow = isinstance(obj, Location)
             allow |= isinstance(obj, Card) and (item.parent() is not None)
