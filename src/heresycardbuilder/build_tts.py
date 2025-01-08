@@ -6,12 +6,11 @@
 
 import logging
 import os.path
-from PySide6 import QtGui
-from PySide6 import QtCore
+
+from PySide6 import QtCore, QtGui
 
 
 def generate_tts(render):
-
     num = 0
     while True:
         s = "card_bot_{:03}.png".format(num)
@@ -22,26 +21,25 @@ def generate_tts(render):
             break
     logging.info("Num files {}".format(num))
 
-    w = int(945/2)
-    h = int(1535/2)
-    w = int(825/2)
-    h = int(1425/2)
+    w = int(945 / 2)
+    h = int(1535 / 2)
+    w = int(825 / 2)
+    h = int(1425 / 2)
 
     # 150dpi
-    w = render.card_size[0]*0.5
-    h = render.card_size[1]*0.5
+    w = render.card_size[0] * 0.5
+    h = render.card_size[1] * 0.5
 
     # maximum texture size should be 5kx5k
-    nx = int(5000/w)
-    ny = int(5000/h)
-    # and no more that 10 cards by 7 cards
+    nx = int(5000 / w)
+    ny = int(5000 / h)
+    # and no more than 10 cards by 7 cards
     if nx > 10:
         nx = 10
     if ny > 7:
         ny = 7
-    count = nx*ny - 1
-    dx = w*nx
-    dy = h*ny
+    dx = w * nx
+    dy = h * ny
 
     for pp in ["top", "bot"]:
         tile = 0
@@ -58,10 +56,12 @@ def generate_tts(render):
                         face = QtGui.QImage(tmp, "png")
                         logging.info("Reading: {}".format(s))
                         # scale
-                        tmp = face.scaled(w, h, QtCore.Qt.IgnoreAspectRatio, QtCore.Qt.SmoothTransformation)
+                        tmp = face.scaled(
+                            w, h, QtCore.Qt.IgnoreAspectRatio, QtCore.Qt.SmoothTransformation
+                        )
                         # paste
                         src = QtCore.QRectF(0, 0, w, h)
-                        tgt = QtCore.QRectF(x*w, y*h, w, h)
+                        tgt = QtCore.QRectF(x * w, y * h, w, h)
                         p.drawImage(tgt, tmp, src)
                         #
                         done += 1

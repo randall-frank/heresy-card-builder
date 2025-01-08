@@ -4,21 +4,21 @@
 # See LICENSE for details
 #
 import copy
+from typing import List, Optional
 
-from PySide6 import QtWidgets
-from PySide6 import QtCore
-from PySide6 import QtGui
-
-from card_objects import Base, Renderable
-from card_objects import Deck, Style, Image, File
-from card_objects import Card, Location
-
-from typing import Optional, List
+from PySide6 import QtCore, QtGui, QtWidgets
+from card_objects import Base, Card, Deck, File, Image, Location, Renderable, Style
 
 
 class CETreeWidgetItem(QtWidgets.QTreeWidgetItem):
-    def __init__(self, obj: Base, parent: Optional[QtWidgets.QTreeWidgetItem] = None,
-                 can_move: bool = True, can_rename: bool = True, can_select: bool = True):
+    def __init__(
+        self,
+        obj: Base,
+        parent: Optional[QtWidgets.QTreeWidgetItem] = None,
+        can_move: bool = True,
+        can_rename: bool = True,
+        can_select: bool = True,
+    ):
         super().__init__()
         self._obj = obj
         self.setText(0, obj.name)
@@ -40,7 +40,13 @@ class CETreeWidgetItem(QtWidgets.QTreeWidgetItem):
 
 
 class CERootTreeWidgetItem(QtWidgets.QTreeWidgetItem):
-    def __init__(self, name: str, obj: List, attr_name: str, parent: Optional[QtWidgets.QTreeWidgetItem] = None):
+    def __init__(
+        self,
+        name: str,
+        obj: List,
+        attr_name: str,
+        parent: Optional[QtWidgets.QTreeWidgetItem] = None,
+    ):
         super().__init__()
         self._obj = obj
         self._attr_name = attr_name
@@ -72,12 +78,14 @@ class CERenderableItem(QtWidgets.QListWidgetItem):
 
         # this could be the overlay/underlay separator
         if self.renderable is None:
-            self.setText('\u23af'*4 + '\u00bb overlay \u00bb' + '\u23af'*4)
+            self.setText("\u23af" * 4 + "\u00bb overlay \u00bb" + "\u23af" * 4)
             flags = QtCore.Qt.NoItemFlags
             self.setFlags(flags)
         else:
             self.setText(renderable.name)
-            flags = QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsDragEnabled | QtCore.Qt.ItemIsSelectable
+            flags = (
+                QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsDragEnabled | QtCore.Qt.ItemIsSelectable
+            )
             self.setFlags(flags)
 
     def is_separator(self) -> bool:
@@ -159,8 +167,9 @@ class CardTreeWidget(QtWidgets.QTreeWidget):
 
         # if objlist is None, get it from the parent of the obj
         if objlist is None:
-            if item.parent():
-                objlist = item.parent().obj
+            parent = item.parent()
+            if parent and hasattr(parent, "obj"):
+                objlist = parent.obj
 
         # RMB menu
         menu = QtWidgets.QMenu(self)
@@ -169,7 +178,11 @@ class CardTreeWidget(QtWidgets.QTreeWidget):
         del_action = menu.addAction("")
         if obj:
             del_action.setText(f"Delete {obj.name}")
-            allow = (isinstance(obj, Card) and not obj.is_background())
+            allow = (
+                isinstance(obj, Card)
+                and (not obj.is_background())
+                and (not obj.xml_tag == "iconreference")
+            )
             allow |= isinstance(obj, Location)
         else:
             allow = False
@@ -180,7 +193,8 @@ class CardTreeWidget(QtWidgets.QTreeWidget):
         paste_action = menu.addAction("Paste")
         paste_action.setVisible(False)
 
-        # Add card for: (1) Location and (2) Card if they are not top level or is the default location card
+        # Add card for: (1) Location and (2) Card if they are not top level
+        # or is the default location card
         if obj:
             allow = isinstance(obj, Location)
             allow |= isinstance(obj, Card) and (item.parent() is not None)
@@ -189,12 +203,13 @@ class CardTreeWidget(QtWidgets.QTreeWidget):
         else:
             if objlist != self._deck.locations:
                 allow = True
-        add_card_action = menu.addAction(f"Add new card")
+        add_card_action = menu.addAction("Add new card")
         add_card_action.setVisible(allow)
         if allow:
-            copy_action.setVisible((obj is not None) and (not obj.is_background()))
-            copy_action.setProperty("clipboard", "card")
-            copy_action.setText(f"Copy card '{obj.name}'")
+            if obj:
+                copy_action.setVisible(not obj.is_background())
+                copy_action.setProperty("clipboard", "card")
+                copy_action.setText(f"Copy card '{obj.name}'")
             cbuf = self._copy_buffer.get("card", None)
             if cbuf:
                 paste_action.setVisible(True)
@@ -202,9 +217,9 @@ class CardTreeWidget(QtWidgets.QTreeWidget):
                 paste_action.setText(f"Paste card '{cbuf.name}'")
         # Add location if a location or the Location card base
         allow = isinstance(obj, Location)
-        allow |= (obj == self._deck.default_location_card)
-        allow |= (objlist == self._deck.locations)
-        add_location_action = menu.addAction(f"Add new location")
+        allow |= obj == self._deck.default_location_card
+        allow |= objlist == self._deck.locations
+        add_location_action = menu.addAction("Add new location")
         add_location_action.setVisible(allow)
         if allow:
             copy_action.setVisible((obj is not None) and (not obj.is_background()))
@@ -224,7 +239,7 @@ class CardTreeWidget(QtWidgets.QTreeWidget):
             msg = f"Delete card '{obj.name}'?"
             if isinstance(obj, Location):
                 msg = f"Delete location '{obj.name}'?"
-            ret = QtWidgets.QMessageBox.question(self,  "Confirm", msg)
+            ret = QtWidgets.QMessageBox.question(self, "Confirm", msg)
             if ret != QtWidgets.QMessageBox.Yes:
                 return
             print(f"RJF delete item:'{obj}'  parent:'{objlist}")
@@ -259,7 +274,7 @@ def deep_copy_item(item: Base):
         item.top_face.renderables = top_render
         item.bot_face.renderables = bot_render
         return dup
-    return  None
+    return None
 
 
 class AssetTreeWidget(QtWidgets.QTreeWidget):

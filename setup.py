@@ -1,35 +1,39 @@
-
 import os
-from distutils.core import setup
+import subprocess
 
-REQUIREMENTS = [line.strip() for line in open("requirements.txt").readlines()]
-
-root = os.path.abspath(os.path.dirname(__file__))
+from setuptools import setup
 
 
-def get_file_text(file_name):
-    with open(os.path.join(root, file_name), "r", encoding="utf-8") as in_file:
-        return in_file.read()
+def rebuild_qt_resources() -> None:
+    repo_dir = os.path.dirname(__file__)
+    if not os.path.isdir(os.path.join(repo_dir, "media")):
+        return
+
+    prev_cwd = os.getcwd()
+    os.chdir("src/heresycardbuilder")
+
+    try:
+        print("compiling qt resource files...")
+        rcc_cmd = [
+            "pyside6-rcc",
+            "card_editor_res.qrc",
+            "-o",
+            "card_editor_res_rc.py",
+        ]
+        subprocess.run(rcc_cmd)
+
+        print("compiling qt ui files...")
+        uic_cmd = [
+            "pyside6-uic",
+            "card_editor_main.ui",
+            "-o",
+            "ui_card_editor_main.py",
+        ]
+        subprocess.run(uic_cmd)
+
+    finally:
+        os.chdir(prev_cwd)
 
 
-version = {}
-_version_file = os.path.join(root, "_version.py")
-with open(_version_file) as fp:
-    exec(fp.read(), version)
-
-
-setup(name='heresy-card-builder',
-      version=version["VERSION"],
-      description='GUI tool for creating T.I.M.E Stories card decks',
-      author='Randall Frank',
-      author_email='frogboots.000@gmail.com',
-      url='https://github.com/randall-frank/heresy-card-builder',
-      project_urls={'Information': 'http://heresy.mrtrashcan.com/'},
-      packages=['heresy-card-builder'],
-      python_requires=">=3.8",
-      license="MIT",
-      package_dir={"": "src"},
-      long_description=get_file_text("README.md") + "\n\n" + get_file_text("CHANGELOG.md"),
-      long_description_content_type="text/markdown",
-      install_requires=REQUIREMENTS,
-      )
+rebuild_qt_resources()
+setup()

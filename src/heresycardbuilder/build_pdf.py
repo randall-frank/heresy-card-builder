@@ -7,8 +7,8 @@
 import logging
 import os
 import os.path
-from PySide6 import QtGui
-from PySide6 import QtCore
+
+from PySide6 import QtCore, QtGui
 
 
 def do_card(p, num, w, h, xoffset, yoffset, top, renderer):
@@ -60,35 +60,37 @@ def generate_pdf(renderer):
         painter.begin(writer)
 
         r = painter.viewport()
-        logging.info("{} page rectangle: {} {} {} {}".format(name, r.left(), r.top(), r.width(), r.height()))
+        logging.info(
+            "{} page rectangle: {} {} {} {}".format(name, r.left(), r.top(), r.width(), r.height())
+        )
         pw = r.width()
         ph = r.height()
-        xspace = (pw - 2*w)/3
-        yspace = (ph - 2*h)/3
+        xspace = (pw - 2 * w) / 3
+        yspace = (ph - 2 * h) / 3
 
         done = 0
         pnum = 1
         while done < num:
             logging.info("Writing page: {}".format(pnum))
 
-            if done+0 < num:
-                do_card(painter, done+0, w, h, xspace, yspace, True, renderer)
-            if done+1 < num:
-                do_card(painter, done+1, w, h, 2*xspace+w, yspace, True, renderer)
-            if done+2 < num:
-                do_card(painter, done+2, w, h, xspace, 2*yspace+h, True, renderer)
-            if done+3 < num:
-                do_card(painter, done+3, w, h, 2*xspace+w, 2*yspace+h, True, renderer)
+            if done + 0 < num:
+                do_card(painter, done + 0, w, h, xspace, yspace, True, renderer)
+            if done + 1 < num:
+                do_card(painter, done + 1, w, h, 2 * xspace + w, yspace, True, renderer)
+            if done + 2 < num:
+                do_card(painter, done + 2, w, h, xspace, 2 * yspace + h, True, renderer)
+            if done + 3 < num:
+                do_card(painter, done + 3, w, h, 2 * xspace + w, 2 * yspace + h, True, renderer)
             writer.newPage()
 
-            if done+0 < num:
-                do_card(painter, done+0, w, h, 2*xspace+w, yspace, False, renderer)
-            if done+1 < num:
-                do_card(painter, done+1, w, h, xspace, yspace, False, renderer)
-            if done+2 < num:
-                do_card(painter, done+2, w, h, 2*xspace+w, 2*yspace+h, False, renderer)
-            if done+3 < num:
-                do_card(painter, done+3, w, h, xspace, 2*yspace+h, False, renderer)
+            if done + 0 < num:
+                do_card(painter, done + 0, w, h, 2 * xspace + w, yspace, False, renderer)
+            if done + 1 < num:
+                do_card(painter, done + 1, w, h, xspace, yspace, False, renderer)
+            if done + 2 < num:
+                do_card(painter, done + 2, w, h, 2 * xspace + w, 2 * yspace + h, False, renderer)
+            if done + 3 < num:
+                do_card(painter, done + 3, w, h, xspace, 2 * yspace + h, False, renderer)
 
             pnum += 1
             done += 4

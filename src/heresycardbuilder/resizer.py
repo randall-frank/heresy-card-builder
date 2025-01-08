@@ -1,12 +1,17 @@
 import sys
 
-from PySide6.QtCore import Qt, QRectF, QPointF
-from PySide6.QtGui import QBrush, QPainterPath, QPainter, QColor, QPen, QPixmap
-from PySide6.QtWidgets import QGraphicsRectItem, QApplication, QGraphicsView, QGraphicsScene, QGraphicsItem
+from PySide6.QtCore import QPointF, QRectF, Qt
+from PySide6.QtGui import QBrush, QColor, QPainter, QPainterPath, QPen, QPixmap
+from PySide6.QtWidgets import (
+    QApplication,
+    QGraphicsItem,
+    QGraphicsRectItem,
+    QGraphicsScene,
+    QGraphicsView,
+)
 
 
 class GraphicsHandlesBase:
-
     handleTopLeft = 1
     handleTopMiddle = 2
     handleTopRight = 3
@@ -49,7 +54,10 @@ class GraphicsHandlesBase:
         """
         Returns the resize handle below the given point.
         """
-        for k, v, in self.handles.items():
+        for (
+            k,
+            v,
+        ) in self.handles.items():
             if v.contains(point):
                 return k
         return None
@@ -127,7 +135,6 @@ class GraphicsHandlesBase:
         self.prepareGeometryChange()
 
         if self.handleSelected == self.handleTopLeft:
-
             fromX = self.mousePressRect.left()
             fromY = self.mousePressRect.top()
             toX = fromX + mousePos.x() - self.mousePressPos.x()
@@ -141,7 +148,6 @@ class GraphicsHandlesBase:
             self.setRect(rect)
 
         elif self.handleSelected == self.handleTopMiddle:
-
             fromY = self.mousePressRect.top()
             toY = fromY + mousePos.y() - self.mousePressPos.y()
             diff.setY(toY - fromY)
@@ -150,7 +156,6 @@ class GraphicsHandlesBase:
             self.setRect(rect)
 
         elif self.handleSelected == self.handleTopRight:
-
             fromX = self.mousePressRect.right()
             fromY = self.mousePressRect.top()
             toX = fromX + mousePos.x() - self.mousePressPos.x()
@@ -164,7 +169,6 @@ class GraphicsHandlesBase:
             self.setRect(rect)
 
         elif self.handleSelected == self.handleMiddleLeft:
-
             fromX = self.mousePressRect.left()
             toX = fromX + mousePos.x() - self.mousePressPos.x()
             diff.setX(toX - fromX)
@@ -173,7 +177,6 @@ class GraphicsHandlesBase:
             self.setRect(rect)
 
         elif self.handleSelected == self.handleMiddleRight:
-
             fromX = self.mousePressRect.right()
             toX = fromX + mousePos.x() - self.mousePressPos.x()
             diff.setX(toX - fromX)
@@ -182,7 +185,6 @@ class GraphicsHandlesBase:
             self.setRect(rect)
 
         elif self.handleSelected == self.handleBottomLeft:
-
             fromX = self.mousePressRect.left()
             fromY = self.mousePressRect.bottom()
             toX = fromX + mousePos.x() - self.mousePressPos.x()
@@ -196,7 +198,6 @@ class GraphicsHandlesBase:
             self.setRect(rect)
 
         elif self.handleSelected == self.handleBottomMiddle:
-
             fromY = self.mousePressRect.bottom()
             toY = fromY + mousePos.y() - self.mousePressPos.y()
             diff.setY(toY - fromY)
@@ -205,7 +206,6 @@ class GraphicsHandlesBase:
             self.setRect(rect)
 
         elif self.handleSelected == self.handleBottomRight:
-
             fromX = self.mousePressRect.right()
             fromY = self.mousePressRect.bottom()
             toX = fromX + mousePos.x() - self.mousePressPos.x()
@@ -242,7 +242,6 @@ class HandleRectItem(GraphicsHandlesBase, QGraphicsRectItem):
 
 
 class GraphicsRectItem(QGraphicsRectItem):
-
     handleTopLeft = 1
     handleTopMiddle = 2
     handleTopRight = 3
@@ -286,7 +285,10 @@ class GraphicsRectItem(QGraphicsRectItem):
         """
         Returns the resize handle below the given point.
         """
-        for k, v, in self.handles.items():
+        for (
+            k,
+            v,
+        ) in self.handles.items():
             if v.contains(point):
                 return k
         return None
@@ -371,7 +373,6 @@ class GraphicsRectItem(QGraphicsRectItem):
         self.prepareGeometryChange()
 
         if self.handleSelected == self.handleTopLeft:
-
             fromX = self.mousePressRect.left()
             fromY = self.mousePressRect.top()
             toX = fromX + mousePos.x() - self.mousePressPos.x()
@@ -385,7 +386,6 @@ class GraphicsRectItem(QGraphicsRectItem):
             self.setRect(rect)
 
         elif self.handleSelected == self.handleTopMiddle:
-
             fromY = self.mousePressRect.top()
             toY = fromY + mousePos.y() - self.mousePressPos.y()
             diff.setY(toY - fromY)
@@ -394,7 +394,6 @@ class GraphicsRectItem(QGraphicsRectItem):
             self.setRect(rect)
 
         elif self.handleSelected == self.handleTopRight:
-
             fromX = self.mousePressRect.right()
             fromY = self.mousePressRect.top()
             toX = fromX + mousePos.x() - self.mousePressPos.x()
@@ -408,7 +407,6 @@ class GraphicsRectItem(QGraphicsRectItem):
             self.setRect(rect)
 
         elif self.handleSelected == self.handleMiddleLeft:
-
             fromX = self.mousePressRect.left()
             toX = fromX + mousePos.x() - self.mousePressPos.x()
             diff.setX(toX - fromX)
@@ -426,7 +424,6 @@ class GraphicsRectItem(QGraphicsRectItem):
             self.setRect(rect)
 
         elif self.handleSelected == self.handleBottomLeft:
-
             fromX = self.mousePressRect.left()
             fromY = self.mousePressRect.bottom()
             toX = fromX + mousePos.x() - self.mousePressPos.x()
@@ -440,7 +437,6 @@ class GraphicsRectItem(QGraphicsRectItem):
             self.setRect(rect)
 
         elif self.handleSelected == self.handleBottomMiddle:
-
             fromY = self.mousePressRect.bottom()
             toY = fromY + mousePos.y() - self.mousePressPos.y()
             diff.setY(toY - fromY)
@@ -449,7 +445,6 @@ class GraphicsRectItem(QGraphicsRectItem):
             self.setRect(rect)
 
         elif self.handleSelected == self.handleBottomRight:
-
             fromX = self.mousePressRect.right()
             fromY = self.mousePressRect.bottom()
             toX = fromX + mousePos.x() - self.mousePressPos.x()
@@ -492,14 +487,13 @@ class GraphicsRectItem(QGraphicsRectItem):
 
 
 def main():
-
     app = QApplication(sys.argv)
 
     grview = QGraphicsView()
     scene = QGraphicsScene()
     scene.setSceneRect(0, 0, 680, 459)
 
-    scene.addPixmap(QPixmap('01.png'))
+    scene.addPixmap(QPixmap("01.png"))
     grview.setScene(scene)
 
     item = GraphicsRectItem(0, 0, 300, 150)
@@ -513,5 +507,5 @@ def main():
     sys.exit(app.exec())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

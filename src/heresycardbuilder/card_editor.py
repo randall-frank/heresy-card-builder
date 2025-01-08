@@ -6,24 +6,35 @@
 
 import argparse
 import logging
+import os
 import platform
 import sys
 
-from PySide6 import QtWidgets, QtCore
+from PySide6 import QtCore, QtWidgets
 
-from card_editor_main import CardEditorMain
-from utilities import qt_message_handler
-from card_objects import Deck
-from _version import VERSION
+import heresycardbuilder
 
-__version__ = VERSION
+__version__ = heresycardbuilder.__version__
+sys.path.append(os.path.dirname(heresycardbuilder.__file__))
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Edit/process T.I.M.E Stories cards from art assets.')
-    parser.add_argument('--version', action='version', version='%(prog)s ' + __version__)
-    parser.add_argument('cardfile', nargs='?', default=None, help='The name of a saved project.')
-    parser.add_argument('--verbose', action='store_true', default=False,  help="Enable verbose mode")
-    parser.add_argument('--logfile', default=None,  help="Save console output to the specified file")
+from card_editor_main import CardEditorMain  # noqa: E402
+from card_objects import Deck  # noqa: E402
+from utilities import qt_message_handler  # noqa: E402
+
+
+def run() -> None:
+    parser = argparse.ArgumentParser(
+        description="Edit/process T.I.M.E Stories cards from art assets."
+    )
+    parser.add_argument(
+        "-V",
+        "--version",
+        action="version",
+        version="%(prog)s {version}".format(version=__version__),
+    )
+    parser.add_argument("cardfile", nargs="?", default=None, help="The name of a saved project.")
+    parser.add_argument("--verbose", action="store_true", default=False, help="Enable verbose mode")
+    parser.add_argument("--logfile", default=None, help="Save console output to the specified file")
     args = parser.parse_args()
 
     log_level = logging.INFO
@@ -32,6 +43,7 @@ if __name__ == '__main__':
     logging.basicConfig(filename=args.logfile, level=log_level, format="%(levelname)s: %(message)s")
 
     # bootstrap Qt
+    os.environ["QT_QPA_PLATFORM"] = "windows:darkmode=0"
     QtCore.qInstallMessageHandler(qt_message_handler)
     app = QtWidgets.QApplication(sys.argv)
     app.lastWindowClosed.connect(app.quit)
@@ -39,6 +51,7 @@ if __name__ == '__main__':
     # Windows specific for taskbar icons
     if platform.system().startswith("Wind"):
         import ctypes
+
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("card.editor")
 
     main_win = CardEditorMain(__version__)
@@ -52,3 +65,7 @@ if __name__ == '__main__':
             main_win.deck_loaded(tmp, args.cardfile)
 
     sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    run()
