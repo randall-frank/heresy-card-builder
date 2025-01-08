@@ -3,11 +3,45 @@
   <component name="AnalysisUIOptions">
     <option name="SCOPE_TYPE" value="3" />
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="8cfc4c4e-5ad7-4556-a225-5ccb4b4d928e" name="Default" comment="Updated for makeplayingcards.com support.">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/heresy_src.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/heresy_src.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card_editor_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view_widgets.py" beforeDir="false" afterPath="$PROJECT_DIR$/view_widgets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_version.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/asset_gui.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build_deck.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build_pdf.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build_tts.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_editor.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_editor.spec" beforeDir="false" afterPath="$PROJECT_DIR$/card_editor.spec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_editor_main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_editor_main.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_editor_res.qrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_objects.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/card_render.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphics_item_handles.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/bring-forward.svg" beforeDir="false" afterPath="$PROJECT_DIR$/media/bring-forward.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/send-backward.svg" beforeDir="false" afterPath="$PROJECT_DIR$/media/send-backward.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pybuild.py" beforeDir="false" afterPath="$PROJECT_DIR$/pybuild.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resizer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spellchecker/resources/de.json.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spellchecker/resources/en.json.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spellchecker/resources/es.json.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spellchecker/resources/fr.json.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spellchecker/resources/pt.json.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spellchecker/resources/ru.json.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spelltextedit.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utilities.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/view_widgets.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,6 +132,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="1VywG0SmTTb0BizKXgC3ubqf0fq" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -106,10 +143,28 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/heresy/card_builder_qt5&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.externalTools&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.build_deck">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\heresy\card_builder" />
+      <recent name="E:\heresy\card_builder\src" />
+      <recent name="E:\heresy\card_builder\heresycardbuilder" />
+      <recent name="E:\heresy\card_builder\hereseycardbuilder" />
+      <recent name="E:\heresy\card_builder\src\heresy-card-builder" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.build_deck (heresy.deck)">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="heresy_src" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -132,6 +187,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="build_deck (heresy.deck)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="heresy_src" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Python35\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/heresycardbuilder" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/heresycardbuilder/build_deck.py" />
+      <option name="PARAMETERS" value="--pdf --tabletop E:\heresy\heresy-assets\heresy.deck" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="build_deck" type="PythonConfigurationType" factoryName="Python">
       <module name="heresy_src" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -145,7 +222,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/build_deck.py" />
+      <option name="SCRIPT_NAME" value="E:\heresy\card_builder\src\heresy-card-builder\build_deck.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -168,7 +245,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/card_editor.py" />
+      <option name="SCRIPT_NAME" value="E:\heresy\card_builder\src\heresy-card-builder\card_editor.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -193,7 +270,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/card_editor_main.py" />
+      <option name="SCRIPT_NAME" value="E:\heresy\card_builder\src\heresy-card-builder\card_editor_main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -230,10 +307,12 @@
     <list>
       <item itemvalue="Python.build_deck" />
       <item itemvalue="Python.card_editor" />
+      <item itemvalue="Python.build_deck (heresy.deck)" />
       <item itemvalue="Python.card_editor_main" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.build_deck (heresy.deck)" />
         <item itemvalue="Python.card_editor_main" />
       </list>
     </recent_temporary>
@@ -299,7 +378,48 @@
       <workItem from="1652545849474" duration="1790000" />
       <workItem from="1652627143019" duration="10643000" />
       <workItem from="1652748091356" duration="2884000" />
-      <workItem from="1653089556991" duration="5840000" />
+      <workItem from="1653089556991" duration="5986000" />
+      <workItem from="1653140788106" duration="14400000" />
+      <workItem from="1653355104876" duration="4367000" />
+      <workItem from="1653959981802" duration="649000" />
+      <workItem from="1654049641130" duration="1075000" />
+      <workItem from="1654456311702" duration="2105000" />
+      <workItem from="1654465904781" duration="8000" />
+      <workItem from="1656873136229" duration="175000" />
+      <workItem from="1656873437577" duration="5648000" />
+      <workItem from="1656961025464" duration="729000" />
+      <workItem from="1656983954671" duration="3019000" />
+      <workItem from="1656986995357" duration="7136000" />
+      <workItem from="1657378216335" duration="366000" />
+      <workItem from="1661088772281" duration="107000" />
+      <workItem from="1661088986073" duration="597000" />
+      <workItem from="1661728419735" duration="74000" />
+      <workItem from="1661728583040" duration="9400000" />
+      <workItem from="1669303133804" duration="613000" />
+      <workItem from="1669309471713" duration="595000" />
+      <workItem from="1672696286278" duration="144000" />
+      <workItem from="1673910190291" duration="120000" />
+      <workItem from="1678526569255" duration="624000" />
+      <workItem from="1678529469486" duration="16000" />
+      <workItem from="1680455016029" duration="25000" />
+      <workItem from="1680455072625" duration="2418000" />
+      <workItem from="1680458982886" duration="294000" />
+      <workItem from="1681515561621" duration="610000" />
+      <workItem from="1681742232105" duration="20000" />
+      <workItem from="1681742336903" duration="605000" />
+      <workItem from="1696527503333" duration="3542000" />
+      <workItem from="1696531248345" duration="5706000" />
+      <workItem from="1696542699638" duration="146000" />
+      <workItem from="1702228882611" duration="237000" />
+      <workItem from="1706369170863" duration="56000" />
+      <workItem from="1735166346651" duration="643000" />
+      <workItem from="1736099091611" duration="8122000" />
+      <workItem from="1736120609567" duration="16009000" />
+      <workItem from="1736196407377" duration="5349000" />
+      <workItem from="1736276615008" duration="4676000" />
+      <workItem from="1736291745836" duration="766000" />
+      <workItem from="1736299137571" duration="2954000" />
+      <workItem from="1736368643470" duration="3308000" />
     </task>
     <task id="LOCAL-00033" summary="Finish out graveyard scene.">
       <created>1503254845206</created>
@@ -660,15 +780,6 @@
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
     <option name="RECENT_FILTERS">
       <map>
         <entry key="Branch">
@@ -679,6 +790,15 @@
         <entry key="User">
           <value>
             <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
           </value>
         </entry>
       </map>
@@ -713,7 +833,8 @@
     <option name="LAST_COMMIT_MESSAGE" value="Updated for makeplayingcards.com support." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/card_builder$card_editor_main.coverage" NAME="card_editor_main Coverage Results" MODIFIED="1641168706733" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/card_builder$build_deck__1_.coverage" NAME="build_deck (heresy.deck) Coverage Results" MODIFIED="1736299680098" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/heresycardbuilder" />
     <SUITE FILE_PATH="coverage/card_builder$build_deck.coverage" NAME="build_deck Coverage Results" MODIFIED="1641168887993" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/card_builder$card_editor_main.coverage" NAME="card_editor_main Coverage Results" MODIFIED="1641168706733" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

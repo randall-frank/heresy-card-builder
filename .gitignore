@@ -1,5 +1,6 @@
 __pycache__/
-card_editor_res_rc.py
-ui_card_editor_main.py
+src/heresycardbuilder/card_editor_res_rc.py
+src/heresycardbuilder/ui_card_editor_main.py
 build/
 dist/
+.idea/

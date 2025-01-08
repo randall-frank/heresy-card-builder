@@ -11,10 +11,8 @@ from typing import List, Optional
 
 from PySide6 import QtCore, QtGui, QtWidgets
 
-from card_objects import (Card, Deck, ImageRender, Location, RectRender,
-                          Renderable, Style, TextRender)
-from graphics_item_handles import (GraphicsPixmapItem, GraphicsRectItem,
-                                   GraphicsTextItem)
+from card_objects import (Card, Deck, ImageRender, Location, RectRender,  Renderable, Style, TextRender)
+from graphics_item_handles import (GraphicsPixmapItem, GraphicsRectItem, GraphicsTextItem)
 
 # http://www.makeplayingcards.com
 # 897x1497=min size with 36pixel safe zone
@@ -283,13 +281,6 @@ class Renderer(object):
         dpi = self.card_size[0] / 2.75  # the card is 2.75 inches wide
         # base points on 72dpi
         pixel_size = style.typesize * (dpi / 72.0)
-        # Between Qt5 and Qt6 the default line spacing changed
-        # in Qt5 the leading value is 0, in Qt6 is tends to be
-        # much larger.  So if we see 0, no changes.  If we see
-        # something larger, adjust by a fraction of leading()
-        fm = QtGui.QFontMetrics(font)
-        if fm.leading() > 0.0:
-            pixel_size *= fm.height() / (fm.height() + fm.leading() * 0.75)
         font.setPixelSize(pixel_size)
         font.setBold("bold" in modifiers)
         font.setItalic("italic" in modifiers)

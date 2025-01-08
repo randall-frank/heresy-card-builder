@@ -8,8 +8,7 @@ from typing import List, Optional
 
 from PySide6 import QtCore, QtGui, QtWidgets
 
-from card_objects import (Base, Card, Deck, File, Image, Location, Renderable,
-                          Style)
+from card_objects import (Base, Card, Deck, File, Image, Location, Renderable, Style)
 
 
 class CETreeWidgetItem(QtWidgets.QTreeWidgetItem):

@@ -38,9 +38,23 @@ def precommit() -> None:
     run_command("isort", args)
     # flake8
     exclude = "--exclude=" + ",".join(generated_files)
-    args = [".", exclude, "--count", "--select=E9,F63,F7,F82", "--show-source", "--statistics"]
+    args = [
+        ".",
+        exclude,
+        "--count",
+        "--select=E9,F63,F7,F82",
+        "--show-source",
+        "--statistics",
+    ]
     run_command("flake8", args)
-    args = [".", exclude, "--count", "--exit-zero", "--max-line-length=127", "--statistics"]
+    args = [
+        ".",
+        exclude,
+        "--count",
+        "--exit-zero",
+        "--max-line-length=127",
+        "--statistics",
+    ]
     run_command("flake8", args)
 
 
@@ -66,7 +80,12 @@ def clean() -> None:
 
 
 parser = argparse.ArgumentParser(description="Build the cardbuilder application.")
-parser.add_argument("command", type=str, choices=["build", "precommit", "clean", "run"], help="The build command to execute")
+parser.add_argument(
+    "command",
+    type=str,
+    choices=["build", "precommit", "clean", "run"],
+    help="The build command to execute",
+)
 
 args = parser.parse_args()
 if args.command == "build":

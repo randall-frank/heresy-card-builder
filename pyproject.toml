@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "heresycardbuilder"
+dynamic = ["version"]
+description = "Tools for creating T.I.M.E Stories decks and building card images"
+authors = [ { name = "Randall Frank", email = "frogboots.000@gmail.com" } ]
+maintainers  = [ { name = "Randall Frank", email = "frogboots.000@gmail.com" } ]
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "PySide6>=6.2.2",
+    "pyspellchecker>=0.6.3",
+]
+readme = {file = "README.rst", content-type = "text/x-rst"}
+
+[tool.setuptools.dynamic]
+version = {attr = "heresycardbuilder.__version__"}
+
+[project.urls]
+Homepage = "http://heresy.mrtrashcan.com/"
+Repository = "https://github.com/randall-frank/heresy-card-builder.git"
+Issues = "https://github.com/randall-frank/heresy-card-builder/issues"
+Changelog = "https://github.com/randall-frank/heresy-card-builder/blob/master/CHANGELOG.md"
+
+[project.scripts]
+card_editor = "heresycardbuilder.card_editor:run"
+build_deck = "heresycardbuilder.build_deck:run"
+
+[project.optional-dependencies]
+dev = [
+    "build>=0.10.0",
+    "pre-commit>=3.3.3",
+    "setuptools>68.0.0",
+]
+doc = [
+    "Sphinx==8.0.2",
+    "numpydoc==1.8.0",
+    "sphinx-copybutton==0.5.2",
+    "requests>=2.28.2",
+]
+
+[tool.black]
+line-length = 100
+src_paths = ["src", "doc"]
+
+[tool.codespell]
+quiet-level = 3
+skip = "*.pyc,*.xml,*.gif,*.png,*.jpg,*.js,*.html,*.svg,*.gz,*.spec"
+
+[tool.isort]
+profile = "black"
+skip_gitignore = true
+force_sort_within_sections = true
+line_length = 100
+filter_files = true
+src_paths = ["src", "doc"]
+
+[pydocstyle]
+convention = "numpy"

@@ -12,23 +12,23 @@ import sys
 
 from PySide6 import QtCore, QtWidgets
 
+import heresycardbuilder
+__version__ = heresycardbuilder.__version__
+sys.path.append(os.path.dirname(heresycardbuilder.__file__))
 import card_objects
-from _version import VERSION
 from build_pdf import generate_pdf
 from build_tts import generate_tts
 from card_render import Renderer
 from utilities import qt_message_handler
 
+
 # Bug: text word wrapping not correct yet
 
-
-__version__ = VERSION
-
-
-if __name__ == "__main__":
+def run() -> None:
     parser = argparse.ArgumentParser(description="Generate T.I.M.E Stories cards from art assets.")
+    parser.add_argument('-V', '--version', action='version',
+                        version='%(prog)s {version}'.format(version=__version__))
     parser.add_argument("cardfile", nargs=1, help="The name of a saved project.")
-    parser.add_argument("--version", action="version", version="%(prog)s " + __version__)
     parser.add_argument("--outdir", default=None, nargs="?", help="The name of a saved project.")
     parser.add_argument("--pad_width", default=0, nargs="?", help="Extra border padding for printing.")
     parser.add_argument(
@@ -111,3 +111,7 @@ if __name__ == "__main__":
         generate_tts(render)
 
     sys.exit(0)
+
+
+if __name__ == "__main__":
+    run()

@@ -1,0 +1,3 @@
+[console_scripts]
+build_deck = heresycardbuilder.build_deck:run
+card_editor = heresycardbuilder.card_editor:run

@@ -6,21 +6,25 @@
 
 import argparse
 import logging
+import os
 import platform
 import sys
 
 from PySide6 import QtCore, QtWidgets
 
-from _version import VERSION
+import heresycardbuilder
+__version__ = heresycardbuilder.__version__
+sys.path.append(os.path.dirname(heresycardbuilder.__file__))
+
 from card_editor_main import CardEditorMain
 from card_objects import Deck
 from utilities import qt_message_handler
 
-__version__ = VERSION
 
-if __name__ == "__main__":
+def run() -> None:
     parser = argparse.ArgumentParser(description="Edit/process T.I.M.E Stories cards from art assets.")
-    parser.add_argument("--version", action="version", version="%(prog)s " + __version__)
+    parser.add_argument('-V', '--version', action='version',
+                        version='%(prog)s {version}'.format(version=__version__))
     parser.add_argument("cardfile", nargs="?", default=None, help="The name of a saved project.")
     parser.add_argument("--verbose", action="store_true", default=False, help="Enable verbose mode")
     parser.add_argument("--logfile", default=None, help="Save console output to the specified file")
@@ -32,6 +36,7 @@ if __name__ == "__main__":
     logging.basicConfig(filename=args.logfile, level=log_level, format="%(levelname)s: %(message)s")
 
     # bootstrap Qt
+    os.environ["QT_QPA_PLATFORM"] = "windows:darkmode=0"
     QtCore.qInstallMessageHandler(qt_message_handler)
     app = QtWidgets.QApplication(sys.argv)
     app.lastWindowClosed.connect(app.quit)
@@ -53,3 +58,7 @@ if __name__ == "__main__":
             main_win.deck_loaded(tmp, args.cardfile)
 
     sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    run()
