@@ -36,7 +36,7 @@ scenarios.  For more details on the scenarios and how to obtain them, see
 The source code of this package is being made available under an MIT
 open source license. See `LICENSE <https://github.com/randall-frank/heresy-card-builder/blob/master/LICENSE>`_
 for additional Copyright information. See the file
-`deck_format.txt <https://github.com/randall-frank/heresy-card-builder/blob/master/deck_format.txt>`_ for
+`deck_format.rst <https://github.com/randall-frank/heresy-card-builder/blob/master/deck_format.rst>`_ for
 a more detailed description of the deck XML schema and renderable entities details.
 
 .. note::
@@ -211,6 +211,12 @@ from the ``.pre-commit-config.yaml`` file:
 The first time pre-commit runs on a file, it automatically downloads, installs,
 and runs the hook.
 
+Testing
+~~~~~~~
+
+Basic unit tests are implemented using pytest.  To run the tests::
+
+    pytest
 
 TODO
 ~~~~
