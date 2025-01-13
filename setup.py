@@ -31,6 +31,9 @@ def rebuild_qt_resources() -> None:
         ]
         subprocess.run(uic_cmd)
 
+    except FileNotFoundError:
+        pass
+
     finally:
         os.chdir(prev_cwd)
 
