@@ -39,6 +39,8 @@ build_deck = "heresycardbuilder.build_deck:run"
 
 [project.optional-dependencies]
 dev = [
+    "PySide6>=6.2.2",
+    "pyspellchecker>=0.6.3",
     "build>=0.10.0",
     "pre-commit>=3.3.3",
     "setuptools>68.0.0",
