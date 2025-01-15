@@ -39,10 +39,9 @@ for additional Copyright information. See the file
 `deck_format.rst <https://github.com/randall-frank/heresy-card-builder/blob/master/deck_format.rst>`_ for
 a more detailed description of the deck XML schema and renderable entities details.
 
-.. note::
-    The content for the Heresy T.I.M.E Stories card deck is available on github
-    `heresy-assets <https://github.com/randall-frank/heresy-assets>`_.  These tools were
-    used to generate that deck.
+The content for the Heresy T.I.M.E Stories card deck is available on github
+`heresy-assets <https://github.com/randall-frank/heresy-assets>`_.  These tools were
+used to generate that deck.
 
 
 What can they do?
@@ -57,6 +56,7 @@ ability to generate cards padded out with the bleeding region needed for
 printing services like makeplayingcards.com.
 
 How do they work?
+~~~~~~~~~~~~~~~~~
 
 The tools work on a 'deck' file, an XML formatted description of a T.I.M.E
 Stories deck.  A deck contains lists of cards (e.g. Items, plans, characters,
@@ -67,6 +67,9 @@ every type of card has a "default" card that it can inherit from as base
 layer. This makes it very easy to do things like add the item number to
 all item cards by adding it to the default card with a depth that ensures
 it is visible over (or under) other content.
+
+The Deck XML file
+`````````````````
 
 The deck XML schema describes text styles and images as "assets" that can
 be referenced by name on the cards. One can even refer to subsections of a
@@ -90,8 +93,8 @@ is rendered and help make sure that moving things around leaves most links
 intact. Image objects can even be embedded (inline) into the text of a text
 item. In short enough functionality to cover the needs of the Heresy story.
 
-Quick Example
-~~~~~~~~~~~~~
+Quick Usage Example
+~~~~~~~~~~~~~~~~~~~
 
 Suppose one has a file named `hersey.deck` and Python has been installed in
 `C:\Python310`.  The tools can be installed by building them from source
@@ -106,21 +109,22 @@ One can build output imagery types using the command line::
 
 
 It will create a directory ``generated_cards`` in the same directory as ``hersey.deck`` and
-place all of the generated output products into the target directory.
+place all of the generated output products (card images, PDF and Tabletop Simulator) into
+the target directory.
 
-The complete command line to the tool looks like::
+The complete command line interface to the tool looks like::
 
-    usage: build_deck [-h] [--version] [--outdir [OUTDIR]] [--pad_width [PAD_WIDTH]] [--default_deck [dirname ...]] [--card [card_number]] [--mpc] [--pdf] [--tabletop] [--verbose] [--logfile LOGFILE] cardfile
+    usage: build_deck [-h] [-V] [--outdir [OUTDIR]] [--pad_width [PAD_WIDTH]] [--default_deck [dirname ...]] [--card [card_number]] [--mpc] [--pdf] [--tabletop] [--verbose] [--logfile LOGFILE] cardfile
 
     Generate T.I.M.E Stories cards from art assets.
 
     positional arguments:
-      cardfile              The name of a saved project.
+      cardfile              Filename of a source .deck file or github repo containing a .deck file.
 
     options:
       -h, --help            show this help message and exit
-      --version             show program's version number and exit
-      --outdir [OUTDIR]     The name of a saved project.
+      -V, --version         show program's version number and exit
+      --outdir [OUTDIR]     Directory where the 'generated_cards' directory will be created. By default, it is the directory containing the cardfile.
       --pad_width [PAD_WIDTH]
                             Extra border padding for printing.
       --default_deck [dirname ...]
@@ -134,6 +138,17 @@ The complete command line to the tool looks like::
 
 
 The most useful options are ``--outdir``, ``--card``, ``--pdf`` and ``--tabletop``.
+
+The card deck can actually be a git repo specification.  In that case, in the root
+of the git repo there should be one and only one ``.deck`` file.  The git repo will be cloned
+into the directory specified by ``--outdir`` and then the card images will be generated.  One
+can render the original Heresy deck using a command line like this::
+
+    build_deck https://github.com/randall-frank/heresy-assets.git --outdir D:/myoutputdir --pdf
+
+
+Note that the host system should have the 'Carlito' font (included in the Heresy repo) installed
+to get the best results.
 
 Notes
 ~~~~~
@@ -151,9 +166,7 @@ Developers
 
 Building the package is pretty straightforward.  The use of a
 `virtual environment <https://docs.python.org/3/library/venv.html>`_
-is strongly recommended.
-
-.. code::
+is strongly recommended::
 
    git clone https://github.com/randall-frank/heresy-card-builder.git
    cd heresy-card-builder
@@ -166,9 +179,7 @@ is strongly recommended.
 Build
 ~~~~~
 
-To build and install `heresycardbuilder` tools, run these commands:
-
-.. code::
+To build and install `heresycardbuilder` tools, run these commands::
 
    python -m build
    python -m pip uninstall heresycardbuilder -y
@@ -183,9 +194,7 @@ Pre-commit
 features.  Code must pass the pre-commit check before it can be committed
 to the repo.
 
-To install pre-commit into your git hooks, run this command:
-
-.. code::
+To install pre-commit into your git hooks, run this command::
 
    pre-commit install
 
@@ -193,18 +202,14 @@ To install pre-commit into your git hooks, run this command:
 installing ``pre-commit`` should always be the first action that you take.
 
 If you want to manually run all pre-commit hooks on a repository, run this
-command:
-
-.. code::
+command::
 
    pre-commit run --all-files
 
 flake8, isort, codespell and black will all be applied.
 
 To run individual hooks, use this command, where ``<hook_id>`` is obtained from
-from the ``.pre-commit-config.yaml`` file:
-
-.. code::
+from the ``.pre-commit-config.yaml`` file::
 
    pre-commit run <hook_id>
 
@@ -220,6 +225,7 @@ Basic unit tests are implemented using pytest.  To run the tests::
 
 TODO
 ~~~~
+
 * New cards/copy/paste
 * Issues with deleted assets?
 * Reordering computation with no or higher-level parent (no 'obj' on the parent)

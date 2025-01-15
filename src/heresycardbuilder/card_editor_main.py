@@ -3,14 +3,19 @@
 # Copyright (C) Randall Frank
 # See LICENSE for details
 #
-
 from datetime import date
+import io
+import json
+import threading
 from typing import Optional
 
 from PySide6 import QtCore, QtGui, QtWidgets
 from asset_gui import AssetGui
 from card_objects import Card, Deck, Face, Renderable, build_empty_deck
 from card_render import ImageRender, RectRender, Renderer, TextRender
+from dulwich import porcelain
+import requests
+from utilities import is_directory
 from view_widgets import CERenderableItem, CETreeWidgetItem
 
 # TODO:
@@ -46,6 +51,8 @@ class CardEditorMain(AssetGui):
         self.toolbar.addAction(self.actionZoomReset)
         self.toolbar.addSeparator()
         self.toolbar.addAction(self.actionFrontFace)
+        self.menuView.aboutToShow.connect(self.update_view_menu)
+        self.update_github_repo_list()
 
     def set_card_dirty(self):
         self.update_card_render()
@@ -510,3 +517,68 @@ class CardEditorMain(AssetGui):
             obj = None
         self._current_card = obj
         self.update_card_render()
+
+    def update_view_menu(self):
+        tmp = "Front face"
+        if self.actionFrontFace.isChecked():
+            tmp = "Back face"
+        self.actionFrontFace.setText(tmp)
+
+    def update_github_repo_list(self):
+        # Query for repos that have the "heresycarddeck" topic set
+        url = "https://api.github.com/search/repositories?q=topic:heresycarddeck"
+        r = requests.get(url)
+        if r.status_code == 200:
+            info = json.loads(r.text)
+            for item in info.get("items", []):
+                target = item.get("clone_url", "")
+                if target:
+                    action = QtGui.QAction(item.get("full_name", "Unknown name"), self)
+                    action.setProperty("github", target)
+                    action.triggered.connect(self.handle_github_download)
+                    self.menuDownload.addAction(action)
+
+    def handle_github_download(self, _) -> None:
+        action = self.sender()
+        url = action.property("github")
+        destination = QtWidgets.QFileDialog.getExistingDirectory(
+            self, "Select an empty directory to save into..."
+        )
+        if destination:
+            if not is_directory(destination, empty=True):
+                QtWidgets.QMessageBox.critical(
+                    self,
+                    "Not an empty directory",
+                    "The selected path is not a directory or is not empty.",
+                )
+                return
+            output = dict()
+            thread = threading.Thread(target=self.download, args=(url, destination, output))
+            dlg = QtWidgets.QProgressDialog(
+                "Downloading content via git clone.", "", 0, 0, parent=self
+            )
+            dlg.setWindowTitle("Downloading")
+            dlg.setModal(True)
+            dlg.show()
+            thread.start()
+            while thread.is_alive():
+                QtWidgets.QApplication.instance().processEvents()
+            thread.join()
+            dlg.close()
+            error_txt = output.get("error", "")
+            if error_txt:
+                QtWidgets.QMessageBox.critical(
+                    self, "Clone error", f"The selected repo could not be cloned ({error_txt})."
+                )
+            else:
+                QtWidgets.QMessageBox.information(
+                    self, "Success", "The selected repo has been successfully cloned."
+                )
+
+    def download(self, url: str, destination: str, result: dict) -> None:
+        buffer = io.BytesIO()
+        try:
+            porcelain.clone(url, destination, errstream=buffer)
+        except Exception as e:
+            result["error"] = str(e)
+        result["stderr"] = buffer.getvalue().decode("ascii")
