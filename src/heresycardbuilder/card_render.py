@@ -125,6 +125,8 @@ class Renderer(object):
         img.save(pathname)
 
     def replace_macros(self, cur_card: Card, text: str):
+        # Translate the template to the target language
+        text = self.deck.translator().translate(text)
         # {XY:name} - ':name' is optional and defaults to 'current'
         # X - c=card, i=item, l=location
         # Y - N=global number, n=local number, s=string name,  A=global letter, a=local letter
@@ -172,7 +174,7 @@ class Renderer(object):
                             elif opt == "n":
                                 replacement = str(current.local_card_number)
                             elif opt == "s":
-                                replacement = current.name
+                                replacement = self.deck.translator().translate(current.name)
                             elif opt == "A":
                                 replacement = chr(ord("A") + current.card_number - 1)
                             elif opt == "a":

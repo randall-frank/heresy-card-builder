@@ -10,6 +10,7 @@ import os.path
 from typing import List, Optional
 
 from PySide6 import QtCore, QtGui, QtWidgets, QtXml
+from translation import CardTranslator  # noqa: E402
 
 # these are the core objects that represent a deck of cards to the editor
 
@@ -635,6 +636,10 @@ class Deck(Base):
         # 4.75" * 300dpi = 1425
         self.deck_filename: Optional[str] = None
         self.deck_dirname: Optional[str] = None
+        self._trans = CardTranslator()
+
+    def translator(self) -> CardTranslator:
+        return self._trans
 
     def get_card_size(self) -> List[int]:
         return self.card_size

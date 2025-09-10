@@ -77,6 +77,26 @@ def run() -> None:
         default=False,
         help="Generate Tabletop Simulator deck images from generated cards",
     )
+    parser.add_argument(
+        "--translation",
+        default=None,
+        metavar="xliff_filename",
+        nargs="?",
+        help="Language translation to use",
+    )
+    parser.add_argument(
+        "--export_translation",
+        default=None,
+        metavar="xliff_filename",
+        nargs="?",
+        help="Export the source strings to an XLIFF file",
+    )
+    parser.add_argument(
+        "--export_use_ph",
+        action="store_true",
+        default=False,
+        help="Use <ph> tags in exported XLIFF files",
+    )
     parser.add_argument("--verbose", action="store_true", default=False, help="Enable verbose mode")
     parser.add_argument("--logfile", default=None, help="Save console output to the specified file")
     args = parser.parse_args()
@@ -134,6 +154,12 @@ def run() -> None:
     if not deck.load(filename):
         logging.info("Unable to read the file: {}\n".format(filename))
         sys.exit(1)
+    if args.export_translation:
+        deck.translator().use_ph = args.export_use_ph
+        deck.translator().extract_xliff_source(filename, args.export_translation)
+        sys.exit(0)
+    if args.translation:
+        deck.translator().load_translation(args.translation)
     outdir = os.path.join(outdir, "generated_cards")
     if args.card is None:
         # remove and set up the output directory
