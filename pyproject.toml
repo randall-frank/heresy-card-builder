@@ -9,10 +9,10 @@ description = "Tools for creating T.I.M.E Stories decks and building card images
 authors = [ { name = "Randall Frank", email = "frogboots.000@gmail.com" } ]
 maintainers  = [ { name = "Randall Frank", email = "frogboots.000@gmail.com" } ]
 requires-python = ">=3.10"
-license = {file = "LICENSE"}
+license = "MIT"
+license-files = ["LICENSE"]
 classifiers = [
     "Development Status :: 4 - Beta",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
